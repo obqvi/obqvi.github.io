@@ -20,6 +20,12 @@ export const Navigation = () => {
             </ul>
             <ul className="column-menu">
                 <li>
+                    <NavLink to="/create" className={location.pathname === '/create' ? 'selected' : ''}>
+                        <i className="fas fa-user-plus"></i>
+                        <span>Създаване</span>
+                    </NavLink>
+                </li>
+                <li>
                     <NavLink to="/login" className={location.pathname === '/login' ? 'selected' : ''}>
                         <i className="fas fa-sign-in-alt"></i>
                         <span>Вход</span>
