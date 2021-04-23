@@ -18,7 +18,7 @@ export const Navigation = () => {
                     </NavLink>
                 </li>
             </ul>
-            <ul>
+            <ul className="column-menu">
                 <li>
                     <NavLink to="/login" className={location.pathname === '/login' ? 'selected' : ''}>
                         <i className="fas fa-sign-in-alt"></i>
