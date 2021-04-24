@@ -14,7 +14,7 @@ export const Navigation = () => {
     }
 
     return (
-        <div className="navbar container">
+        <div className="navbar">
             <ul>
                 <li>
                     <NavLink to="/" className={location.pathname === '/' ? 'selected' : ''}>
