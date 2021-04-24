@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router';
+import { createPost, imageUpload } from '../../models/Post';
 import './CreatePost.css';
 
 export const CreatePost = () => {
@@ -19,35 +21,40 @@ export const CreatePost = () => {
             id: 2
         }
     ]);
-
+    
+    const [fileToShow, setFileToShow] = useState('');
     const [file, setFile] = useState('');
-
+    
     const [submit, setSubmit] = useState(false);
     const [error, setError] = useState('');
-
+    const history = useHistory();
+    
     function handleCategory(category) {
         setCategory(category);
     }
-
+    
     function handleCondition(condition) {
         setCondition(condition);
     }
-
+    
     function handleCurrency(currency) {
         setCurrency(currency);
     }
-
+    
     function handleUpload(event) {
         const file = event.target.files[0];
-
+        
         try {
-            setFile(URL.createObjectURL(file));
+            setFileToShow(URL.createObjectURL(file));
+            setFile(file);
         } catch (err) {
+            setFileToShow('');
             setFile('');
         }
     }
-
+    
     function handleClear() {
+        setFileToShow('');
         setFile('');
     }
 
@@ -61,12 +68,39 @@ export const CreatePost = () => {
         const phoneNumber = formData.get('phoneNumber');
         const price = formData.get('price');
 
-        if (title === '' || city === '' || file === '' || description === '' || phoneNumber === '' || price === '') {
+        if (title === '' || city === '' || fileToShow === '' || description === '' || phoneNumber === '' || price === '') {
             window.scrollTo(0, 0);
             return setError('Мола, попълнете всички полета!');
         }
 
         setSubmit(true);
+
+        imageUpload(file, file.name)
+            .then((res) => {
+                createPost({
+                    title,
+                    warning,
+                    city,
+                    description,
+                    phoneNumber,
+                    price,
+                    imageUrl: res.fileURL,
+                    currency,
+                    category,
+                    condition
+                })
+                    .then(() => {
+                        history.push('/');
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        setError(err.message);
+                        setSubmit(false);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     return (
@@ -97,9 +131,9 @@ export const CreatePost = () => {
                 <div className="form-control">
                     <label>* Снимка</label>
                     <input disabled={submit} type="file" name="image" onChange={handleUpload} />
-                    <div style={{ display: file ? 'block' : 'none' }}>
+                    <div style={{ display: fileToShow ? 'block' : 'none' }}>
                         <i onClick={handleClear} className="fas fa-times clear"></i>
-                        <img src={file} alt={file} />
+                        <img src={fileToShow} alt={fileToShow} />
                     </div>
                 </div>
                 <div className="form-control">
