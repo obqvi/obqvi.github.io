@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
+
+import UserContext from '../../Context/UserContext';
+
 import './Login.css';
+
 import { isEmail } from 'validator';
+import { login } from '../../models/User';
+import { useHistory } from 'react-router';
 
 export const Login = () => {
 
+    const { setUser } = useContext(UserContext);
+
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState(false);
+
+    const history = useHistory();
 
     function handleLogin(event) {
         event.preventDefault();
@@ -21,6 +31,18 @@ export const Login = () => {
 
         setError('');
         setSubmit(true);
+
+        login(email, password)
+            .then((loggedInUser) => {
+                console.log(loggedInUser);
+                setUser(loggedInUser);
+                history.push('/');
+            })
+            .catch((err) => {
+                console.log(err);
+                setError(err.message);
+                setSubmit(false);
+            });
     }
     
     return (

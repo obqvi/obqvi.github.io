@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import './Register.css';
-import { isEmail } from 'validator';
+import React, { useContext, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
+import { isEmail } from 'validator';
+
+import UserContext from '../../Context/UserContext';
+
+import './Register.css';
+
+import { register } from '../../models/User';
+import { useHistory } from 'react-router';
 
 export const Register = () => {
+    
+    const { setUser } = useContext(UserContext);
 
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState(false);
+    
+    const history = useHistory();
 
     function handleRegister(event) {
         event.preventDefault();
@@ -26,6 +36,18 @@ export const Register = () => {
 
         setError('');
         setSubmit(true);
+
+        register(email, password, firstName + ' ' + lastName)
+            .then((registeredUser) => {
+                console.log(registeredUser);
+                setUser(registeredUser);
+                history.push('/');
+            })
+            .catch((err) => {
+                console.log(err);
+                setError(err.message);
+                setSubmit(false);
+            });
     }
 
     return (

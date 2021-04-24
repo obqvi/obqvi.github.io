@@ -98,7 +98,7 @@ export const CreatePost = () => {
                     <label>* Снимка</label>
                     <input disabled={submit} type="file" name="image" onChange={handleUpload} />
                     <div style={{ display: file ? 'block' : 'none' }}>
-                        <i onClick={handleClear} class="fas fa-times clear"></i>
+                        <i onClick={handleClear} className="fas fa-times clear"></i>
                         <img src={file} alt={file} />
                     </div>
                 </div>
@@ -154,17 +154,6 @@ const CategoriesWindow = ({ category, setCategory, categories, titleMsg, disable
                     )}
                 </ul>
             </div>
-        </div>
-    )
-}
-
-export const Condition = () => {
-    return (
-        <div>
-            <ul>
-                <li>Ново</li>
-                <li>Втора употреба</li>
-            </ul>
         </div>
     )
 }
