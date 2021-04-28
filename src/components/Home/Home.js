@@ -1,10 +1,14 @@
 import React from 'react'
+import { AllPosts } from '../Post/AllPosts'
 
 export const Home = () => {
     return (
-        <div>
+        <div className="row">
             <title>Начало</title>
-            <h2>Начало</h2>
+            <div className="col-md-4">
+                
+            </div>
+            <AllPosts className="col-md-8" />
         </div>
     )
 }

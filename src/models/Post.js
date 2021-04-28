@@ -7,5 +7,9 @@ export async function createPost(data) {
 }
 
 export async function imageUpload(image, path) {
-    return await Backendless.Files.upload(image, path, false);
+    return await Backendless.Files.upload(image, path, true);
+}
+
+export async function getAllPosts() {
+    return await postCollection.find();
 }
