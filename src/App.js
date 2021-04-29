@@ -11,6 +11,7 @@ import { Login } from "./components/Login/Login";
 import { Home } from './components/Home/Home';
 import { CreatePost } from "./components/Create/CreatePost";
 import { useState } from "react";
+import { PostDetails } from "./components/Post/PostDetails";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/create" component={CreatePost} />
             <Route exact path="/profile" component={CreatePost} />
+            <Route exact path="/details/:id" component={PostDetails} />
           </Switch>
         </UserContext.Provider>
       </Router>

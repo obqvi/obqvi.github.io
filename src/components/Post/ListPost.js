@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 export const ListPost = ({ post }) => {
     return (
@@ -11,9 +12,9 @@ export const ListPost = ({ post }) => {
                     <h4 className="px-4">{post.price} {post.currency}</h4>
                 </div>
             </div>
-            <div>
+            <NavLink className="p-0" to={`/details/${post.objectId}`}>
                 <button className="m-4 btn primary">Виж</button>
-            </div>
+            </NavLink>
         </div>
     )
 }

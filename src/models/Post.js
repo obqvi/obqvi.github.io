@@ -13,3 +13,9 @@ export async function imageUpload(image, path) {
 export async function getAllPosts() {
     return await postCollection.find();
 }
+
+export async function getPostById(id) {
+    return await postCollection.findById(id, {
+        relations: ['userId']
+    });
+}
