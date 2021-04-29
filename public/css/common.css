@@ -38,8 +38,16 @@
 }
 
 .spinner {
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.flex {
+    display: flex;
 }

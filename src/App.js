@@ -46,6 +46,8 @@ function App() {
             <Route exact path="/details/:id" component={PostDetails} />
             <Route exact path="/admin" component={AdminDashboard} />
             <Route exact path="/admin/category/new" component={CreateCategory} />
+            <Route exact path="/admin/category/new/:id" component={CreateCategory} />
+            <Route exact path="/admin/:id" component={AdminDashboard} />
           </Switch>
         </UserContext.Provider>
       </Router>

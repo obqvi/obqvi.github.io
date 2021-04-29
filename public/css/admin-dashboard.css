@@ -9,7 +9,7 @@
 }
 
 .admin ul li {
-    padding: 10px 20px;
+    padding: 2px 20px;
 }
 
 .admin ul li a {
@@ -27,4 +27,9 @@
 
 .admin ul li:hover {
     background-color: #e6e6e6;
+}
+
+.admin ul li i:hover {
+    color: #005dc7;
+    cursor: pointer;
 }

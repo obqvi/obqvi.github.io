@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { createCategory } from '../../models/Category';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { createCategory, setRelationCategoryToSelf } from '../../models/Category';
 import { AdminNavigation } from '../Admin/AdminNavigation';
 
 export const CreateCategory = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isValid, setIsValid] = useState(false);
+    const { id } = useParams();
+
+    useEffect(() => {
+        console.log(id);
+    });
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -17,15 +23,22 @@ export const CreateCategory = () => {
         setIsValid(false);
 
         createCategory({ title })
-            .then(() => {
+            .then((category) => {
+                if (id) {
+                    setRelationCategoryToSelf(category.objectId, id)
+                        .then(() => {
+                            return setIsLoading(false);
+                        });
+                }
+
+                setIsLoading(false);
                 event.target.title.focus();
                 event.target.title.value = '';
-                setIsLoading(false);
             });
     }
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div className="flex">
             <title>Създаване на категория</title>
             <AdminNavigation />
             <div className="m-2 text-center w-100 bg-light">

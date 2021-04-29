@@ -9,18 +9,18 @@ export const AdminNavigation = () => {
     return (
         <>
             <title>Администрация</title>
-            <div className="admin w-25 bg-light">
+            <div className="admin bg-light">
                 <div className="text-center">
                     <h4>Администрация</h4>
                     <hr className="mb-0" />
                 </div>
                 <div>
                     <ul>
-                        <li className={location.pathname === '/admin' ? 'selected' : ''}>
-                            <NavLink to="/admin">Категории</NavLink>
-                        </li>
                         <li className={location.pathname === '/admin/category/new' ? 'selected' : ''}>
                             <NavLink to="/admin/category/new">Нова категория</NavLink>
+                        </li>
+                        <li className={location.pathname === '/admin' ? 'selected' : ''}>
+                            <NavLink to="/admin">Категории</NavLink>
                         </li>
                     </ul>
                 </div>
