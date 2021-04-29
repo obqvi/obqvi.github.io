@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
-import { createPost, imageUpload } from '../../models/Post';
+import { createPost, imageUpload } from '../../../models/Post';
 import './CreatePost.css';
 
 export const CreatePost = () => {

@@ -34,17 +34,3 @@
 .navbar .selected * {
     color: #005dc7;
 }
-
-@media only screen and (max-width: 1200px) {
-    .navbar {
-        padding: 0;
-    }
-}
-
-@media only screen and (max-width: 800px) {
-    .navbar,
-    .navbar ul {
-        display: block;
-        padding: 0;
-    }
-}

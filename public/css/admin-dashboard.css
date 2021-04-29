@@ -1,0 +1,30 @@
+.admin {
+    height: 100vh;
+    min-width: 200px;
+}
+
+.admin ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin ul li {
+    padding: 10px 20px;
+}
+
+.admin ul li a {
+    color: #777;
+    text-decoration: none;
+}
+
+.admin ul .selected {
+    background-color: #ccc;
+}
+
+.admin ul .selected a {
+    color: #222;
+}
+
+.admin ul li:hover {
+    background-color: #e6e6e6;
+}

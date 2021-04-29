@@ -7,15 +7,20 @@ export const AllPosts = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        let isSubscribed = true;
         getAllPosts()
-            .then((data) => {
-                setPosts(data);
-            });
-    });
-    
+            .then(data => {
+                if (isSubscribed) {
+                    setPosts(data);
+                }
+            })
+
+        return () => isSubscribed = false;
+    }, []);
+
     return (
         <div className="posts">
-            {posts.map((post) => 
+            {posts.map((post) =>
                 <ListPost key={post.objectId} post={post} />)}
         </div>
     )

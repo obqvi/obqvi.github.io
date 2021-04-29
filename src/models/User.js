@@ -11,5 +11,5 @@ export async function register(email, password, username) {
 }
 
 export function login(email, password) {
-    return Backendless.UserService.login(email, password, false);
+    return Backendless.UserService.login(email, password, true);
 }

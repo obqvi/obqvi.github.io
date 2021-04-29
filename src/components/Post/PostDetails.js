@@ -14,18 +14,24 @@ export const PostDetails = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
+        let isSubscribed = true;
+
         getPostById(id)
             .then((data) => {
-                setPost(data);
-                setIsLoading(false);
-                setIsOwner(data.userId?.objectId === user.objectId);
-                console.log(data);
+                if (isSubscribed) {
+                    setPost(data);
+                    setIsLoading(false);
+                    setIsOwner(data.userId?.objectId === user.objectId);
+                    console.log(data);
+                }
             })
             .catch((err) => {
                 console.log(err);
                 setIsLoading(false);
             });
-    }, []);
+
+        return () => isSubscribed = false;
+    }, [id, user?.objectId]);
 
     return (
         <div className="row m-5 p-2 shadow bg-light">
