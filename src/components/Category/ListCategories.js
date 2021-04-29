@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { getAllCategories, getAllSubCategoriesById } from '../../models/Category';
+import { deleteCategoryById, getAllCategories, getAllSubCategoriesById } from '../../models/Category';
 
 export const ListCategories = ({ id }) => {
 
@@ -11,14 +11,14 @@ export const ListCategories = ({ id }) => {
     useEffect(() => {
         let isSubscribed = true;
         let data;
-        
+
         async function get() {
             if (id) {
                 data = await getAllSubCategoriesById(id);
             } else {
                 data = await getAllCategories();
             }
-            
+
             if (isSubscribed) {
                 setIsLoading(false);
                 setCategories(data);
@@ -29,6 +29,22 @@ export const ListCategories = ({ id }) => {
 
         return () => isSubscribed = false;
     }, [id]);
+
+    function handleDeleteCategory(id) {
+        setIsLoading(true);
+
+        const filteredCategories = categories.filter(x => x.objectId !== id);
+        
+        setCategories(filteredCategories);
+        
+        deleteCategoryById(id)
+            .then(() => {
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <>
@@ -47,9 +63,12 @@ export const ListCategories = ({ id }) => {
                                     <NavLink to={`/admin/${category.objectId}`}>
                                         {category.title}
                                     </NavLink>
-                                    <NavLink to={`/admin/category/new/${category.objectId}`}>
-                                        <i className="fas fa-plus"></i>
-                                    </NavLink>
+                                    <div>
+                                        <NavLink to={`/admin/category/new/${category.objectId}`}>
+                                            <i className="fas fa-plus mx-4"></i>
+                                        </NavLink>
+                                        <i onClick={() => handleDeleteCategory(category.objectId)} className="fas fa-plus text-danger"></i>
+                                    </div>
                                 </li>
                             ) : <div>Тази категория е празна</div>
                     }

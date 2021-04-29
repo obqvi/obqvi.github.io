@@ -23,3 +23,7 @@ export function setRelationCategoryToSelf(parentCategoryId, childCategiryId) {
 
     return Backendless.Data.of('Category').setRelation(parentObject, 'categoryId', children);
 }
+
+export function deleteCategoryById(id) {
+    return categoryCollection.remove(id);
+}
