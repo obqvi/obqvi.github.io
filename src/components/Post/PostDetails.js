@@ -34,16 +34,26 @@ export const PostDetails = () => {
         return () => isSubscribed = false;
     }, [id, user?.objectId]);
 
+    function handleChangeImagePath(path) {
+        setSelectedImagePath(path);
+    }
+
     return (
         <div className="row m-5 p-2 shadow bg-light">
             {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
             <div className="text-center">
                 {post.imagePaths?.split(', ').map((path) =>
-                    <img className="my-2 mx-1" key={path} style={{ width: '100px', height: '70px' }} src={path} alt="" />
+                    <img
+                        onClick={() => handleChangeImagePath(path)}
+                        className={`my-2 mx-1 border ${selectedImagePath === path ? 'p-2' : ''}`}
+                        key={path} style={{ width: '100px', height: '70px', cursor: 'pointer' }}
+                        src={path}
+                        alt=""
+                    />
                 )}
             </div>
             <div className="col-md-4 p-0">
-                <img className="w-100" src={selectedImagePath} alt="" />
+                <img className="w-100" style={{ width: '345px', height: '345px' }} src={selectedImagePath} alt="" />
             </div>
             <div className="col-md-8">
                 <h2>{post.title}</h2>
