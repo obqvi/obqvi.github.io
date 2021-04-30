@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import PostContext from '../../../Context/PostContext';
 
-import { API_KEY, UPLOAD_PRESEND } from '../../../Cloudinary/config';
+import { API_KEY, UPLOAD_PRESEND } from '../../../configuration.cloudinary';
 
 import './CreatePost.css';
 

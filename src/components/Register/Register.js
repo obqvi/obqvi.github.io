@@ -39,7 +39,6 @@ export const Register = () => {
 
         register(email, password, firstName + ' ' + lastName)
             .then((registeredUser) => {
-                console.log(registeredUser);
                 setUser(registeredUser);
                 history.push('/');
             })
@@ -80,8 +79,7 @@ export const Register = () => {
                     <button disabled={submit} type="submit" className="btn primary">
                         {submit ?
                             <Spinner animation="grow" size="sm" /> :
-                            ''}
-                        Регистрация
+                            <span>Регистрация</span>}
                     </button>
                 </div>
             </form>

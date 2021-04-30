@@ -62,9 +62,8 @@ export const Login = () => {
                 <div className="btn-group">
                     <button disabled={submit} type="submit" className="btn primary">
                             {submit ?
-                            <Spinner animation="grow" size="sm" /> :
-                            ''}
-                        Вход
+                            <Spinner animation="border" size="sm" /> :
+                            <span>Вход</span>}
                     </button>
                 </div>
             </form>

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import './Backendless/configuration';
+import './configuration.backendless';
 
 import UserContext from './Context/UserContext';
 
