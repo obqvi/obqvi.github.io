@@ -54,7 +54,7 @@ export const PostDetails = () => {
                 </div>
                 <div className="col-md-6 d-flex justify-content-between">
                     <span>Категория: </span>
-                    <span>{post.category}</span>
+                    <span>{post.categoryId?.title}</span>
                 </div>
                 <div className="col-md-6 d-flex justify-content-between">
                     <span>Забележка: </span>

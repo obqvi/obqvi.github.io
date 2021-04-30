@@ -6,6 +6,15 @@ export async function createPost(data) {
     return postCollection.save(data);
 }
 
+export async function setRelationToCategory(postId, categoryId) {
+    console.log(postId, categoryId);
+    const parentObject = { objectId: postId };
+    const childObject = { objectId: categoryId };
+    const children = [childObject];
+
+    return Backendless.Data.of('Post').setRelation(parentObject, 'categoryId', children);
+}
+
 export async function imageUpload(image, path) {
     return await Backendless.Files.upload(image, path, true);
 }
@@ -16,6 +25,6 @@ export async function getAllPosts() {
 
 export async function getPostById(id) {
     return await postCollection.findById(id, {
-        relations: ['userId']
+        relations: ['userId', 'categoryId']
     });
 }

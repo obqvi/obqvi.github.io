@@ -37,8 +37,8 @@ export const CreatePostBasicData = ({ nextStep }) => {
                 <div className="form-control">
                     <label>* Състояние</label>
                     <select name="condition" defaultValue={post?.condition}>
-                        <option selected={post?.condition === 'Ново'} value="Ново">Ново</option>
-                        <option selected={post?.condition === 'Втора употреба'} value="Втора употреба">Втора употреба</option>
+                        <option value="Ново">Ново</option>
+                        <option value="Втора употреба">Втора употреба</option>
                     </select>
                 </div>
             </div>

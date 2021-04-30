@@ -11,7 +11,7 @@ import './CreatePost.css';
 import { CreatePostBasicData } from './CreatePostBasicData';
 import { CreatePostDescription } from './CreatePostDescription';
 import { CreatePostFilesUpload } from './CreatePostFilesUpload';
-import { createPost } from '../../../models/Post';
+import { createPost, setRelationToCategory } from '../../../models/Post';
 import { CreatePostCategoriesWindow } from './CreatePostCategoriesWindow';
 import { PreviewPost } from './PreviewPost';
 
@@ -45,8 +45,11 @@ export const CreatePost = () => {
             .then(() => {
                 createPost({ ...post, imagePaths: paths.join(', ').toString() })
                     .then((data) => {
-                        setIsLoading(false);
-                        history.push('/details/' + data.objectId);
+                        setRelationToCategory(data.objectId, post.categoryId)
+                            .then(() => {
+                                setIsLoading(false);
+                                history.push('/details/' + data.objectId);
+                            });
                     })
                     .catch(err => {
                         console.log(err);
