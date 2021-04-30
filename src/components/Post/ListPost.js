@@ -12,9 +12,13 @@ export const ListPost = ({ post }) => {
                     <h4 className="px-4">{post.price} {post.currency}</h4>
                 </div>
             </div>
-            <NavLink className="p-0" to={`/details/${post.objectId}`}>
-                <button className="m-4 btn primary">Виж</button>
-            </NavLink>
+            <div className="p-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>{new Date(post.created).toLocaleDateString()}</div>
+                <div className="">{post.condition}</div>
+                <NavLink to={`/details/${post.objectId}`}>
+                    <button className="m-0 btn primary">Виж</button>
+                </NavLink>
+            </div>
         </div>
     )
 }

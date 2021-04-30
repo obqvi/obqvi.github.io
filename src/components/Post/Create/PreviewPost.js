@@ -59,7 +59,7 @@ export const PreviewPost = ({ publish }) => {
                             <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
                         </div> : ''
                 }
-                <button className="btn primary m-0" onClick={handlePublish}>
+                <button disabled={isLoading} className="btn primary m-0" onClick={handlePublish}>
                     {isLoading ?
                         <Spinner animation="border" /> :
                         <span>Публикувай обявата</span>}

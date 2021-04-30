@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import UserContext from '../../Context/UserContext';
-import { getPostById } from '../../models/Post';
+import { getPostById, removePostById } from '../../models/Post';
 
 export const PostDetails = () => {
 
@@ -13,6 +13,8 @@ export const PostDetails = () => {
     const [selectedImagePath, setSelectedImagePath] = useState('');
 
     const { user } = useContext(UserContext);
+
+    const history = useHistory();
 
     useEffect(() => {
         let isSubscribed = true;
@@ -38,10 +40,51 @@ export const PostDetails = () => {
         setSelectedImagePath(path);
     }
 
+    async function handleRemovePost() {
+        if (window.confirm('Сгурен ли си, че искаш да изтриеш тази публикация?')) {
+            setIsLoading(true);
+            await removePostById(post.objectId);
+            setIsLoading(false);
+            history.push('/');
+        }
+    }
+
     return (
         <div className="row m-5 p-2 shadow bg-light">
             {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
-            <div className="text-center">
+            <div className="col-md-3 p-0">
+                <img className="w-100" style={{ width: '345px', height: '345px' }} src={selectedImagePath} alt="" />
+            </div>
+            <div className="col-md-6">
+                <h4>{post.title}</h4>
+                <hr />
+                <div className="d-flex justify-content-between">
+                    <span>Град: </span>
+                    <span>{post.city}</span>
+                </div>
+                <div className="d-flex justify-content-between">
+                    <span>Категория: </span>
+                    <span>{post.categoryId?.title}</span>
+                </div>
+                <div className="d-flex justify-content-between">
+                    <span>Състояние: </span>
+                    <span>{post.condition}</span>
+                </div>
+                {post.warning ?
+                    <div className="d-flex justify-content-between">
+                        <span>Забележка: </span>
+                        <span>{post.warning}</span>
+                    </div> : ''}
+                <div className="d-flex justify-content-between">
+                    <span>Телефонен номер: </span>
+                    <span>{post.phoneNumber}</span>
+                </div>
+                <div className="d-flex justify-content-between">
+                    <span>Цена: </span>
+                    <span>{post.price} {post.currency}</span>
+                </div>
+            </div>
+            <div className="text-center col-md-3">
                 {post.imagePaths?.split(', ').map((path) =>
                     <img
                         onClick={() => handleChangeImagePath(path)}
@@ -52,42 +95,16 @@ export const PostDetails = () => {
                     />
                 )}
             </div>
-            <div className="col-md-4 p-0">
-                <img className="w-100" style={{ width: '345px', height: '345px' }} src={selectedImagePath} alt="" />
-            </div>
-            <div className="col-md-8">
-                <h2>{post.title}</h2>
-                <hr />
-                <div className="col-md-6 d-flex justify-content-between">
-                    <span>Град: </span>
-                    <span>{post.city}</span>
-                </div>
-                <div className="col-md-6 d-flex justify-content-between">
-                    <span>Категория: </span>
-                    <span>{post.categoryId?.title}</span>
-                </div>
-                <div className="col-md-6 d-flex justify-content-between">
-                    <span>Забележка: </span>
-                    <span>{post.condition}</span>
-                </div>
-                <div className="col-md-6 d-flex justify-content-between">
-                    <span>Телефонен номер: </span>
-                    <span>{post.phoneNumber}</span>
-                </div>
-                <div className="col-md-6 d-flex justify-content-between">
-                    <span>Цена: </span>
-                    <span>{post.price} {post.currency}</span>
-                </div>
-            </div>
-            <div>
-                <h2>Описание</h2>
-                <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
-            </div>
+            {post.description ?
+                <div>
+                    <h2>Описание</h2>
+                    <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
+                </div> : ''}
             <div className="btn-group">
                 <button className="mx-0 btn primary">Съобщение</button>
                 {
                     isOwner ?
-                        <button className="m-0 btn btn-danger">Изтрии</button> : ''
+                        <button onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
                 }
             </div>
         </div>

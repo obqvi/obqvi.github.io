@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
@@ -11,9 +11,10 @@ import './CreatePost.css';
 import { CreatePostBasicData } from './CreatePostBasicData';
 import { CreatePostDescription } from './CreatePostDescription';
 import { CreatePostFilesUpload } from './CreatePostFilesUpload';
-import { createPost, setRelationToCategory } from '../../../models/Post';
+import { createPost, setRelationToCategory, setRelationToUser } from '../../../models/Post';
 import { CreatePostCategoriesWindow } from './CreatePostCategoriesWindow';
 import { PreviewPost } from './PreviewPost';
+import UserContext from '../../../Context/UserContext';
 
 export const CreatePost = () => {
     const history = useHistory();
@@ -21,6 +22,7 @@ export const CreatePost = () => {
     const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isPreview, setIsPreview] = useState(false);
+    const { user } = useContext(UserContext);
 
     function handleSubmit() {
         let paths = [];
@@ -42,18 +44,16 @@ export const CreatePost = () => {
         });
 
         axios.all(uploaders)
-            .then(() => {
-                createPost({ ...post, imagePaths: paths.join(', ').toString() })
-                    .then((data) => {
-                        setRelationToCategory(data.objectId, post.categoryId)
-                            .then(() => {
-                                setIsLoading(false);
-                                history.push('/details/' + data.objectId);
-                            });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+            .then(async () => {
+                try {
+                    const data = await createPost({ ...post, imagePaths: paths.join(', ').toString() });
+                    await setRelationToCategory(data.objectId, post.categoryId);
+                    await setRelationToUser(data.objectId, user.objectId);
+                    setIsLoading(false);
+                    history.push('/details/' + data.objectId);
+                } catch(err) {
+                    console.log(err);
+                }
             })
 
     }
