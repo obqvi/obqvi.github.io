@@ -1,193 +1,108 @@
 import React, { useState } from 'react';
-import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router';
-import { createPost, imageUpload } from '../../../models/Post';
+import axios from 'axios';
+
+import PostContext from '../../../Context/PostContext';
+
+import { API_KEY, UPLOAD_PRESEND } from '../../../Cloudinary/config';
+
 import './CreatePost.css';
 
+import { CreatePostBasicData } from './CreatePostBasicData';
+import { CreatePostDescription } from './CreatePostDescription';
+import { CreatePostFilesUpload } from './CreatePostFilesUpload';
+import { createPost } from '../../../models/Post';
+import { CreatePostCategoriesWindow } from './CreatePostCategoriesWindow';
+import { PreviewPost } from './PreviewPost';
+
 export const CreatePost = () => {
-
-    const [category, setCategory] = useState('');
-    const [currency, setCurrency] = useState('');
-    const [condition, setCondition] = useState('');
-    const [currencies] = useState([{ title: 'лв', id: 1 }]);
-    const [conditions] = useState([{ title: 'Ново', id: 1 }, { title: 'Втора употреба', id: 2 }]);
-    const [categories] = useState([
-        {
-            title: 'Коли',
-            id: 1
-        },
-        {
-            title: 'Мода',
-            id: 2
-        }
-    ]);
-    
-    const [fileToShow, setFileToShow] = useState('');
-    const [file, setFile] = useState('');
-    
-    const [submit, setSubmit] = useState(false);
-    const [error, setError] = useState('');
     const history = useHistory();
-    
-    function handleCategory(category) {
-        setCategory(category);
-    }
-    
-    function handleCondition(condition) {
-        setCondition(condition);
-    }
-    
-    function handleCurrency(currency) {
-        setCurrency(currency);
-    }
-    
-    function handleUpload(event) {
-        const file = event.target.files[0];
-        
-        try {
-            setFileToShow(URL.createObjectURL(file));
-            setFile(file);
-        } catch (err) {
-            setFileToShow('');
-            setFile('');
-        }
-    }
-    
-    function handleClear() {
-        setFileToShow('');
-        setFile('');
-    }
+    const [step, setStep] = useState(1);
+    const [post, setPost] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isPreview, setIsPreview] = useState(false);
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const title = formData.get('title');
-        const warning = formData.get('warning');
-        const city = formData.get('city');
-        const description = formData.get('description');
-        const phoneNumber = formData.get('phoneNumber');
-        const price = formData.get('price');
+    function handleSubmit() {
+        let paths = [];
+        setIsLoading(true);
 
-        if (title === '' || city === '' || fileToShow === '' || description === '' || phoneNumber === '' || price === '') {
-            window.scrollTo(0, 0);
-            return setError('Мола, попълнете всички полета!');
-        }
+        const uploaders = post.files.map(file => {
+            const formData = new FormData();
+            formData.append("file", file.plain);
+            formData.append("upload_preset", UPLOAD_PRESEND);
+            formData.append("api_key", API_KEY);
 
-        setSubmit(true);
+            return axios.post(`https://api.cloudinary.com/v1_1/damosyaq8/image/upload`, formData, {
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+            }).then(res => {
+                const data = res.data;
+                const fileUrl = data.secure_url;
+                paths.push(fileUrl);
+            });
+        });
 
-        imageUpload(file, file.name)
-            .then((res) => {
-                createPost({
-                    title,
-                    warning,
-                    city,
-                    description,
-                    phoneNumber,
-                    price,
-                    imageUrl: res.fileURL,
-                    currency,
-                    category,
-                    condition
-                })
-                    .then(() => {
-                        history.push('/');
+        axios.all(uploaders)
+            .then(() => {
+                createPost({ ...post, imagePaths: paths.join(', ').toString() })
+                    .then((data) => {
+                        setIsLoading(false);
+                        history.push('/details/' + data.objectId);
                     })
-                    .catch((err) => {
+                    .catch(err => {
                         console.log(err);
-                        setError(err.message);
-                        setSubmit(false);
                     });
             })
-            .catch((err) => {
-                console.log(err);
-            });
+
+    }
+
+    function loadPreview() {
+        setIsPreview(true);
     }
 
     return (
-        <div className="form">
-            <h2>Добави продукт</h2>
-            <p className="error">{error}</p>
-            <form onSubmit={handleSubmit}>
-                <div className="form-control">
-                    <label>* Згалавие</label>
-                    <input disabled={submit} type="text" name="title" autoFocus />
-                </div>
-                <div className="form-control">
-                    <label>* Категория</label>
-                    <CategoriesWindow category={category} setCategory={handleCategory} categories={categories} titleMsg="Изберете категория" disabled={submit} />
-                </div>
-                <div className="form-control">
-                    <label>Забележка/уточнение</label>
-                    <input disabled={submit} type="text" name="warning" />
-                </div>
-                <div className="form-control">
-                    <label>* Състояние</label>
-                    <CategoriesWindow category={condition} setCategory={handleCondition} categories={conditions} titleMsg="В какво състояние е продукта?" disabled={submit} />
-                </div>
-                <div className="form-control">
-                    <label>* Град</label>
-                    <input disabled={submit} type="text" name="city" />
-                </div>
-                <div className="form-control">
-                    <label>* Снимка</label>
-                    <input disabled={submit} type="file" name="image" onChange={handleUpload} />
-                    <div style={{ display: fileToShow ? 'block' : 'none' }}>
-                        <i onClick={handleClear} className="fas fa-times clear"></i>
-                        <img src={fileToShow} alt={fileToShow} />
+        <>
+            <PostContext.Provider value={{ post, setPost }}>
+                {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
+            </PostContext.Provider>
+            <div className="form">
+                <div className="row">
+                    <div className="col-md-3">
+                        {
+                            step > 1 && step < 6 ?
+                                <button onClick={() => setStep(step - 1)} className="btn-primary px-1">
+                                    <i className="fas fa-arrow-left px-2"></i>
+                                </button> : ''
+                        }
                     </div>
+                    <h2 className="col-md-6" onClick={() => console.log(post)}>Добави продукт</h2>
+                    <h2 className="col-md-3">{step}/5</h2>
                 </div>
-                <div className="form-control">
-                    <label>* Описание</label>
-                    <textarea disabled={submit} type="text" name="description"></textarea>
-                </div>
-                <div className="form-control">
-                    <label>* Телефонен номер</label>
-                    <input disabled={submit} type="tel" name="phoneNumber" />
-                </div>
-                <div className="form-control">
-                    <label>* Цена</label>
-                    <input disabled={submit} type="text" name="price" />
-                </div>
-                <div className="form-control">
-                    <label>* Валута</label>
-                    <CategoriesWindow category={currency} setCategory={handleCurrency} categories={currencies} titleMsg="Изберете валута" disabled={submit} />
-                </div>
-                <div className="btn-group">
-                    <button disabled={submit} type="submit" className="btn primary">
-                        {submit ?
-                            <Spinner animation="grow" size="sm" /> :
-                            ''}
-                        Публикувай
-                    </button>
-                </div>
-            </form>
-        </div>
-    )
-}
-
-const CategoriesWindow = ({ category, setCategory, categories, titleMsg, disabled }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    function handleClick() {
-        setIsOpen(!isOpen);
-    }
-
-    function handleSelectCategory(event) {
-        setCategory(event.target.textContent);
-        setIsOpen(false);
-    }
-
-    return (
-        <div className="modal-div">
-            <input onClick={handleClick} type="text" defaultValue={category} disabled={disabled} />
-            <div style={{ display: isOpen ? 'block' : 'none' }} className="modal-window">
-                <h2>{titleMsg}</h2>
-                <ul>
-                    {categories.map((category) =>
-                        <li key={category.id} onClick={handleSelectCategory}>{category.title}</li>
-                    )}
-                </ul>
+                <PostContext.Provider value={{ post, setPost }}>
+                    {
+                        step === 1 ?
+                            <CreatePostBasicData nextStep={(step) => setStep(step)} />
+                            :
+                            step === 2 ?
+                                <CreatePostFilesUpload nextStep={(step) => setStep(step)} />
+                                :
+                                step === 3 ?
+                                    <CreatePostDescription nextStep={(step) => setStep(step)} />
+                                    : step === 4 ?
+                                        <CreatePostCategoriesWindow nextStep={(step) => setStep(step)} />
+                                        : step === 5 && isPreview === false ?
+                                            <div className="text-center">
+                                                <h2>Край</h2>
+                                                <button className="btn primary" onClick={loadPreview}>
+                                                    {!isLoading ? 'Напред' : ''}
+                                                </button>
+                                            </div> : ''
+                    }
+                </PostContext.Provider>
+                <button className="btn-primary px-4" onClick={() => history.goBack()}>
+                    <i className="fas fa-arrow-left px-2"></i>
+                Отказ
+                </button>
             </div>
-        </div>
+        </>
     )
 }

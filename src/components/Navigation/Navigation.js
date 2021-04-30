@@ -24,6 +24,16 @@ export const Navigation = () => {
             </ul>
             {user ?
                 <ul className="column-menu">
+                    {
+                        user.role === 'admin' ?
+                            <li>
+                                <NavLink to="/admin" className={location.pathname === '/admin' ? 'selected' : ''}>
+                                    <i className="fas fa-users"></i>
+                                    <span>Администрация</span>
+                                </NavLink>
+                            </li>
+                            : ''
+                    }
                     <li>
                         <NavLink to="/create" className={location.pathname === '/create' ? 'selected' : ''}>
                             <i className="fas fa-user-plus"></i>

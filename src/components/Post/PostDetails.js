@@ -10,6 +10,7 @@ export const PostDetails = () => {
     const [post, setPost] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(false);
+    const [selectedImagePath, setSelectedImagePath] = useState('');
 
     const { user } = useContext(UserContext);
 
@@ -22,7 +23,7 @@ export const PostDetails = () => {
                     setPost(data);
                     setIsLoading(false);
                     setIsOwner(data.userId?.objectId === user.objectId);
-                    console.log(data);
+                    setSelectedImagePath(data.imagePaths.split(', ')[0]);
                 }
             })
             .catch((err) => {
@@ -36,8 +37,13 @@ export const PostDetails = () => {
     return (
         <div className="row m-5 p-2 shadow bg-light">
             {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
+            <div className="text-center">
+                {post.imagePaths?.split(', ').map((path) =>
+                    <img className="my-2 mx-1" key={path} style={{ width: '100px', height: '70px' }} src={path} alt="" />
+                )}
+            </div>
             <div className="col-md-4 p-0">
-                <img className="w-100" src={post.imageUrl} alt="" />
+                <img className="w-100" src={selectedImagePath} alt="" />
             </div>
             <div className="col-md-8">
                 <h2>{post.title}</h2>
@@ -65,7 +71,7 @@ export const PostDetails = () => {
             </div>
             <div>
                 <h2>Описание</h2>
-                <p>{post.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
             </div>
             <div className="btn-group">
                 <button className="mx-0 btn primary">Съобщение</button>

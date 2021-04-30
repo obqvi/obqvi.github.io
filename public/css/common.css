@@ -9,6 +9,10 @@
     border-radius: 7px;
     color: #fff;
     margin: 20px;
+}
+
+.btn,
+.btn label {
     cursor: pointer;
 }
 
@@ -50,4 +54,9 @@ a {
 
 .flex {
     display: flex;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
 }

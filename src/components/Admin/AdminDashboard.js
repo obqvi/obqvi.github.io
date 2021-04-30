@@ -7,6 +7,8 @@ export const AdminDashboard = () => {
 
     const { id } = useParams();
 
+    console.log(id);
+
     return (
         <div className="admin">
             <title>Администрация</title>

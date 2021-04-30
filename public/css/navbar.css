@@ -1,5 +1,5 @@
 .navbar {
-    padding: 0 200px;
+    padding: 0 100px;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
@@ -12,10 +12,10 @@
 }
 
 .navbar ul li * {
-    padding: 14px 10px;
+    padding: 7px 10px;
     text-decoration: none;
     color: #777;
-    font-size: 18px;
+    font-size: inherit;
 }
 
 .navbar ul li {
@@ -27,7 +27,7 @@
 }
 
 .navbar ul li i {
-    font-size: 20px;
+    font-size: inherit;
     padding: 17px 0;
 }
 

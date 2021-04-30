@@ -2,11 +2,12 @@
     width: 40%;
     background-color: #fff;
     border-radius: 10px;
-    margin: 100px auto;
-    box-shadow: 2px 2px 20px #ccc;
+    margin: 0 auto;
+    margin-top: 20px;
+    box-shadow: 2px 2px 4px #222;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
     .form {
         width: 100%;
         border-radius: 0;
@@ -20,13 +21,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 2px 20px;
     border: none;
 }
 
 .form-control input,
-.form-control textarea {
-    padding: 10px 20px;
-    border-radius: 7px;
+.form-control textarea,
+.form-control select {
+    padding: 2px 20px;
+    border-radius: 2px;
     border: 2px solid #ccc;
 }

@@ -24,27 +24,27 @@ function App() {
     let isSubscribed = true;
     Backendless.UserService.getCurrentUser()
       .then((user) => {
-        if(isSubscribed) {
+        if (isSubscribed) {
           setUser(user);
         }
       });
 
-      return () => isSubscribed = false;
+    return () => isSubscribed = false;
   }, []);
 
   return (
     <div className="App">
       <Router basename="/">
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{ user, setUser }}>
           <Navigation />
           <Switch>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Home} />
-            <Route exact path="/create" component={CreatePost} />
-            <Route exact path="/profile" component={CreatePost} />
-            <Route exact path="/details/:id" component={PostDetails} />
             <Route exact path="/admin" component={AdminDashboard} />
+            <Route exact path="/profile" component={CreatePost} />
+            <Route exact path="/create" component={CreatePost} />
+            <Route exact path="/details/:id" component={PostDetails} />
             <Route exact path="/admin/category/new" component={CreateCategory} />
             <Route exact path="/admin/category/new/:id" component={CreateCategory} />
             <Route exact path="/admin/:id" component={AdminDashboard} />
