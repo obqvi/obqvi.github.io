@@ -15,6 +15,8 @@ import { PostDetails } from "./components/Post/PostDetails";
 import { AdminDashboard } from "./components/Admin/AdminDashboard";
 import Backendless from "backendless";
 import { CreateCategory } from "./components/Category/CreateCategory";
+import { FavoritePosts } from "./components/Profile/FavoritePosts";
+import { Messages } from "./components/Profile/Messages";
 
 function App() {
 
@@ -42,7 +44,8 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Home} />
             <Route exact path="/admin" component={AdminDashboard} />
-            <Route exact path="/profile" component={CreatePost} />
+            <Route exact path="/profile" component={FavoritePosts} />
+            <Route exact path="/profile/messages" component={Messages} />
             <Route exact path="/create" component={CreatePost} />
             <Route exact path="/details/:id" component={PostDetails} />
             <Route exact path="/admin/category/new" component={CreateCategory} />
