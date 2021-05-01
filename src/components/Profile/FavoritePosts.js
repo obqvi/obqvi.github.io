@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { getAllPosts } from '../../models/Post';
+import UserContext from '../../Context/UserContext';
+import { getFavoritePostsByUserId } from '../../models/Post';
 import { ListPost } from '../Post/ListPost';
 import { Sidebar } from './Sidebar';
 
 export const FavoritePosts = () => {
 
-    const [posts, setPosts] = useState([]);
+    const [favoritePosts, setFavoritePosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
 
-        getAllPosts()
-            .then((data) => {
-                if (isSubscribed) {
-                    setPosts(data);
-                    setIsLoading(false);
-                }
-            })
-            .catch(err => {
-                console.log(err);
+        async function get() {
+            const data = await getFavoritePostsByUserId(user.objectId);
+            
+            if (isSubscribed) {
+                setFavoritePosts(data);
                 setIsLoading(false);
-            });
+            }
+        }
+
+        get();
 
         return () => isSubscribed = false;
-    }, [posts]);
+    }, [user?.objectId]);
 
     return (
         <>
@@ -37,8 +38,8 @@ export const FavoritePosts = () => {
                 <div className="col-md-10 posts">
                     {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
                     {
-                        posts.map(post =>
-                            <ListPost key={post.objectId} post={post} />
+                        favoritePosts.map(favoritePost =>
+                            <ListPost key={favoritePost.postId.objectId} post={favoritePost.postId} />
                         )
                     }
                 </div>

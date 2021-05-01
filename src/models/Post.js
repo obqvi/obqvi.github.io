@@ -1,6 +1,7 @@
 import Backendless from 'backendless';
 
 const postCollection = Backendless.Data.of('Post');
+const favoritePostCollection = Backendless.Data.of('FavoritePost');
 
 export async function createPost(data) {
     return postCollection.save(data);
@@ -38,4 +39,31 @@ export async function getPostById(id) {
 
 export async function removePostById(id) {
     return postCollection.remove(id);
+}
+
+export async function setAsFavoritePost(userId) {
+    return await favoritePostCollection.save({ userId });
+}
+
+export async function setRelationToPost(favoritePostId, postId) {
+    const parentObject = { objectId: favoritePostId };
+    const childObject = { objectId: postId };
+    const children = [childObject];
+
+    return await favoritePostCollection.setRelation(parentObject, 'postId', children);
+}
+
+export async function getFavoritePostsByUserId(userId) {
+    const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['postId']);
+    builder.setWhereClause(`userId = '${userId}'`);
+    return await favoritePostCollection.find(builder);
+}
+
+export async function checkIsFavoritePostById(postId) {
+    const builder = Backendless.DataQueryBuilder.create().setWhereClause(`postId = '${postId}'`);
+    return await favoritePostCollection.findFirst(builder);
+}
+
+export async function removeFromFavoritePost(favoritePostId) {
+    return await favoritePostCollection.remove(favoritePostId);
 }

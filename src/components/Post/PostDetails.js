@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import UserContext from '../../Context/UserContext';
-import { getPostById, removePostById } from '../../models/Post';
+import { checkIsFavoritePostById, getPostById, removeFromFavoritePost, removePostById, setAsFavoritePost, setRelationToPost } from '../../models/Post';
 
 export const PostDetails = () => {
 
@@ -11,6 +11,7 @@ export const PostDetails = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(false);
     const [selectedImagePath, setSelectedImagePath] = useState('');
+    const [isFavoritePost, setIsFavoritePost] = useState(null);
 
     const { user } = useContext(UserContext);
 
@@ -19,19 +20,23 @@ export const PostDetails = () => {
     useEffect(() => {
         let isSubscribed = true;
 
-        getPostById(id)
-            .then((data) => {
-                if (isSubscribed) {
-                    setPost(data);
-                    setIsLoading(false);
-                    setIsOwner(data.userId?.objectId === user.objectId);
-                    setSelectedImagePath(data.imagePaths.split(', ')[0]);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+        async function get() {
+            const data = await getPostById(id);
+            const favoritePost = await checkIsFavoritePostById(id);
+
+            if (favoritePost) {
+                setIsFavoritePost(favoritePost);
+            }
+
+            if (isSubscribed) {
+                setPost(data);
                 setIsLoading(false);
-            });
+                setIsOwner(data.userId?.objectId === user.objectId);
+                setSelectedImagePath(data.imagePaths.split(', ')[0]);
+            }
+        }
+
+        get();
 
         return () => isSubscribed = false;
     }, [id, user?.objectId]);
@@ -47,6 +52,22 @@ export const PostDetails = () => {
             setIsLoading(false);
             history.push('/');
         }
+    }
+
+    async function handleSetAsFavoritePost() {
+        setIsLoading(true);
+
+        if(!isFavoritePost) {
+            const data = await setAsFavoritePost(user.objectId);
+            setIsFavoritePost({ });
+            await setRelationToPost(data.objectId, post.objectId);
+            setIsFavoritePost(data);
+        } else {
+            setIsFavoritePost(null);
+            await removeFromFavoritePost(isFavoritePost.objectId);
+        }
+
+        setIsLoading(false);
     }
 
     return (
@@ -101,10 +122,13 @@ export const PostDetails = () => {
                     <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
                 </div> : ''}
             <div className="btn-group">
-                <button className="mx-0 btn primary">Съобщение</button>
+                <button className="mx-0 btn btn-secondary">Съобщение</button>
+                <button disabled={isLoading} className="mx-0 btn primary" onClick={handleSetAsFavoritePost}>
+                    {isFavoritePost ? 'Изтрии от любими' : 'Добави в любими'}
+                </button>
                 {
                     isOwner ?
-                        <button onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
+                        <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
                 }
             </div>
         </div>
