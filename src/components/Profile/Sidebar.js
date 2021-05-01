@@ -7,10 +7,10 @@ export const Sidebar = () => {
     const location = useLocation();
 
     return (
-        <div>
+        <div style={{ minWidth: '200px' }}>
             <h4 className="text-center">Дневник</h4>
             <hr />
-            <ul style={{ height: '70vh' }} className="list-group">
+            <ul style={{ width: '100%' }} className="list-group">
                 <NavLink to="/profile">
                     <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile' ? 'active' : ''}`}>
                         <span>Профил</span>

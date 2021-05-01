@@ -34,7 +34,7 @@ export const Messages = () => {
             </div>
             <div className="col-md-10">
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-                <div className="mx-2 my-2 bg-light p-4" style={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div className="mx-2 my-2 bg-light p-4" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <ul className="list-group">
                         <h4>Съобщения</h4>
                         {

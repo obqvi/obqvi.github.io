@@ -16,7 +16,7 @@ export const Account = () => {
                     <div className="p-5 col-md-10 row bg-light">
                         <h4>Лична информация</h4>
                         <Router>
-                            <ul className="col-md-4 px-2 list-group">
+                            <ul className="col-md-6 px-2 list-group">
                                 <li className="list-group-item border">Потребителско име:
                             <NavLink className="px-5" to="/profile/username/edit">
                                         <div>Промяна</div>
@@ -38,7 +38,7 @@ export const Account = () => {
                                     </NavLink>
                                 </li>
                             </ul>
-                            <div className="col-md-8">
+                            <div className="col-md-6">
                                 <Switch>
                                     <Route path="/profile/username/edit" component={UsernameEdit} />
                                     <Route path="/profile/email/edit" component={EmailEdit} />

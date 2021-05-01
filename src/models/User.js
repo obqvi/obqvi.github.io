@@ -20,3 +20,10 @@ export async function updateEmail(id, email) {
     user.objectId = id;
     return await Backendless.UserService.update(user);
 }
+
+export async function updateUsername(id, username) {
+    const user = new Backendless.User();
+    user.username = username;
+    user.objectId = id;
+    return await Backendless.UserService.update(user);
+}

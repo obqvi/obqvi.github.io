@@ -7,7 +7,8 @@ import { updateEmail } from '../../models/User';
 export const EmailEdit = () => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
+    const [error, setError] = useState('');
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -15,18 +16,20 @@ export const EmailEdit = () => {
         const formData = new FormData(event.target);
         const email = formData.get('email');
         if(!isEmail(email)) {
+            setError('Мола, въведете валиден имейл адрес!');
             return;
         }
 
         setIsLoading(true);
         const data = await updateEmail(user.objectId, email);
-        console.log(data);
+        setUser(data);
         setIsLoading(false);
     }
     
     return (
         <form onSubmit={handleSubmit}>
             <label>Имейл: </label>
+            {error ? <div className="text-danger">{error}</div> : ''}
             <input className="form-control border" name="email" type="email" />
             <button className="btn primary">
                 {isLoading ? <Spinner animation="border" /> : 'Запази'}
