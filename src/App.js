@@ -17,6 +17,7 @@ import Backendless from "backendless";
 import { CreateCategory } from "./components/Category/CreateCategory";
 import { FavoritePosts } from "./components/Profile/FavoritePosts";
 import { Messages } from "./components/Profile/Messages";
+import { Account } from "./components/Profile/Account";
 
 function App() {
 
@@ -44,7 +45,8 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Home} />
             <Route exact path="/admin" component={AdminDashboard} />
-            <Route exact path="/profile" component={FavoritePosts} />
+            <Route exact path="/profile" component={Account} />
+            <Route exact path="/profile/favorites" component={FavoritePosts} />
             <Route exact path="/profile/messages" component={Messages} />
             <Route exact path="/create" component={CreatePost} />
             <Route exact path="/details/:id" component={PostDetails} />

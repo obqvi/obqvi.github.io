@@ -10,9 +10,14 @@ export const Sidebar = () => {
         <div>
             <h4 className="text-center">Дневник</h4>
             <hr />
-            <ul className="list-group">
+            <ul style={{ height: '70vh' }} className="list-group">
                 <NavLink to="/profile">
                     <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile' ? 'active' : ''}`}>
+                        <span>Профил</span>
+                    </li>
+                </NavLink>
+                <NavLink to="/profile/favorites">
+                    <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile/favorites' ? 'active' : ''}`}>
                         <span>Любими</span>
                     </li>
                 </NavLink>
