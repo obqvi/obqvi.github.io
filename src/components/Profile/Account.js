@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min'
 import { EmailEdit } from './EmailEdit'
+import { PasswordEdit } from './PasswordEdit'
 import { Sidebar } from './Sidebar'
 import { UsernameEdit } from './UsernameEdit'
 
@@ -42,6 +43,7 @@ export const Account = () => {
                                 <Switch>
                                     <Route path="/profile/username/edit" component={UsernameEdit} />
                                     <Route path="/profile/email/edit" component={EmailEdit} />
+                                    <Route path="/profile/password/edit" component={PasswordEdit} />
                                 </Switch>
                             </div>
                         </Router>

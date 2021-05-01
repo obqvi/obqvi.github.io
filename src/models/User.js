@@ -27,3 +27,10 @@ export async function updateUsername(id, username) {
     user.objectId = id;
     return await Backendless.UserService.update(user);
 }
+
+export async function updatePassword(id, password) {
+    const user = new Backendless.User();
+    user.password = password;
+    user.objectId = id;
+    return await Backendless.UserService.update(user);
+}
