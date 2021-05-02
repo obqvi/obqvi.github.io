@@ -19,10 +19,12 @@ import { FavoritePosts } from "./components/Profile/FavoritePosts";
 import { Messages } from "./components/Profile/Messages";
 import { Account } from "./components/Profile/Account";
 import { LastShowingPosts } from "./components/Profile/LastShowingPosts";
+import ThemeContext from "./Context/ThemeContext";
 
 function App() {
 
   const [user, setUser] = useState(null);
+  const [themeContext, setThemeContext] = useState(false);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -37,25 +39,27 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className={`app ${themeContext ? 'dark' : ''}`}>
       <Router basename="/">
         <UserContext.Provider value={{ user, setUser }}>
-          <Navigation />
-          <Switch>
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/" component={Home} />
-            <Route exact path="/admin" component={AdminDashboard} />
-            <Route exact path="/profile" component={Account} />
-            <Route exact path="/profile/favorites" component={FavoritePosts} />
-            <Route exact path="/profile/messages" component={Messages} />
-            <Route exact path="/profile/last-showing" component={LastShowingPosts} />
-            <Route exact path="/create" component={CreatePost} />
-            <Route exact path="/details/:id" component={PostDetails} />
-            <Route exact path="/admin/category/new" component={CreateCategory} />
-            <Route exact path="/admin/category/new/:id" component={CreateCategory} />
-            <Route exact path="/admin/:id" component={AdminDashboard} />
-          </Switch>
+          <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
+            <Navigation />
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/admin" component={AdminDashboard} />
+              <Route exact path="/profile" component={Account} />
+              <Route exact path="/profile/favorites" component={FavoritePosts} />
+              <Route exact path="/profile/messages" component={Messages} />
+              <Route exact path="/profile/last-showing" component={LastShowingPosts} />
+              <Route exact path="/create" component={CreatePost} />
+              <Route exact path="/details/:id" component={PostDetails} />
+              <Route exact path="/admin/category/new" component={CreateCategory} />
+              <Route exact path="/admin/category/new/:id" component={CreateCategory} />
+              <Route exact path="/admin/:id" component={AdminDashboard} />
+            </Switch>
+          </ThemeContext.Provider>
         </UserContext.Provider>
       </Router>
     </div>

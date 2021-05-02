@@ -15,10 +15,10 @@ export const AdminNavigation = () => {
                     <hr className="mb-0" />
                 </div>
                 <ul>
-                    <li className={`p-2 ${location.pathname === '/admin/category/new' ? 'active' : ''}`}>
+                    <li className={`px-4 py-2 ${location.pathname === '/admin/category/new' ? 'active' : ''}`}>
                         <NavLink to="/admin/category/new">Нова категория</NavLink>
                     </li>
-                    <li className={`p-2 ${location.pathname === '/admin' ? 'active' : ''}`}>
+                    <li className={`px-4 py-2 ${location.pathname === '/admin' ? 'active' : ''}`}>
                         <NavLink to="/admin">Категории</NavLink>
                     </li>
                 </ul>

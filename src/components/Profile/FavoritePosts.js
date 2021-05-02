@@ -34,13 +34,17 @@ export const FavoritePosts = () => {
             <div className="d-flex">
                 <Sidebar />
                 <div className="posts col-md-10">
-                    {favoritePosts.length === 0 && !isLoading ? <h6 className="text-center mt-4">Няма любили продукти</h6> : ''}
-                    {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-                    {
-                        favoritePosts.map(favoritePost =>
-                            <ListPost key={favoritePost.postId?.objectId} post={favoritePost?.postId} />
-                        )
-                    }
+                    <div style={{ height: '100vh' }}>
+                        {favoritePosts.length === 0 && !isLoading ?
+                                <h6 className="text-center box py-2">Няма любили продукти</h6>
+                            : ''}
+                        {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
+                        {
+                            favoritePosts.map(favoritePost =>
+                                <ListPost key={favoritePost.postId?.objectId} post={favoritePost?.postId} />
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </>

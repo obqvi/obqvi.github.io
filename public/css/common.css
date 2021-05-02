@@ -59,8 +59,9 @@
     background-color: inherit;
 }
 
-.dark .box ul li.active {
-    color: lawngreen;
+.box ul li.active {
+    color: #fff;
+    background-color: #0066ff;
 }
 
 .spinner {
