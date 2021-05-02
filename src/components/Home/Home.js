@@ -5,10 +5,9 @@ export const Home = () => {
     return (
         <div className="row">
             <title>Начало</title>
-            <div className="col-md-4">
-                
+            <div>
+                <AllPosts />
             </div>
-            <AllPosts className="col-md-8" />
         </div>
     )
 }

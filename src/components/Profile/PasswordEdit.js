@@ -38,12 +38,12 @@ export const PasswordEdit = () => {
             <div>
                 <label>Нова парола: </label>
                 {error ? <div className="text-danger">{error}</div> : ''}
-                <input className="form-control border" name="password" type="password" />
+                <input className="form-control border p-2 box" name="password" type="password" />
             </div>
             <div>
                 <label>Повтори паролата: </label>
                 {error ? <div className="text-danger">{error}</div> : ''}
-                <input className="form-control border" name="confirmPassword" type="password" />
+                <input className="form-control border p-2 box" name="confirmPassword" type="password" />
             </div>
             <button className="btn primary">
                 {isLoading ? <Spinner animation="border" /> : 'Запази'}

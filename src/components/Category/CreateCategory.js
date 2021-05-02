@@ -41,10 +41,10 @@ export const CreateCategory = () => {
         <div className="flex">
             <title>Създаване на категория</title>
             <AdminNavigation />
-            <div className="m-2 text-center w-100 bg-light">
+            <div className="text-center col-md-10" style={{ height: '100vh' }}>
+                <form onSubmit={handleSubmit} className="box w-50 mx-auto p-5">
                 <h2>Създаване на категория</h2>
-                <form onSubmit={handleSubmit} className="w-50 mx-auto">
-                    <input className="form-control" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />
+                    <input className="form-control box p-2 border" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />
                     <button disabled={!isValid} className="btn primary">
                         {isLoading ?
                             <Spinner animation="border" size="sm" className="ml-2" /> : 'Добави'}

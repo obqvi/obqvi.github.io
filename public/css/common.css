@@ -41,6 +41,28 @@
     background-color: #fff;
 }
 
+.dark .box {
+    background-color: #222;
+}
+
+.dark .box {
+    color: #fff;
+}
+
+.dark .box ul li i {
+    color: inherit;
+}
+
+.dark input.box:focus,
+.dark input.box:active {
+    color: inherit;
+    background-color: inherit;
+}
+
+.dark .box ul li.active {
+    color: lawngreen;
+}
+
 .spinner {
     position: absolute;
     left: 50%;
@@ -55,6 +77,7 @@ a {
 
 .flex {
     display: flex;
+    flex-wrap: wrap;
 }
 
 ul {

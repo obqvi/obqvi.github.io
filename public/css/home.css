@@ -1,17 +1,10 @@
 .posts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .single-post {
     margin-top: 20px;
-    max-width: 24%;
-    height: fit-content;
-    flex-basis: 24%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
     box-shadow: 2px 2px 4px #222;
     border-radius: 7px;
     overflow: hidden;

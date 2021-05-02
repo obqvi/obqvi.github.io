@@ -57,9 +57,9 @@ export const PostDetails = () => {
     async function handleSetAsFavoritePost() {
         setIsLoading(true);
 
-        if(!isFavoritePost) {
+        if (!isFavoritePost) {
             const data = await setAsFavoritePost(user.objectId);
-            setIsFavoritePost({ });
+            setIsFavoritePost({});
             await setRelationToPost(data.objectId, post.objectId);
             setIsFavoritePost(data);
         } else {
@@ -71,7 +71,7 @@ export const PostDetails = () => {
     }
 
     return (
-        <div className="row m-5 p-2 shadow bg-light">
+        <div className="row m-5 p-2 shadow box rounded" style={{ height: '100vh' }}>
             {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
             <div className="col-md-3 p-0">
                 <img className="w-100" style={{ width: '345px', height: '345px' }} src={selectedImagePath} alt="" />
@@ -104,6 +104,16 @@ export const PostDetails = () => {
                     <span>Цена: </span>
                     <span>{post.price} {post.currency}</span>
                 </div>
+                <div className="btn-group">
+                    <button className="mx-0 btn btn-secondary">Съобщение</button>
+                    <button disabled={isLoading} className="mx-0 btn primary" onClick={handleSetAsFavoritePost}>
+                        {isFavoritePost ? 'Изтрии от любими' : 'Добави в любими'}
+                    </button>
+                    {
+                        isOwner ?
+                            <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
+                    }
+                </div>
             </div>
             <div className="text-center col-md-3">
                 {post.imagePaths?.split(', ').map((path) =>
@@ -121,16 +131,6 @@ export const PostDetails = () => {
                     <h2>Описание</h2>
                     <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
                 </div> : ''}
-            <div className="btn-group">
-                <button className="mx-0 btn btn-secondary">Съобщение</button>
-                <button disabled={isLoading} className="mx-0 btn primary" onClick={handleSetAsFavoritePost}>
-                    {isFavoritePost ? 'Изтрии от любими' : 'Добави в любими'}
-                </button>
-                {
-                    isOwner ?
-                        <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
-                }
-            </div>
         </div>
     )
 }

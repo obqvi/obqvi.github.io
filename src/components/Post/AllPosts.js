@@ -28,8 +28,11 @@ export const AllPosts = () => {
                 isLoading ?
                     <Spinner animation="border" className="spinner" /> : ''
             }
-            {posts.map((post) =>
-                <ListPost key={post.objectId} post={post} />)}
+            <div>
+                {posts.map((post) =>
+                        <ListPost key={post.objectId} post={post} />
+                    )}
+            </div>
         </div>
     )
 }

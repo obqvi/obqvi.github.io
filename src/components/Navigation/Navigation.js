@@ -13,7 +13,7 @@ export const Navigation = () => {
     }
 
     return (
-        <div className="navbar">
+        <div className="navbar box">
             <ul>
                 <li>
                     <NavLink to="/" className={location.pathname === '/' ? 'selected' : ''}>

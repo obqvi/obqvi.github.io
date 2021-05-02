@@ -6,15 +6,14 @@ export const ListPost = ({ post }) => {
     const history = useHistory();
 
     return (
-        <div className="single-post box">
+        <div className="box single-post">
             <div>
-                <img className="w-100" style={{ height: '200px' }} src={post.imagePaths.split(', ')[0]} alt="" />
-                <h5 className="px-4 pt-4">{post.title}</h5>
-                <div className="d-flex justify-content-between">
-                    <h6 className="px-4">{post.city}</h6>
-                </div>
+                <img className="w-100" src={post.imagePaths.split(', ')[0]} alt="" />
             </div>
             <div className="p-4">
+                <h5>{post.title}</h5>
+                <hr />
+                <h6>{post.city}</h6>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <span>Публикувано</span>
                     <span>{new Date(post.created).toLocaleDateString()}</span>
@@ -23,8 +22,8 @@ export const ListPost = ({ post }) => {
                     <span>Състояние </span>
                     <span>{post.condition}</span>
                 </div>
-                <div className="text-center mt-4 row">
-                    <h4 className="px-4">{post.price} {post.currency}</h4>
+                <div className="text-center py-4" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h4 className="">{post.price} {post.currency}</h4>
                     <button className="m-0 btn primary" onClick={() => history.push(`/details/${post.objectId}`)}>Виж</button>
                 </div>
             </div>

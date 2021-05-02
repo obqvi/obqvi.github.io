@@ -17,9 +17,9 @@ export const PreviewPost = ({ publish }) => {
     }
 
     return (
-        <div>
+        <div className="box">
             <h4 className="text-center">Вашата пабликация ще изглежда по следния начин:</h4>
-            <div className="row m-5 p-2 pt-0 shadow bg-light">
+            <div className="row m-5 p-2 pt-0 shadow">
                 <div className="text-center">
                     {post.files.map((f, i) =>
                         <img className="my-2 mx-1" key={i} style={{ width: '100px', height: '70px' }} src={f.filePath} alt="" />

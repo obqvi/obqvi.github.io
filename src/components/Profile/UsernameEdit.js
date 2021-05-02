@@ -29,7 +29,7 @@ export const UsernameEdit = () => {
         <form onSubmit={handleSubmit}>
             <label>Потребителско име: </label>
             {error ? <div className="text-danger">{error}</div> : ''}
-            <input className="form-control border" name="username" type="text" />
+            <input className="form-control border p-2 box" name="username" type="text" />
             <button className="btn primary">
                 {isLoading ? <Spinner animation="border" /> : 'Запази'}
             </button>

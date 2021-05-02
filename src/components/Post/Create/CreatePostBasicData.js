@@ -4,7 +4,7 @@ import PostContext from '../../../Context/PostContext';
 export const CreatePostBasicData = ({ nextStep }) => {
 
     const { post, setPost } = useContext(PostContext);
-    const { error, setError } = useState('');
+    const [ error, setError ] = useState('');
 
     function handleNext(event) {
         event.preventDefault();
@@ -27,41 +27,41 @@ export const CreatePostBasicData = ({ nextStep }) => {
     }
 
     return (
-        <form onSubmit={handleNext}>
+        <form className="box p-4" onSubmit={handleNext}>
             <h6 className="error">{error}</h6>
-            <div className="flex">
-                <div className="form-control">
+            <div className="box mt-2">
+                <div className="box">
                     <label>* Згалавие</label>
-                    <input type="text" name="title" defaultValue={post?.title} autoFocus />
+                    <input className="box form-control border p-2" type="text" name="title" defaultValue={post?.title} autoFocus />
                 </div>
-                <div className="form-control">
+                <div className="box mt-2">
                     <label>* Състояние</label>
-                    <select name="condition" defaultValue={post?.condition}>
+                    <select className="box form-control border p-2" name="condition" defaultValue={post?.condition}>
                         <option value="Ново">Ново</option>
                         <option value="Втора употреба">Втора употреба</option>
                     </select>
                 </div>
             </div>
-            <div className="form-control">
+            <div className="box mt-2">
                 <label>* Град</label>
-                <input type="text" name="city" defaultValue={post?.city} />
+                <input className="box form-control border p-2" type="text" name="city" defaultValue={post?.city} />
             </div>
-            <div className="form-control">
+            <div className="box mt-2">
                 <label>Забележка/уточнение</label>
-                <input type="text" name="warning" defaultValue={post?.warning} />
+                <input className="box form-control border p-2" type="text" name="warning" defaultValue={post?.warning} />
             </div>
             <div className="flex">
-                <div className="form-control">
+                <div className="box mt-2">
                     <label>* Телефонен номер</label>
-                    <input type="tel" name="phoneNumber" defaultValue={post?.phoneNumber} />
+                    <input className="box form-control border p-2" type="tel" name="phoneNumber" defaultValue={post?.phoneNumber} />
                 </div>
-                <div className="form-control">
+                <div className="box mt-2">
                     <label>* Цена</label>
-                    <input type="text" name="price" defaultValue={post?.price} />
+                    <input className="box form-control border p-2" type="text" name="price" defaultValue={post?.price} />
                 </div>
-                <div className="form-control">
+                <div className="box mt-2">
                     <label>* Валута</label>
-                    <select name="currency">
+                    <select className="box form-control border p-2" name="currency">
                         <option value="лв">лв</option>
                     </select>
                 </div>

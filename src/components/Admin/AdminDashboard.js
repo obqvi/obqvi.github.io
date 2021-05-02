@@ -10,13 +10,11 @@ export const AdminDashboard = () => {
     console.log(id);
 
     return (
-        <div className="admin">
+        <div className="flex">
             <title>Администрация</title>
-            <div className="flex">
-                <AdminNavigation />
-                <div className="m-2 text-center w-100 bg-light">
-                    <ListCategories id={id} />
-                </div>
+            <AdminNavigation />
+            <div className="col-md-10">
+                <ListCategories id={id} />
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 .navbar {
     padding: 0 100px;
-    background-color: #fff;
     display: flex;
     justify-content: space-between;
 }
@@ -26,6 +25,14 @@
     color: #222;
 }
 
+.dark .navbar.box ul li:hover > a span {
+    color: lawngreen;
+}
+
+.dark .navbar ul li * {
+    color: #fff;
+}
+
 .navbar ul li i {
     font-size: inherit;
     padding: 17px 0;
@@ -33,4 +40,8 @@
 
 .navbar .selected * {
     color: #005dc7;
+}
+
+.dark .navbar.box .selected * {
+    color: lawngreen;
 }

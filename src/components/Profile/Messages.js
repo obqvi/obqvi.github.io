@@ -27,29 +27,24 @@ export const Messages = () => {
     }, [user?.objectId]);
 
     return (
-        <div className="row">
+        <div className="box flex p-0">
             <title>Съобщения</title>
-            <div className="col-md-2 bg-light p-0">
-                <Sidebar />
-            </div>
-            <div className="col-md-10">
+            <Sidebar />
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-                <div className="mx-2 my-2 bg-light p-4" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <ul className="list-group">
-                        <h4>Съобщения</h4>
-                        {
-                            messages.map((m) =>
-                                <li className="list-group-item" key={m.objectId}>
-                                    <div className="text-primary">
-                                        <i className="fas fa-user"></i>
-                                        <span className="px-2">{m.senderId.username}</span>
-                                    </div>
-                                    {m.content}
-                                </li>
-                            )
-                        }
-                    </ul>
-                </div>
+            <div className="p-2 col-md-8 row mx-auto">
+                <ul className="list-group">
+                    {
+                        messages.map((m) =>
+                            <li className="list-group-item" key={m.objectId}>
+                                <div className="text-primary">
+                                    <i className="fas fa-user"></i>
+                                    <span className="px-2">{m.senderId.username}</span>
+                                </div>
+                                {m.content}
+                            </li>
+                        )
+                    }
+                </ul>
             </div>
         </div>
     )

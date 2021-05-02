@@ -7,23 +7,28 @@ export const Sidebar = () => {
     const location = useLocation();
 
     return (
-        <div style={{ minWidth: '200px' }}>
+        <div className="col-md-2 box" style={{ minWidth: '260px' }}>
             <h4 className="text-center">Дневник</h4>
             <hr />
             <ul style={{ width: '100%' }} className="list-group">
                 <NavLink to="/profile">
-                    <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile' ? 'active' : ''}`}>
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile' ? 'active' : ''}`}>
                         <span>Профил</span>
                     </li>
                 </NavLink>
                 <NavLink to="/profile/favorites">
-                    <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile/favorites' ? 'active' : ''}`}>
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/favorites' ? 'active' : ''}`}>
                         <span>Любими</span>
                     </li>
                 </NavLink>
                 <NavLink to="/profile/messages">
-                    <li className={`px-4 py-2 list-group-item border-0 ${location.pathname === '/profile/messages' ? 'active' : ''}`}>
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/messages' ? 'active' : ''}`}>
                         <span>Съобщения</span>
+                    </li>
+                </NavLink>
+                <NavLink to="/profile/last-showing">
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/last-showing' ? 'active' : ''}`}>
+                        <span>Последно прегледани</span>
                     </li>
                 </NavLink>
             </ul>

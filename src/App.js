@@ -18,6 +18,7 @@ import { CreateCategory } from "./components/Category/CreateCategory";
 import { FavoritePosts } from "./components/Profile/FavoritePosts";
 import { Messages } from "./components/Profile/Messages";
 import { Account } from "./components/Profile/Account";
+import { LastShowingPosts } from "./components/Profile/LastShowingPosts";
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="app">
       <Router basename="/">
         <UserContext.Provider value={{ user, setUser }}>
           <Navigation />
@@ -48,6 +49,7 @@ function App() {
             <Route exact path="/profile" component={Account} />
             <Route exact path="/profile/favorites" component={FavoritePosts} />
             <Route exact path="/profile/messages" component={Messages} />
+            <Route exact path="/profile/last-showing" component={LastShowingPosts} />
             <Route exact path="/create" component={CreatePost} />
             <Route exact path="/details/:id" component={PostDetails} />
             <Route exact path="/admin/category/new" component={CreateCategory} />

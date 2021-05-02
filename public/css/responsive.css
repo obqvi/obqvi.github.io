@@ -1,14 +1,6 @@
-@media only screen and (max-width: 900px) {
-    .single-post {
-        max-width: 49%;
-        flex-basis: 49%;
-    }
-}
-
-@media only screen and (max-width: 500px) {
-    .single-post {
-        max-width: 100%;
-        flex-basis: 100%;
+@media only screen and (max-width: 600px) {
+    .container-row {
+        display: block;
     }
 }
 
@@ -20,7 +12,8 @@
 
 @media only screen and (max-width: 800px) {
     .navbar,
-    .navbar ul {
+    .navbar ul,
+    .flex {
         display: block;
         padding: 0;
     }

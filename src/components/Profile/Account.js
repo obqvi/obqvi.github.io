@@ -8,48 +8,42 @@ import { UsernameEdit } from './UsernameEdit'
 
 export const Account = () => {
     return (
-        <>
-            <div>
-                <div className="row">
-                    <div className="col-md-2 bg-light p-0">
-                        <Sidebar />
-                    </div>
-                    <div className="p-5 col-md-10 row bg-light">
-                        <h4>Лична информация</h4>
-                        <Router>
-                            <ul className="col-md-6 px-2 list-group">
-                                <li className="list-group-item border">Потребителско име:
+        <div className="flex">
+            <Sidebar />
+            <div className="p-2 col-md-8 row mx-auto box">
+                <h4>Лична информация</h4>
+                <Router>
+                    <ul className="col-md-6">
+                        <li className="box">Потребителско име:
                             <NavLink className="px-5" to="/profile/username/edit">
-                                        <div>Промяна</div>
-                                    </NavLink>
-                                </li>
-                                <li className="list-group-item border">Име, фамилия, снимка, град, телефонен номер, пол.
+                                <div>Промяна</div>
+                            </NavLink>
+                        </li>
+                        <li className="box">Име, фамилия, снимка, град, телефонен номер, пол.
                             <NavLink className="px-5" to="/profile/personal/edit">
-                                        <div>Промяна</div>
-                                    </NavLink>
-                                </li>
-                                <li className="list-group-item border">Имейл
+                                <div>Промяна</div>
+                            </NavLink>
+                        </li>
+                        <li className="box">Имейл
                             <NavLink className="px-5" to="/profile/email/edit">
-                                        <div>Промяна</div>
-                                    </NavLink>
-                                </li>
-                                <li className="list-group-item border">Парола
+                                <div>Промяна</div>
+                            </NavLink>
+                        </li>
+                        <li className="box">Парола
                             <NavLink className="px-5" to="/profile/password/edit">
-                                        <div>Промяна</div>
-                                    </NavLink>
-                                </li>
-                            </ul>
-                            <div className="col-md-6">
-                                <Switch>
-                                    <Route path="/profile/username/edit" component={UsernameEdit} />
-                                    <Route path="/profile/email/edit" component={EmailEdit} />
-                                    <Route path="/profile/password/edit" component={PasswordEdit} />
-                                </Switch>
-                            </div>
-                        </Router>
+                                <div>Промяна</div>
+                            </NavLink>
+                        </li>
+                    </ul>
+                    <div className="col-md-6">
+                        <Switch>
+                            <Route path="/profile/username/edit" component={UsernameEdit} />
+                            <Route path="/profile/email/edit" component={EmailEdit} />
+                            <Route path="/profile/password/edit" component={PasswordEdit} />
+                        </Switch>
                     </div>
-                </div>
+                </Router>
             </div>
-        </>
+        </div>
     )
 }

@@ -67,7 +67,7 @@ export const CreatePost = () => {
             <PostContext.Provider value={{ post, setPost }}>
                 {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
             </PostContext.Provider>
-            <div className="form">
+            <div className="form box" style={{ height: '100vh' }}>
                 <div className="row">
                     <div className="col-md-3">
                         {

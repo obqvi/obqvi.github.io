@@ -10,12 +10,12 @@ import { register } from '../../models/User';
 import { useHistory } from 'react-router';
 
 export const Register = () => {
-    
+
     const { setUser } = useContext(UserContext);
 
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState(false);
-    
+
     const history = useHistory();
 
     function handleRegister(event) {
@@ -50,39 +50,42 @@ export const Register = () => {
     }
 
     return (
-        <div className="form">
-            <title>Регистрация</title>
-            <h2>Регистрация</h2>
-            <p className="error">{error}</p>
-            <form onSubmit={handleRegister}>
-                <div className="form-control">
-                    <label>Име</label>
-                    <input autoFocus disabled={submit} type="text" name="firstName" />
-                </div>
-                <div className="form-control">
-                    <label>Фамилия</label>
-                    <input disabled={submit} type="text" name="lastName" />
-                </div>
-                <div className="form-control">
-                    <label>Имейл</label>
-                    <input disabled={submit} type="email" name="email" />
-                </div>
-                <div className="form-control">
-                    <label>Парола</label>
-                    <input disabled={submit} type="password" name="password" />
-                </div>
-                <div className="form-control">
-                    <label>Потвърди паролата</label>
-                    <input disabled={submit} type="password" name="confirmPassword" />
-                </div>
-                <div className="btn-group">
-                    <button disabled={submit} type="submit" className="btn primary">
-                        {submit ?
-                            <Spinner animation="grow" size="sm" /> :
-                            <span>Регистрация</span>}
-                    </button>
-                </div>
-            </form>
+        <div style={{ height: '100vh' }}>
+
+            <div className="form box">
+                <title>Регистрация</title>
+                <h2>Регистрация</h2>
+                <p className="error">{error}</p>
+                <form className="p-4" onSubmit={handleRegister}>
+                    <div className="box">
+                        <label>Име</label>
+                        <input autoFocus disabled={submit} className="form-control box p-2 border" type="text" name="firstName" />
+                    </div>
+                    <div className="box mt-2">
+                        <label>Фамилия</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="text" name="lastName" />
+                    </div>
+                    <div className="box mt-2">
+                        <label>Имейл</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="email" name="email" />
+                    </div>
+                    <div className="box mt-2">
+                        <label>Парола</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="password" name="password" />
+                    </div>
+                    <div className="box mt-2">
+                        <label>Потвърди паролата</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="password" name="confirmPassword" />
+                    </div>
+                    <div className="btn-group">
+                        <button disabled={submit} type="submit" className="btn primary">
+                            {submit ?
+                                <Spinner animation="border" /> :
+                                <span>Регистрация</span>}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

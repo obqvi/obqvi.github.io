@@ -30,7 +30,7 @@ export const EmailEdit = () => {
         <form onSubmit={handleSubmit}>
             <label>Имейл: </label>
             {error ? <div className="text-danger">{error}</div> : ''}
-            <input className="form-control border" name="email" type="email" />
+            <input className="form-control border p-2 box" name="email" type="email" />
             <button className="btn primary">
                 {isLoading ? <Spinner animation="border" /> : 'Запази'}
             </button>

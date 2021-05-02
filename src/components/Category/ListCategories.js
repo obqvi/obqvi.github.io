@@ -49,7 +49,7 @@ export const ListCategories = ({ id }) => {
     return (
         <>
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-            <div className="admin">
+            <div className="col-md-10 mx-auto p-5 my-5 box">
                 <ul>
                     {
                         categories.length > 0 ?

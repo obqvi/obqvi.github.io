@@ -15,8 +15,8 @@ export const FavoritePosts = () => {
         let isSubscribed = true;
 
         async function get() {
-            const data = await getFavoritePostsByUserId(user.objectId);
-            
+            const data = await getFavoritePostsByUserId(user?.objectId);
+
             if (isSubscribed) {
                 setFavoritePosts(data);
                 setIsLoading(false);
@@ -31,15 +31,14 @@ export const FavoritePosts = () => {
     return (
         <>
             <title>Любими</title>
-            <div className="row">
-                <div className="col-md-2 bg-light p-0">
-                    <Sidebar />
-                </div>
-                <div className="col-md-10 posts">
+            <div className="d-flex">
+                <Sidebar />
+                <div className="posts col-md-10">
+                    {favoritePosts.length === 0 && !isLoading ? <h6 className="text-center mt-4">Няма любили продукти</h6> : ''}
                     {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
                     {
                         favoritePosts.map(favoritePost =>
-                            <ListPost key={favoritePost.postId.objectId} post={favoritePost.postId} />
+                            <ListPost key={favoritePost.postId?.objectId} post={favoritePost?.postId} />
                         )
                     }
                 </div>

@@ -44,29 +44,32 @@ export const Login = () => {
                 setSubmit(false);
             });
     }
-    
+
     return (
-        <div className="form">
-            <title>Вход</title>
-            <h2>Вход</h2>
-            <p className="error">{error}</p>
-            <form onSubmit={handleLogin}>
-                <div className="form-control">
-                    <label>Имейл</label>
-                    <input disabled={submit} type="email" name="email" />
-                </div>
-                <div className="form-control">
-                    <label>Парола</label>
-                    <input disabled={submit} type="password" name="password" />
-                </div>
-                <div className="btn-group">
-                    <button disabled={submit} type="submit" className="btn primary">
+        <div style={{ height: '100vh' }}>
+
+            <div className="form box">
+                <title>Вход</title>
+                <h2>Вход</h2>
+                <p className="error">{error}</p>
+                <form className="p-4" onSubmit={handleLogin}>
+                    <div>
+                        <label>Имейл</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="email" name="email" />
+                    </div>
+                    <div className="mt-2">
+                        <label>Парола</label>
+                        <input disabled={submit} className="form-control box p-2 border" type="password" name="password" />
+                    </div>
+                    <div className="btn-group">
+                        <button disabled={submit} type="submit" className="btn primary">
                             {submit ?
-                            <Spinner animation="border" size="sm" /> :
-                            <span>Вход</span>}
-                    </button>
-                </div>
-            </form>
+                                <Spinner animation="border" size="sm" /> :
+                                <span>Вход</span>}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

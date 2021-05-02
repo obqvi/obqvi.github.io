@@ -2,6 +2,7 @@ import Backendless from 'backendless';
 
 const postCollection = Backendless.Data.of('Post');
 const favoritePostCollection = Backendless.Data.of('FavoritePost');
+const lastShowingPostsCollection = Backendless.Data.of('LastShowingPosts');
 
 export async function createPost(data) {
     return postCollection.save(data);
@@ -66,4 +67,10 @@ export async function checkIsFavoritePostById(postId) {
 
 export async function removeFromFavoritePost(favoritePostId) {
     return await favoritePostCollection.remove(favoritePostId);
+}
+
+export async function getLastShowingPosts(userId) {
+    const builder = Backendless.DataQueryBuilder.create().setWhereClause(`userId = '${userId}'`);
+    builder.setRelated(['postId']);
+    return lastShowingPostsCollection.find(builder);
 }
