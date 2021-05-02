@@ -39,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`app ${themeContext ? 'dark' : ''}`}>
+    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh' }}>
       <Router basename="/">
         <UserContext.Provider value={{ user, setUser }}>
           <ThemeContext.Provider value={{ themeContext, setThemeContext }}>

@@ -16,15 +16,13 @@ export const CreatePostDescription = ({ nextStep }) => {
 
     return (
         <>
-            <div className="text-center">
+            <div className="text-center box">
                 <Editor
                     onInit={(evt, editor) => editorRef.current = editor}
                     initialValue={post?.description}
                     init={{
                         plugins: [
-                            'advlist autolink lists link preview anchor',
-                            'searchreplace visualblocks fullscreen',
-                            'insertdatetime table paste code wordcount'
+                            'advlist autolink lists link preview anchor'
                         ]
                     }}
                 />

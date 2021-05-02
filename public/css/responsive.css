@@ -13,7 +13,8 @@
 @media only screen and (max-width: 800px) {
     .navbar,
     .navbar ul,
-    .flex {
+    .flex,
+    .d-flex {
         display: block;
         padding: 0;
     }

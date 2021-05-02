@@ -10,7 +10,8 @@ import {
     setAsFavoritePost,
     setAsLastShowingPost,
     setRelationToPost,
-    setRelationToLastShowingPost
+    setRelationToLastShowingPost,
+    removeRelationPostFromLastShowing
 } from '../../models/Post';
 
 export const PostDetails = () => {
@@ -59,7 +60,12 @@ export const PostDetails = () => {
     async function handleRemovePost() {
         if (window.confirm('Сгурен ли си, че искаш да изтриеш тази публикация?')) {
             setIsLoading(true);
+            await removeRelationPostFromLastShowing(post.objectId);
+            if(isFavoritePost) {
+                await removeFromFavoritePost(isFavoritePost.objectId);
+            }
             await removePostById(post.objectId);
+            
             setIsLoading(false);
             history.push('/');
         }
@@ -82,7 +88,7 @@ export const PostDetails = () => {
     }
 
     return (
-        <div className="row m-5 p-2 shadow box rounded" style={{ height: '100vh' }}>
+        <div className="row m-5 p-2 shadow box rounded">
             {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
             <div className="col-md-3 p-0">
                 <img className="w-100" style={{ width: '345px', height: '345px' }} src={selectedImagePath} alt="" />
@@ -116,13 +122,13 @@ export const PostDetails = () => {
                     <span>{post.price} {post.currency}</span>
                 </div>
                 <div className="btn-group">
-                    <button className="mx-0 btn btn-secondary">Съобщение</button>
-                    <button disabled={isLoading} className="mx-0 btn primary" onClick={handleSetAsFavoritePost}>
+                    <button className="btn btn-primary p-1">Съобщение</button>
+                    <button disabled={isLoading} className="btn primary p-1" onClick={handleSetAsFavoritePost}>
                         {isFavoritePost ? 'Изтрии от любими' : 'Добави в любими'}
                     </button>
                     {
                         isOwner ?
-                            <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger">Изтрии</button> : ''
+                            <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger p-1">Изтрии</button> : ''
                     }
                 </div>
             </div>

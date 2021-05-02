@@ -51,7 +51,7 @@ export const CreatePost = () => {
                     await setRelationToUser(data.objectId, user.objectId);
                     setIsLoading(false);
                     history.push('/details/' + data.objectId);
-                } catch(err) {
+                } catch (err) {
                     console.log(err);
                 }
             })
@@ -64,47 +64,49 @@ export const CreatePost = () => {
 
     return (
         <>
-            <PostContext.Provider value={{ post, setPost }}>
-                {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
-            </PostContext.Provider>
-            <div className="form box" style={{ height: '100vh' }}>
-                <div className="row">
-                    <div className="col-md-3">
-                        {
-                            step > 1 && step < 6 ?
-                                <button onClick={() => setStep(step - 1)} className="btn-primary px-1">
-                                    <i className="fas fa-arrow-left px-2"></i>
-                                </button> : ''
-                        }
-                    </div>
-                    <h2 className="col-md-6" onClick={() => console.log(post)}>Добави продукт</h2>
-                    <h2 className="col-md-3">{step}/5</h2>
-                </div>
+            <div style={{ height: '100vh' }}>
                 <PostContext.Provider value={{ post, setPost }}>
-                    {
-                        step === 1 ?
-                            <CreatePostBasicData nextStep={(step) => setStep(step)} />
-                            :
-                            step === 2 ?
-                                <CreatePostFilesUpload nextStep={(step) => setStep(step)} />
-                                :
-                                step === 3 ?
-                                    <CreatePostDescription nextStep={(step) => setStep(step)} />
-                                    : step === 4 ?
-                                        <CreatePostCategoriesWindow nextStep={(step) => setStep(step)} />
-                                        : step === 5 && isPreview === false ?
-                                            <div className="text-center">
-                                                <h2>Край</h2>
-                                                <button className="btn primary" onClick={loadPreview}>
-                                                    {!isLoading ? 'Напред' : ''}
-                                                </button>
-                                            </div> : ''
-                    }
+                    {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
                 </PostContext.Provider>
-                <button className="btn-primary px-4" onClick={() => history.goBack()}>
-                    <i className="fas fa-arrow-left px-2"></i>
+                <div className="form box">
+                    <div className="row">
+                        <div className="col-md-3">
+                            {
+                                step > 1 && step < 6 ?
+                                    <button onClick={() => setStep(step - 1)} className="btn-primary px-1">
+                                        <i className="fas fa-arrow-left px-2"></i>
+                                    </button> : ''
+                            }
+                        </div>
+                        <h2 className="col-md-6" onClick={() => console.log(post)}>Добави продукт</h2>
+                        <h2 className="col-md-3">{step}/5</h2>
+                    </div>
+                    <PostContext.Provider value={{ post, setPost }}>
+                        {
+                            step === 1 ?
+                                <CreatePostBasicData nextStep={(step) => setStep(step)} />
+                                :
+                                step === 2 ?
+                                    <CreatePostFilesUpload nextStep={(step) => setStep(step)} />
+                                    :
+                                    step === 3 ?
+                                        <CreatePostDescription nextStep={(step) => setStep(step)} />
+                                        : step === 4 ?
+                                            <CreatePostCategoriesWindow nextStep={(step) => setStep(step)} />
+                                            : step === 5 && isPreview === false ?
+                                                <div className="text-center">
+                                                    <h2>Край</h2>
+                                                    <button className="btn primary" onClick={loadPreview}>
+                                                        {!isLoading ? 'Напред' : ''}
+                                                    </button>
+                                                </div> : ''
+                        }
+                    </PostContext.Provider>
+                    <button className="btn-primary px-4" onClick={() => history.goBack()}>
+                        <i className="fas fa-arrow-left px-2"></i>
                 Отказ
                 </button>
+                </div>
             </div>
         </>
     )

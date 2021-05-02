@@ -87,6 +87,10 @@ export async function setRelationToLastShowingPost(lastShowingPostId, postId) {
     return await lastShowingPostsCollection.setRelation(parentObject, 'postId', children);
 }
 
+export async function removeRelationPostFromLastShowing(postId) {
+    return await lastShowingPostsCollection.bulkDelete(`postId = '${postId}'`);
+}
+
 export async function removeListLastShowingPosts(userId) {
     return await lastShowingPostsCollection.bulkDelete(`userId = '${userId}'`);
 }

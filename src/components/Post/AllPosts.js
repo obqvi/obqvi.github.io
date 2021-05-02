@@ -29,9 +29,15 @@ export const AllPosts = () => {
                     <Spinner animation="border" className="spinner" /> : ''
             }
             <div>
+                {
+                    !isLoading && posts.length === 0 ?
+                        <div className="box py-2">
+                            <h6 className="text-center">Няма продукти</h6>
+                        </div> : ''
+                }
                 {posts.map((post) =>
-                        <ListPost key={post.objectId} post={post} />
-                    )}
+                    <ListPost key={post.objectId} post={post} />
+                )}
             </div>
         </div>
     )
