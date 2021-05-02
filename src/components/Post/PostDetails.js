@@ -2,7 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import UserContext from '../../Context/UserContext';
-import { checkIsFavoritePostById, getPostById, removeFromFavoritePost, removePostById, setAsFavoritePost, setRelationToPost } from '../../models/Post';
+import {
+    checkIsFavoritePostById,
+    getPostById,
+    removeFromFavoritePost,
+    removePostById,
+    setAsFavoritePost,
+    setAsLastShowingPost,
+    setRelationToPost,
+    setRelationToLastShowingPost
+} from '../../models/Post';
 
 export const PostDetails = () => {
 
@@ -23,6 +32,8 @@ export const PostDetails = () => {
         async function get() {
             const data = await getPostById(id);
             const favoritePost = await checkIsFavoritePostById(id);
+            const lastShowingPost = await setAsLastShowingPost(data.objectId, user.objectId);
+            await setRelationToLastShowingPost(lastShowingPost.objectId, data.objectId);
 
             if (favoritePost) {
                 setIsFavoritePost(favoritePost);

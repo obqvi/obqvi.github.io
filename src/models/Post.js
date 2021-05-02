@@ -72,5 +72,17 @@ export async function removeFromFavoritePost(favoritePostId) {
 export async function getLastShowingPosts(userId) {
     const builder = Backendless.DataQueryBuilder.create().setWhereClause(`userId = '${userId}'`);
     builder.setRelated(['postId']);
-    return lastShowingPostsCollection.find(builder);
+    return await lastShowingPostsCollection.find(builder);
+}
+
+export async function setAsLastShowingPost(postId, userId) {
+    return await lastShowingPostsCollection.save({ postId, userId });
+}
+
+export async function setRelationToLastShowingPost(lastShowingPostId, postId) {
+    const parentObject = { objectId: lastShowingPostId };
+    const childObject = { objectId: postId };
+    const children = [childObject];
+
+    return await lastShowingPostsCollection.setRelation(parentObject, 'postId', children);
 }
