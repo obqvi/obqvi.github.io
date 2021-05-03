@@ -54,9 +54,11 @@
 }
 
 .dark input.box:focus,
-.dark input.box:active {
-    color: inherit;
+.dark input.box:active,
+.dark input.box {
+    color: #fff;
     background-color: inherit;
+    outline: none;
 }
 
 .box ul li.active {
