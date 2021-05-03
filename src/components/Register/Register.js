@@ -50,7 +50,7 @@ export const Register = () => {
     }
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div style={{ minHeight: '100vh' }}>
 
             <div className="form box">
                 <title>Регистрация</title>

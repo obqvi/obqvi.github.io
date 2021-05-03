@@ -39,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh' }}>
+    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minminHeight: '100vh' }}>
       <Router basename="/">
         <UserContext.Provider value={{ user, setUser }}>
           <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
@@ -52,6 +52,7 @@ function App() {
               <Route exact path="/profile" component={Account} />
               <Route exact path="/profile/favorites" component={FavoritePosts} />
               <Route exact path="/profile/messages" component={Messages} />
+              <Route exact path="/profile/messages/:id" component={Messages} />
               <Route exact path="/profile/last-showing" component={LastShowingPosts} />
               <Route exact path="/create" component={CreatePost} />
               <Route exact path="/details/:id" component={PostDetails} />

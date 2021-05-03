@@ -15,7 +15,7 @@ export const Account = () => {
         <div className="flex">
             <Sidebar />
             <div className="p-2 col-md-8 row mx-auto box">
-                <div style={{ height: '100vh' }}>
+                <div style={{ minHeight: '100vh' }}>
                     <h4>Лична информация</h4>
                     <Router>
                         <ul className="col-md-6">

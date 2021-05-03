@@ -45,7 +45,7 @@ export const LastShowingPosts = () => {
             <Sidebar />
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             <div className="posts col-md-10">
-                <div style={{ height: '100vh' }}>
+                <div style={{ minHeight: '100vh' }}>
                     {
                         posts.length > 0 ?
                             <div className="text-center">

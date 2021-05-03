@@ -19,6 +19,7 @@ import {
 
 import { CreateComment } from '../Comment/CreateComment';
 import { CommentsList } from '../Comment/CommentsList';
+import { NavLink } from 'react-router-dom';
 
 export const PostDetails = () => {
 
@@ -29,7 +30,7 @@ export const PostDetails = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [selectedImagePath, setSelectedImagePath] = useState('');
     const [isFavoritePost, setIsFavoritePost] = useState(null);
-    const [isShowComments, setIsShowComments] = useState(true);
+    const [isShowComments, setIsShowComments] = useState(false);
 
     const { user } = useContext(UserContext);
 
@@ -131,13 +132,26 @@ export const PostDetails = () => {
                         <span>{post.price} {post.currency}</span>
                     </div>
                     <div className="btn-group">
-                        <button className="btn btn-primary p-1">Съобщение</button>
-                        <button disabled={isLoading} className="btn primary p-1" onClick={handleSetAsFavoritePost}>
-                            {isFavoritePost ? 'Изтрии от любими' : 'Добави в любими'}
+                        <NavLink to={`/profile/messages/${post.objectId}`} className="btn box p-1">
+                            <i className="fas fa-pen px-2"></i>
+                        Съобщение
+                        </NavLink>
+                        <button disabled={isLoading} className="btn box p-1" onClick={handleSetAsFavoritePost}>
+                            {isFavoritePost ? <div>
+                                <i className="fas fa-star px-2"></i>
+                                Изтрии от любими
+                            </div> :
+                                <div>
+                                    <i className="fas fa-star px-2"></i>
+                                Добави в любими
+                                </div>}
                         </button>
                         {
                             isOwner ?
-                                <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn btn-danger p-1">Изтрии</button> : ''
+                                <button disabled={isLoading} onClick={handleRemovePost} className="m-0 btn box p-1">
+                                    <i className="fas fa-times px-2"></i>
+                                    Изтрии
+                                </button> : ''
                         }
                     </div>
                 </div>
@@ -158,27 +172,25 @@ export const PostDetails = () => {
                         <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
                     </div> : ''}
                 <hr />
-                {commentsContext.length > 0 ?
-                    <button
+                <button
                     onClick={() => setIsShowComments(!isShowComments)}
-                    className="px-2 border" style={{ width: 'fit-content' }}>
-                        {commentsContext.length}
-                        {commentsContext.length === 1 ?
+                    className="px-2 border box" style={{ width: 'fit-content' }}>
+                    {commentsContext.length}
+                    {commentsContext.length === 1 ?
                         ' коментар' : ' коментара'}</button>
-                        : ''}
             </div>
             <div className="px-5">
-            <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
-                <CreateComment postId={post.objectId} />
-                {
-                    isShowComments ?
-                    <div className="px-2">
-                            <CommentsList postId={post.objectId} />
-                        </div>
-                        : ''
+                <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
+                    <CreateComment postId={post.objectId} />
+                    {
+                        isShowComments ?
+                            <div className="px-2">
+                                <CommentsList postId={post.objectId} />
+                            </div>
+                            : ''
                     }
-            </PostDetailsCommentsContext.Provider>
-                    </div>
+                </PostDetailsCommentsContext.Provider>
+            </div>
         </>
     )
 }

@@ -7,7 +7,6 @@
     padding: 10px 20px;
     border: none;
     border-radius: 7px;
-    color: #fff;
     margin: 20px;
 }
 
@@ -22,10 +21,6 @@
 
 .btn.primary {
     background-color: #0066ff;
-}
-
-.btn.primary:hover {
-    background-color: #fff;
 }
 
 .error {
@@ -57,7 +52,7 @@
 .dark input.box:active,
 .dark input.box {
     color: #fff;
-    background-color: inherit;
+    background-color: #222;
     outline: none;
 }
 
@@ -90,4 +85,8 @@ a {
 ul {
     list-style: none;
     padding: 0;
+}
+
+button {
+    background-color: #0066ff;
 }

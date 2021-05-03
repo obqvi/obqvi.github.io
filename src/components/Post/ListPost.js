@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
 import { CommentsList } from '../Comment/CommentsList';
@@ -12,11 +13,16 @@ export const ListPost = ({ post }) => {
 
     return (
         <div className="box single-post">
-            <div>
-                <img className="w-100" src={post.imagePaths.split(', ')[0]} alt="" />
-            </div>
+            <NavLink to={`/details/${post.objectId}`}>
+
+                <div onClick={() => history.push(`/details/${post.objectId}`)}>
+                    <img className="w-100" src={post.imagePaths.split(', ')[0]} alt="" />
+                </div>
+            </NavLink>
             <div className="p-4 pb-0">
-                <h5>{post.title}</h5>
+                <NavLink to={`/details/${post.objectId}`}>
+                    <h5>{post.title}</h5>
+                </NavLink>
                 <hr />
                 <h6>{post.city}</h6>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -27,13 +33,10 @@ export const ListPost = ({ post }) => {
                     <span>Състояние </span>
                     <span>{post.condition}</span>
                 </div>
-                <div className="text-center py-4" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h4 className="">{post.price} {post.currency}</h4>
-                    <button
-                        data-toggle="modal"
-                        data-target="#commentsModal"
-                        className="m-2 px-2 box border">Коментари</button>
-                    <button className="m-0 btn primary box" onClick={() => history.push(`/details/${post.objectId}`)}>Виж</button>
+                <div className="d-flex py-4">
+                    <button className="border-0 box" style={{ flex: 'auto' }}>Харесване </button>
+                    <button data-toggle="modal" data-target="#commentsModal" className="box border-0" style={{ flex: 'auto' }}>Коментари</button>
+                    <button className="border-0 box" onClick={() => history.push(`/details/${post.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
                 </div>
             </div>
 

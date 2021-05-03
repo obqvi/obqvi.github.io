@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
 import { createComment, setCommentRelationToUser, setCommentRelationToPost } from '../../models/Comment';
@@ -8,10 +9,7 @@ export const CreateComment = ({ postId }) => {
     const { user } = useContext(UserContext);
     const { commentsContext, setCommentContext } = useContext(PostDetailsCommentsContext);
     const [isValid, setIsValid] = useState(false);
-
-    useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-    });
+    const [isLoading, setIsLoading] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -19,14 +17,20 @@ export const CreateComment = ({ postId }) => {
         const formData = new FormData(event.target);
         const content = formData.get('content');
 
-        if(!isValid) {
+        if (!isValid) {
             return;
         }
 
+        setIsLoading(true);
         const data = await createComment({ content });
-
+        
         await setCommentRelationToUser(data.objectId, user.objectId);
         await setCommentRelationToPost(data.objectId, postId);
+
+        setIsLoading(false);
+
+        window.scrollTo(0, document.body.scrollHeight);
+        
         setCommentContext([
             {
                 content,
@@ -58,8 +62,12 @@ export const CreateComment = ({ postId }) => {
                     type="text" className="p-2 border-0 box" style={{ flex: 'auto' }}
                     placeholder="Напишете коментар..."
                     name="content" />
-                <button disabled={!isValid} type="submit" className="px-4 border bg-primary text-light">
-                    <i className="fa fa-paper-plane" aria-hidden="true"></i>
+                <button disabled={!isValid || isLoading} type="submit" className="px-4 border bg-primary text-light">
+                    {
+                        isLoading ?
+                            <Spinner animation="border" size="sm" /> :
+                            <i className="fa fa-paper-plane" aria-hidden="true"></i>
+                    }
                 </button>
             </form>
         </div>

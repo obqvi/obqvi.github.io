@@ -34,7 +34,7 @@ export const FavoritePosts = () => {
             <div className="d-flex">
                 <Sidebar />
                 <div className="posts col-md-10">
-                    <div style={{ height: '100vh' }}>
+                    <div style={{ minHeight: '100vh' }}>
                         {favoritePosts.length === 0 && !isLoading ?
                                 <h6 className="text-center box py-2">Няма любили продукти</h6>
                             : ''}

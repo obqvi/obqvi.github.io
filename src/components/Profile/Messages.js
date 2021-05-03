@@ -3,12 +3,15 @@ import { Sidebar } from './Sidebar';
 import { getAllMessagesByUserId } from '../../models/Message';
 import UserContext from '../../Context/UserContext';
 import { Spinner } from 'react-bootstrap';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { Send } from './Send';
 
 export const Messages = () => {
 
     const [messages, setMessages] = useState([]);
     const { user } = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
 
     useEffect(() => {
         let isSubscribed = true;
@@ -27,12 +30,12 @@ export const Messages = () => {
     }, [user?.objectId]);
 
     return (
-        <div className="flex p-0">
+        <div className="flex p-0" style={{ minHeight: '100vh' }}>
             <title>Съобщения</title>
             <Sidebar />
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             <div className="p-2 col-md-6 row mx-auto">
-                <div style={{ height: '100vh' }}>
+                <div>
                     <ul className="list-group">
                         {
                             messages.map((m) =>
@@ -46,6 +49,7 @@ export const Messages = () => {
                             )
                         }
                     </ul>
+                    {id ? <Send postId={id} setMessages={(msg) => setMessages([...messages, msg])} /> : ''}
                 </div>
             </div>
         </div>

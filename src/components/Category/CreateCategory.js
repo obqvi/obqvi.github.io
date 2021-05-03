@@ -41,7 +41,7 @@ export const CreateCategory = () => {
         <div className="flex">
             <title>Създаване на категория</title>
             <AdminNavigation />
-            <div className="text-center col-md-10" style={{ height: '100vh' }}>
+            <div className="text-center col-md-10" style={{ minHeight: '100vh' }}>
                 <form onSubmit={handleSubmit} className="box w-50 mx-auto p-5">
                 <h2>Създаване на категория</h2>
                     <input className="form-control box p-2 border" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />

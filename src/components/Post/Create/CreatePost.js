@@ -64,7 +64,7 @@ export const CreatePost = () => {
 
     return (
         <>
-            <div style={{ height: '100vh' }}>
+            <div style={{ minHeight: '100vh' }}>
                 <PostContext.Provider value={{ post, setPost }}>
                     {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
                 </PostContext.Provider>
