@@ -173,7 +173,7 @@ export const PostDetails = () => {
                 {
                     isShowComments ?
                     <div className="px-2">
-                            <CommentsList />
+                            <CommentsList postId={post.objectId} />
                         </div>
                         : ''
                     }

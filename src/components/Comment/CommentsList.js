@@ -1,13 +1,25 @@
 import React, { useContext, useEffect } from 'react'
 import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
+import { getAllCommentsByPostId } from '../../models/Comment';
 
-export const CommentsList = () => {
+export const CommentsList = ({ postId }) => {
 
-    const { commentsContext } = useContext(PostDetailsCommentsContext);
+    const { commentsContext, setCommentContext } = useContext(PostDetailsCommentsContext);
 
     useEffect(() => {
-        
-    }, []);
+        let isSubscribed = true;
+
+        async function get() {
+            const data = await getAllCommentsByPostId(postId);
+            if(isSubscribed) {
+                setCommentContext(data);
+            }
+        }
+
+        get();
+
+        return () => isSubscribed = false;
+    }, [postId, setCommentContext]);
 
     return (
         <div className="pb-5">

@@ -19,19 +19,23 @@ export const CreateComment = ({ postId }) => {
         const formData = new FormData(event.target);
         const content = formData.get('content');
 
+        if(!isValid) {
+            return;
+        }
+
         const data = await createComment({ content });
 
         await setCommentRelationToUser(data.objectId, user.objectId);
         await setCommentRelationToPost(data.objectId, postId);
         setCommentContext([
-            ...commentsContext,
             {
                 content,
                 created: Date.now(),
                 userId: {
                     username: user.username
                 }
-            }
+            },
+            ...commentsContext
         ]);
 
         event.target.content.focus();
