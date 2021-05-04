@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap';
 import UserContext from '../../../Context/UserContext';
 import { getSendedMessagesByUserId } from '../../../models/Message';
 import { Sidebar } from '../Sidebar'
@@ -28,10 +29,11 @@ export const SendedMessages = () => {
 
     return (
         <>
-            <title>Изпратени съообщения</title>
-            <div className="f-flex row">
+            <title>Изпратени съообщения - {user.username}</title>
+            <div className="flex">
                 <Sidebar />
-                <div className="mx-auto" style={{ maxWidth: '600px' }}>
+                {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
+                <div className="mx-auto" style={{ maxWidth: '600px', flex: 'auto' }}>
                     <ul className="list-group">
                         {
                             messages.map((msg) =>

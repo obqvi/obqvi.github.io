@@ -7,7 +7,7 @@ export const Sidebar = () => {
     const location = useLocation();
 
     return (
-        <div className="col-md-2 box" style={{ minWidth: '260px' }}>
+        <div className="col-md-2 box" style={{ minHeight: '100vh' }}>
             <h4 className="text-center">Дневник</h4>
             <hr />
             <ul style={{ width: '100%' }} className="list-group">

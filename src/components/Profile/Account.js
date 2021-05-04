@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { NavLink, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min'
 import ThemeContext from '../../Context/ThemeContext'
+import UserContext from '../../Context/UserContext'
 import { EmailEdit } from './EmailEdit'
 import { PasswordEdit } from './PasswordEdit'
 import { Sidebar } from './Sidebar'
@@ -10,9 +11,11 @@ import { UsernameEdit } from './UsernameEdit'
 export const Account = () => {
 
     const { themeContext, setThemeContext } = useContext(ThemeContext);
+    const { user } = useContext(UserContext);
 
     return (
         <div className="flex">
+            <title>Профил - {user.username}</title>
             <Sidebar />
             <div className="p-2 col-md-8 row mx-auto box">
                 <div style={{ minHeight: '100vh' }}>

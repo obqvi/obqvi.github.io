@@ -30,11 +30,10 @@ export const FavoritePosts = () => {
 
     return (
         <>
-            <title>Любими</title>
-            <div className="d-flex">
+            <title>Любими - {user.username}</title>
+            <div className="flex">
                 <Sidebar />
-                <div className="posts col-md-10">
-                    <div style={{ minHeight: '100vh' }}>
+                <div className="posts" style={{ flex: 'auto' }}>
                         {favoritePosts.length === 0 && !isLoading ?
                                 <h6 className="text-center box py-2">Няма любили продукти</h6>
                             : ''}
@@ -44,7 +43,6 @@ export const FavoritePosts = () => {
                                 <ListPost key={favoritePost.postId?.objectId} post={favoritePost?.postId} />
                             )
                         }
-                    </div>
                 </div>
             </div>
         </>
