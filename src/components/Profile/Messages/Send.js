@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { setRelationTo, send } from '../../models/Message';
+import { setRelationTo, send } from '../../../models/Message';
 
 export const Send = ({ postId, receiverId, senderId }) => {
     

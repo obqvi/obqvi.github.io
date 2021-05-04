@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Sidebar } from './Sidebar';
-import UserContext from '../../Context/UserContext';
+import { Sidebar } from '../Sidebar';
+import UserContext from '../../../Context/UserContext';
 import { Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { Send } from './Send';
-import { getPostById } from '../../models/Post';
+import { getPostById } from '../../../models/Post';
 
 export const PostMessages = () => {
 

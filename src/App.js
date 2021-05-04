@@ -16,11 +16,12 @@ import { AdminDashboard } from "./components/Admin/AdminDashboard";
 import Backendless from "backendless";
 import { CreateCategory } from "./components/Category/CreateCategory";
 import { FavoritePosts } from "./components/Profile/FavoritePosts";
-import { PostMessages } from "./components/Profile/PostMessages";
+import { PostMessages } from "./components/Profile/Messages/PostMessages";
 import { Account } from "./components/Profile/Account";
 import { LastShowingPosts } from "./components/Profile/LastShowingPosts";
 import ThemeContext from "./Context/ThemeContext";
-import { SendedMessages } from "./components/Profile/SendedMessages";
+import { SendedMessages } from "./components/Profile/Messages/SendedMessages";
+import { ReceivedMessages } from "./components/Profile/Messages/ReceivedMessages";
 
 function App() {
 
@@ -46,7 +47,6 @@ function App() {
           <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
             <Navigation />
             <Switch>
-              <Route exact path="/profile/messages-sended" component={SendedMessages} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Home} />
@@ -55,6 +55,8 @@ function App() {
               <Route exact path="/profile/favorites" component={FavoritePosts} />
               <Route exact path="/profile/messages/:postId" component={PostMessages} />
               <Route exact path="/profile/last-showing" component={LastShowingPosts} />
+              <Route exact path="/profile/messages-sended" component={SendedMessages} />
+              <Route exact path="/profile/messages-received" component={ReceivedMessages} />
               <Route exact path="/create" component={CreatePost} />
               <Route exact path="/details/:id" component={PostDetails} />
               <Route exact path="/admin/category/new" component={CreateCategory} />

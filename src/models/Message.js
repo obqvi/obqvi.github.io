@@ -28,6 +28,13 @@ export async function getSendedMessagesByUserId(senderId) {
     return await messageCollection.find(dataQuery);
 }
 
+export async function getReceivedMessagesByUserId(receiverId) {
+    const dataQuery = Backendless.DataQueryBuilder.create()
+        .setRelated(['receiverId', 'senderId', 'postId']);
+        dataQuery.setWhereClause(`receiverId = '${receiverId}'`);
+    return await messageCollection.find(dataQuery);
+}
+
 // export async function subscribeForChannel() {
 //     return await Backendless.Messaging.subscribe('chat');
 // }

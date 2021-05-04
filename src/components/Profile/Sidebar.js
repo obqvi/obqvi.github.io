@@ -23,7 +23,12 @@ export const Sidebar = () => {
                 </NavLink>
                 <NavLink to="/profile/messages-sended">
                     <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/messages-sended' ? 'active' : ''}`}>
-                        <span>Съобщения</span>
+                        <span>Изпратени съобщения</span>
+                    </li>
+                </NavLink>
+                <NavLink to="/profile/messages-received">
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/messages-received' ? 'active' : ''}`}>
+                        <span>Получени съобщения</span>
                     </li>
                 </NavLink>
                 <NavLink to="/profile/last-showing">

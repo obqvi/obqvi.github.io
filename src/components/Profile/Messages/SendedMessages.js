@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import UserContext from '../../Context/UserContext';
-import { getSendedMessagesByUserId } from '../../models/Message';
-import { Sidebar } from './Sidebar'
+import UserContext from '../../../Context/UserContext';
+import { getSendedMessagesByUserId } from '../../../models/Message';
+import { Sidebar } from '../Sidebar'
 
 export const SendedMessages = () => {
 
     const { user } = useContext(UserContext);
     const [messages, setMessages] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let isSubscribed = true;
         async function get() {
+            setIsLoading(true);
             const data = await getSendedMessagesByUserId(user?.objectId);
-            
-            console.log(data);
+
+            setIsLoading(false);
             if (isSubscribed) {
                 setMessages(data);
             }
@@ -37,6 +39,10 @@ export const SendedMessages = () => {
                                     <span>{msg.receiverId.username}</span>
                                     <p>{msg.content}</p>
                                 </li>)
+                        }
+                        {
+                            messages.length === 0 && !isLoading ?
+                                <div className="box text-center"><p>Няма изпратени съообщения</p></div> : ''
                         }
                     </ul>
                 </div>
