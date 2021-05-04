@@ -94,3 +94,7 @@ export async function removeRelationPostFromLastShowing(postId) {
 export async function removeListLastShowingPosts(userId) {
     return await lastShowingPostsCollection.bulkDelete(`userId = '${userId}'`);
 }
+
+export async function likePost(post) {
+    return await postCollection.save(post);
+}

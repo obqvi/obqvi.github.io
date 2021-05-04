@@ -11,7 +11,7 @@ export async function register(email, password, username) {
 }
 
 export async function login(email, password) {
-    return await Backendless.UserService.login(email, password, true);
+    return await Backendless.UserService.login(email, password, false);
 }
 
 export async function updateEmail(id, email) {

@@ -61,6 +61,14 @@
     background-color: #0066ff;
 }
 
+.liked {
+    color: #0066ff;
+}
+
+.dark .liked {
+    color: #0f0;
+}
+
 .spinner {
     position: absolute;
     left: 50%;
@@ -89,4 +97,12 @@ ul {
 
 button {
     background-color: #0066ff;
+}
+
+.dark button:hover {
+    background-color: #111;
+}
+
+button:hover {
+    background-color: #ccc;
 }

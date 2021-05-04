@@ -5,7 +5,7 @@ import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext
 import { CommentsList } from '../Comment/CommentsList';
 import { CreateComment } from '../Comment/CreateComment';
 
-export const ListPost = ({ post }) => {
+export const ListPost = ({ post, user }) => {
 
     const history = useHistory();
 
@@ -34,8 +34,7 @@ export const ListPost = ({ post }) => {
                     <span>{post.condition}</span>
                 </div>
                 <div className="d-flex py-4">
-                    <button className="border-0 box" style={{ flex: 'auto' }}>Харесване </button>
-                    <button data-toggle="modal" data-target="#commentsModal" className="box border-0" style={{ flex: 'auto' }}>Коментари</button>
+                    <button data-toggle="modal" data-target="#commentsModal" className="box border-0 py-2" style={{ flex: 'auto' }}>Коментари</button>
                     <button className="border-0 box" onClick={() => history.push(`/details/${post.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
                 </div>
             </div>

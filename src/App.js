@@ -16,10 +16,11 @@ import { AdminDashboard } from "./components/Admin/AdminDashboard";
 import Backendless from "backendless";
 import { CreateCategory } from "./components/Category/CreateCategory";
 import { FavoritePosts } from "./components/Profile/FavoritePosts";
-import { Messages } from "./components/Profile/Messages";
+import { PostMessages } from "./components/Profile/PostMessages";
 import { Account } from "./components/Profile/Account";
 import { LastShowingPosts } from "./components/Profile/LastShowingPosts";
 import ThemeContext from "./Context/ThemeContext";
+import { SendedMessages } from "./components/Profile/SendedMessages";
 
 function App() {
 
@@ -39,20 +40,20 @@ function App() {
   }, []);
 
   return (
-    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minminHeight: '100vh' }}>
+    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh' }}>
       <Router basename="/">
         <UserContext.Provider value={{ user, setUser }}>
           <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
             <Navigation />
             <Switch>
+              <Route exact path="/profile/messages-sended" component={SendedMessages} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Home} />
               <Route exact path="/admin" component={AdminDashboard} />
               <Route exact path="/profile" component={Account} />
               <Route exact path="/profile/favorites" component={FavoritePosts} />
-              <Route exact path="/profile/messages" component={Messages} />
-              <Route exact path="/profile/messages/:id" component={Messages} />
+              <Route exact path="/profile/messages/:postId" component={PostMessages} />
               <Route exact path="/profile/last-showing" component={LastShowingPosts} />
               <Route exact path="/create" component={CreatePost} />
               <Route exact path="/details/:id" component={PostDetails} />

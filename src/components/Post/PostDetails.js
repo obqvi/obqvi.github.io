@@ -132,10 +132,13 @@ export const PostDetails = () => {
                         <span>{post.price} {post.currency}</span>
                     </div>
                     <div className="btn-group">
-                        <NavLink to={`/profile/messages/${post.objectId}`} className="btn box p-1">
-                            <i className="fas fa-pen px-2"></i>
+                        {
+                            !isOwner ?
+                                <NavLink to={`/profile/messages/${post.objectId}`} className="btn box p-1">
+                                    <i className="fas fa-pen px-2"></i>
                         Съобщение
-                        </NavLink>
+                        </NavLink> : ''
+                        }
                         <button disabled={isLoading} className="btn box p-1" onClick={handleSetAsFavoritePost}>
                             {isFavoritePost ? <div>
                                 <i className="fas fa-star px-2"></i>

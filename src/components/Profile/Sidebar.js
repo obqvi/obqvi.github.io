@@ -21,8 +21,8 @@ export const Sidebar = () => {
                         <span>Любими</span>
                     </li>
                 </NavLink>
-                <NavLink to="/profile/messages">
-                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/messages' ? 'active' : ''}`}>
+                <NavLink to="/profile/messages-sended">
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/messages-sended' ? 'active' : ''}`}>
                         <span>Съобщения</span>
                     </li>
                 </NavLink>

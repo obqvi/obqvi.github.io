@@ -14,9 +14,17 @@ export async function setRelationTo(to, column, parentObject, childObject) {
     return await Backendless.Data.of(to).setRelation(parent, column, children);
 }
 
-export async function getAllMessagesByUserId(id) {
+export async function getReceiverdMessagesByUserId(id) {
     const dataQuery = Backendless.DataQueryBuilder.create()
-        .setRelated(['receiverId', 'senderId']);
+        .setRelated(['receiverId', 'senderId', 'postId']);
+        dataQuery.setWhereClause(`receiverId = '${id}'`);
+    return await messageCollection.find(dataQuery);
+}
+
+export async function getSendedMessagesByUserId(senderId) {
+    const dataQuery = Backendless.DataQueryBuilder.create()
+        .setRelated(['receiverId', 'senderId', 'postId']);
+        dataQuery.setWhereClause(`senderId = '${senderId}'`);
     return await messageCollection.find(dataQuery);
 }
 
