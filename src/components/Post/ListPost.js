@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
+import UserContext from '../../Context/UserContext';
+import { likePost } from '../../models/Post';
 import { CommentsList } from '../Comment/CommentsList';
 import { CreateComment } from '../Comment/CreateComment';
 
@@ -10,6 +12,32 @@ export const ListPost = ({ post }) => {
     const history = useHistory();
 
     const [commentsContext, setCommentContext] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+    const [likes, setLikes] = useState(post.likes || []);
+    const { user } = useContext(UserContext);
+
+    useEffect(() => {
+        setIsLiked(likes.some(x => x === user.objectId));
+    }, [isLiked, likes, user?.objectId]);
+
+    async function handleLikePost() {
+        let arr;
+
+        if (isLoading) return;
+
+        if (!likes.some(x => x === user.objectId)) {
+            arr = [...likes, user.objectId];
+            setLikes(arr);
+        } else {
+            arr = likes.filter(x => x !== user.objectId);
+            setLikes(arr);
+        }
+
+        setIsLoading(true);
+        await likePost({ ...post, likes: arr });
+        setIsLoading(false);
+    }
 
     return (
         <>
@@ -40,6 +68,7 @@ export const ListPost = ({ post }) => {
                             <div className="d-flex py-4">
                                 <button data-toggle="modal" data-target="#commentsModal" className="box border-0 py-2" style={{ flex: 'auto' }}>Коментари</button>
                                 <button className="border-0 box" onClick={() => history.push(`/details/${post.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
+                                <button className={`border-0 box ${isLiked ? 'liked' : ''}`} onClick={handleLikePost} style={{ flex: 'auto' }}>Харесване {likes.length}</button>
                             </div>
                         </div>
 
