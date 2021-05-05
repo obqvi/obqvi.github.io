@@ -20,6 +20,7 @@ import {
 import { CreateComment } from '../Comment/CreateComment';
 import { CommentsList } from '../Comment/CommentsList';
 import { NavLink } from 'react-router-dom';
+import { PostTools } from './PostTools';
 
 export const PostDetails = () => {
 
@@ -30,6 +31,7 @@ export const PostDetails = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [selectedImagePath, setSelectedImagePath] = useState('');
     const [isFavoritePost, setIsFavoritePost] = useState(null);
+    const [isDisableComments, setIsDisableComments] = useState(false);
 
     const { user } = useContext(UserContext);
 
@@ -37,6 +39,8 @@ export const PostDetails = () => {
 
     useEffect(() => {
         let isSubscribed = true;
+
+        setIsDisableComments(post.disableComments);
 
         async function get() {
             const data = await getPostById(id);
@@ -59,7 +63,7 @@ export const PostDetails = () => {
         get();
 
         return () => isSubscribed = false;
-    }, [id, user]);
+    }, [id, user, post.disableComments]);
 
     function handleChangeImagePath(path) {
         setSelectedImagePath(path);
@@ -155,6 +159,8 @@ export const PostDetails = () => {
                                     Изтрии
                                 </button> : ''
                         }
+                        {isOwner ?
+                            <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={post} /> : ''}
                     </div>
                 </div>
                 <div className="text-center col-md-4">
@@ -169,14 +175,17 @@ export const PostDetails = () => {
                             />
                         )}
                     </div>
-                    <div className="px-5" style={{ overflowY: 'scroll', maxHeight: '345px' }}>
-                        <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
-                            <CreateComment postId={post.objectId} />
-                            <div className="px-2">
-                                <CommentsList postId={post.objectId} />
-                            </div>
-                        </PostDetailsCommentsContext.Provider>
-                    </div>
+                    {
+                        !isDisableComments ?
+                            <div className="px-5" style={{ overflowY: 'scroll', maxHeight: '345px' }}>
+                                <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
+                                    <CreateComment postId={post.objectId} />
+                                    <div className="px-2">
+                                        <CommentsList postId={post.objectId} />
+                                    </div>
+                                </PostDetailsCommentsContext.Provider>
+                            </div> : ''
+                    }
                 </div>
                 {post.description ?
                     <div>

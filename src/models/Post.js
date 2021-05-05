@@ -29,7 +29,8 @@ export async function imageUpload(image, path) {
 }
 
 export async function getAllPosts() {
-    return await postCollection.find();
+    const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['userId']);
+    return await postCollection.find(builder);
 }
 
 export async function getPostById(id) {
@@ -96,5 +97,9 @@ export async function removeListLastShowingPosts(userId) {
 }
 
 export async function likePost(post) {
+    return await postCollection.save(post);
+}
+
+export async function disableComments(post) {
     return await postCollection.save(post);
 }

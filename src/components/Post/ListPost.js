@@ -6,20 +6,26 @@ import UserContext from '../../Context/UserContext';
 import { likePost } from '../../models/Post';
 import { CommentsList } from '../Comment/CommentsList';
 import { CreateComment } from '../Comment/CreateComment';
+import { PostTools } from './PostTools';
 
 export const ListPost = ({ post }) => {
 
     const history = useHistory();
 
     const [commentsContext, setCommentContext] = useState([]);
+    const { user } = useContext(UserContext);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(post.likes || []);
-    const { user } = useContext(UserContext);
+    const [isDisableComments, setIsDisableComments] = useState(false);
+    const [currentPost, setCurrentPost] = useState(post);
 
     useEffect(() => {
-        setIsLiked(likes.some(x => x === user.objectId));
-    }, [isLiked, likes, user?.objectId]);
+        setIsLiked(likes.some(x => x === user?.objectId));
+        setIsDisableComments(post.disableComments);
+        setCurrentPost(post);
+    }, [isLiked, likes, user?.objectId, post.isDisableComments, post]);
 
     async function handleLikePost() {
         let arr;
@@ -35,43 +41,47 @@ export const ListPost = ({ post }) => {
         }
 
         setIsLoading(true);
-        await likePost({ ...post, likes: arr });
+        await likePost({ ...currentPost, likes: arr });
         setIsLoading(false);
     }
 
     return (
         <>
             {
-                post ?
-
-                    <div className="box single-post">
-                        <NavLink to={`/details/${post.objectId}`}>
-
-                            <div onClick={() => history.push(`/details/${post.objectId}`)}>
-                                <img className="w-100" src={post.imagePaths.split(', ')[0]} alt="" />
+                currentPost ?
+                    <div className="box single-post" style={{ position: 'relative' }}>
+                        <div className="p-1 flex justify-content-between align-items-center">
+                            <h6>{currentPost.userId.username}</h6>
+                            <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={currentPost} />
+                        </div>
+                        <NavLink to={`/details/${currentPost.objectId}`}>
+                            <div onClick={() => history.push(`/details/${currentPost.objectId}`)}>
+                                <img className="w-100" src={currentPost.imagePaths.split(', ')[0]} alt="" />
                             </div>
                         </NavLink>
                         <div className="p-4 pb-0">
                             <NavLink to={`/details/${post.objectId}`}>
-                                <h5>{post.title}</h5>
+                                <h5>{currentPost.title}</h5>
                             </NavLink>
                             <hr />
-                            <h6>{post.city}</h6>
+                            <h6>{currentPost.city}</h6>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span>Публикувано</span>
-                                <span>{new Date(post.created).toLocaleDateString()}</span>
+                                <span>{new Date(currentPost.created).toLocaleDateString()}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span>Състояние </span>
-                                <span>{post.condition}</span>
+                                <span>{currentPost.condition}</span>
                             </div>
                             <div className="d-flex py-4">
-                                <button data-toggle="modal" data-target="#commentsModal" className="box border-0 py-2" style={{ flex: 'auto' }}>Коментари</button>
-                                <button className="border-0 box" onClick={() => history.push(`/details/${post.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
+                                {
+                                    !isDisableComments ?
+                                        <button data-toggle="modal" data-target="#commentsModal" className="box border-0 py-2" style={{ flex: 'auto' }}>Коментари</button> : ''
+                                }
+                                <button className="border-0 box" onClick={() => history.push(`/details/${currentPost.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
                                 <button className={`border-0 box ${isLiked ? 'liked' : ''}`} onClick={handleLikePost} style={{ flex: 'auto' }}>Харесване {likes.length}</button>
                             </div>
                         </div>
-
                         <div className="modal fade" id="commentsModal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div className="modal-dialog modal-dialog-centered" role="document">
                                 <div className="modal-content pb-0 box">
@@ -83,7 +93,7 @@ export const ListPost = ({ post }) => {
                                     </div>
                                     <div className="modal-body">
                                         <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
-                                            <CreateComment postId={post.objectId} />
+                                            <CreateComment postId={currentPost.objectId} />
                                             {commentsContext.length > 0 ?
                                                 <div
                                                     className="px-2">
