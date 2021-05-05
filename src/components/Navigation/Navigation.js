@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import UserContext from '../../Context/UserContext';
+import { logout } from '../../models/User';
 
 export const Navigation = () => {
 
@@ -8,8 +9,9 @@ export const Navigation = () => {
 
     const { user, setUser } = useContext(UserContext);
 
-    function handleLogout() {
+    async function handleLogout() {
         setUser(null);
+        await logout();
     }
 
     return (

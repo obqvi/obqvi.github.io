@@ -14,8 +14,16 @@
     .navbar,
     .navbar ul,
     .flex,
-    .d-flex {
+    .d-flex,
+    .row {
         display: block;
+        padding: 0;
+    }
+
+    .row .col-md-5,
+    .row .col-md-4,
+    .row .col-md-3 {
+        width: 100%;
         padding: 0;
     }
 }

@@ -11,7 +11,11 @@ export async function register(email, password, username) {
 }
 
 export async function login(email, password) {
-    return await Backendless.UserService.login(email, password, false);
+    return await Backendless.UserService.login(email, password, true);
+}
+
+export async function logout() {
+    return await Backendless.UserService.logout();
 }
 
 export async function updateEmail(id, email) {
