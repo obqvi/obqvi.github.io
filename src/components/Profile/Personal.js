@@ -1,15 +1,19 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import UserContext from '../../Context/UserContext';
 import { updatePersonalInfo, uploadImageUser } from '../../models/User';
 
 export const Personal = () => {
 
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [error, setError] = useState('');
     const [fileToShow, setFileToShow] = useState(null);
     const [file, setFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setFileToShow(user.url);
+    }, [setFileToShow, user.url]);
 
     function handleUpload(event) {
         event.preventDefault();
@@ -28,23 +32,34 @@ export const Personal = () => {
 
         try {
             setIsLoading(true);
-            
-            const uploaded = await uploadImageUser(file, fileToShow);
-            await updatePersonalInfo({
-                id: user.objectId,
-                phoneNumber,
-                city,
-                url: uploaded.fileURL
-            });
 
+            if(file) {
+                const uploaded = await uploadImageUser(file, fileToShow);
+                await updatePersonalInfo({
+                    id: user.objectId,
+                    phoneNumber,
+                    city,
+                    url: uploaded?.fileURL
+                });
+
+                setUser({ ...user, city, phoneNumber, url: uploaded?.fileURL });
+            } else {
+                await updatePersonalInfo({
+                    id: user.objectId,
+                    phoneNumber,
+                    city
+                });
+
+                setUser({ ...user, city, phoneNumber });
+            }
             setIsLoading(false);
         } catch (err) {
             console.log(err);
             setError(err.code);
+            setIsLoading(false);
         }
 
         event.target.reset();
-        
     }
 
     return (
@@ -61,9 +76,10 @@ export const Personal = () => {
             <div>
                 <label>Снимка: </label>
                 <input disabled={isLoading} onChange={handleUpload} className="form-control border p-2 box" name="file" type="file" />
-                <div className="mt-2" style={{ width: '100px', height: '100px' }}>
-                    <img className="w-100" src={fileToShow} alt="" />
-                </div>
+                {fileToShow ?
+                    <div className="mt-2" style={{ width: '100px', height: '100px' }}>
+                        <img className="w-100" src={fileToShow} alt="" />
+                    </div> : ''}
             </div>
             <button disabled={isLoading} className="btn primary">
                 {isLoading ? <Spinner animation="border" /> : 'Запази'}

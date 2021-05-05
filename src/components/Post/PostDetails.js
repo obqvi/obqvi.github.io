@@ -101,6 +101,7 @@ export const PostDetails = () => {
 
     return (
         <>
+        <title>{post?.title}</title>
             <div className="row m-5 mb-0 p-2 shadow box rounded">
                 {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
                 <div className="col-md-3 p-0">

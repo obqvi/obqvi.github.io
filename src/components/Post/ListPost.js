@@ -51,7 +51,7 @@ export const ListPost = ({ post }) => {
                 currentPost ?
                     <div className="box single-post" style={{ position: 'relative' }}>
                         <div className="p-1 flex justify-content-between align-items-center">
-                            <h6>{currentPost.userId.username}</h6>
+                            <h6>{currentPost.userId?.username}</h6>
                             <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={currentPost} />
                         </div>
                         <NavLink to={`/details/${currentPost.objectId}`}>
