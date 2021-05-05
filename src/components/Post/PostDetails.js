@@ -39,6 +39,8 @@ export const PostDetails = () => {
     useEffect(() => {
         let isSubscribed = true;
 
+        console.log(user);
+
         async function get() {
             const data = await getPostById(id);
             const favoritePost = await checkIsFavoritePostById(id);
@@ -60,7 +62,7 @@ export const PostDetails = () => {
         get();
 
         return () => isSubscribed = false;
-    }, [id, user?.objectId]);
+    }, [id, user]);
 
     function handleChangeImagePath(path) {
         setSelectedImagePath(path);

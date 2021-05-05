@@ -40,7 +40,7 @@ export const FavoritePosts = () => {
                         {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
                         {
                             favoritePosts.map(favoritePost =>
-                                <ListPost key={favoritePost.postId?.objectId} post={favoritePost?.postId} />
+                                <ListPost key={favoritePost.objectId} post={favoritePost?.postId} />
                             )
                         }
                 </div>

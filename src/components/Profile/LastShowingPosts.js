@@ -17,6 +17,8 @@ export const LastShowingPosts = () => {
         async function get() {
             const data = await getLastShowingPosts(user?.objectId);
 
+            console.log(data);
+
             if (isSubscribed) {
                 setPosts(data);
                 setIsLoading(false);

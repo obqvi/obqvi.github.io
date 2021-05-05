@@ -37,7 +37,7 @@ export const ReceivedMessages = () => {
                     {
                         messages.map((msg) =>
                             <li className="list-group-item box my-2" key={msg.objectId}>
-                                <span>{msg.receiverId.username}</span>
+                                <span>{msg.senderId.username}</span>
                                 <p>{msg.content}</p>
                             </li>)
                     }
