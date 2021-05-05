@@ -28,3 +28,7 @@ export async function setCommentRelationToPost(commentId, postId) {
 
     return await commentCollection.setRelation(parentObject, 'postId', children);
 }
+
+export async function removeComment(id) {
+    return await commentCollection.remove(id);
+}

@@ -33,9 +33,11 @@ export const CreateComment = ({ postId }) => {
         
         setCommentContext([
             {
+                objectId: data.objectId,
                 content,
                 created: Date.now(),
                 userId: {
+                    objectId: user.objectId,
                     username: user.username
                 }
             },
