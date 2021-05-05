@@ -38,3 +38,16 @@ export async function updatePassword(id, password) {
     user.objectId = id;
     return await Backendless.UserService.update(user);
 }
+
+export async function updatePersonalInfo(data) {
+    const user = new Backendless.User();
+    user.objectId = data.id;
+    user.city = data.city;
+    user.phoneNumber = data.phoneNumber;
+    user.url = data.url;
+    return await Backendless.UserService.update(user);
+}
+
+export async function uploadImageUser(file, url) {
+    return await Backendless.Files.upload(file, url, true);
+}

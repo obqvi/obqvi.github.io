@@ -1,10 +1,13 @@
 import React, { useContext } from 'react'
 import { NavLink, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router } from 'react-router-dom/cjs/react-router-dom.min'
+
 import ThemeContext from '../../Context/ThemeContext'
 import UserContext from '../../Context/UserContext'
+
 import { EmailEdit } from './EmailEdit'
 import { PasswordEdit } from './PasswordEdit'
+import { Personal } from './Personal'
 import { Sidebar } from './Sidebar'
 import { UsernameEdit } from './UsernameEdit'
 
@@ -56,6 +59,7 @@ export const Account = () => {
                                 <Route path="/profile/username/edit" component={UsernameEdit} />
                                 <Route path="/profile/email/edit" component={EmailEdit} />
                                 <Route path="/profile/password/edit" component={PasswordEdit} />
+                                <Route path="/profile/personal/edit" component={Personal} />
                             </Switch>
                         </div>
                     </Router>

@@ -78,8 +78,8 @@ export const ListPost = ({ post }) => {
                                     !isDisableComments ?
                                         <button data-toggle="modal" data-target="#commentsModal" className="box border-0 py-2" style={{ flex: 'auto' }}>Коментари</button> : ''
                                 }
-                                <button className="border-0 box" onClick={() => history.push(`/details/${currentPost.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
-                                <button className={`border-0 box ${isLiked ? 'liked' : ''}`} onClick={handleLikePost} style={{ flex: 'auto' }}>Харесване {likes.length}</button>
+                                <button className="border-0 box py-2" onClick={() => history.push(`/details/${currentPost.objectId}`)} style={{ flex: 'auto' }}>Виж</button>
+                                <button className={`border-0 box py-2 ${isLiked ? 'liked' : ''}`} onClick={handleLikePost} style={{ flex: 'auto' }}>Харесване {likes.length}</button>
                             </div>
                         </div>
                         <div className="modal fade" id="commentsModal" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

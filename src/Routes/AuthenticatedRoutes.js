@@ -2,8 +2,8 @@ import React from 'react';
 
 import { CreatePost } from '../components/Post/Create/CreatePost';
 import { Account } from '../components/Profile/Account';
-import { FavoritePosts } from '../components/Profile/FavoritePosts';
-import { LastShowingPosts } from '../components/Profile/LastShowingPosts';
+import { FavoritePosts } from '../components/Profile/Post/FavoritePosts';
+import { LastShowingPosts } from '../components/Profile//Post/LastShowingPosts';
 import { PostMessages } from '../components/Profile/Messages/PostMessages';
 import { ReceivedMessages } from '../components/Profile/Messages/ReceivedMessages';
 import { SendedMessages } from '../components/Profile/Messages/SendedMessages';

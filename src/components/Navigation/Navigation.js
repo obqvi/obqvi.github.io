@@ -44,7 +44,11 @@ export const Navigation = () => {
                     </li>
                     <li>
                         <NavLink to="/profile" className={location.pathname === '/profile' ? 'selected' : ''}>
-                            <i className="fas fa-grin"></i>
+                            {
+                                !user.url ?
+                                    <i className="fas fa-grin"></i> :
+                                    <img className="p-2 m-0" style={{ width: '50px', height: '50px', borderRadius: '25px' }} src={user.url} alt="" />
+                            }
                             <span>Здравейте, {user.username}</span>
                         </NavLink>
                     </li>

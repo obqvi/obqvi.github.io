@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import UserContext from '../../Context/UserContext';
-import { getFavoritePostsByUserId } from '../../models/Post';
-import { ListPost } from '../Post/ListPost';
-import { Sidebar } from './Sidebar';
+import UserContext from '../../../Context/UserContext';
+import { getFavoritePostsByUserId } from '../../../models/Post';
+import { ListPost } from '../../Post/ListPost';
+import { Sidebar } from '../Sidebar';
 
 export const FavoritePosts = () => {
 

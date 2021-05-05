@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
-import UserContext from '../../Context/UserContext';
-import { getLastShowingPosts, removeListLastShowingPosts } from '../../models/Post';
-import { ListPost } from '../Post/ListPost';
-import { Sidebar } from './Sidebar';
+import UserContext from '../../../Context/UserContext';
+import { getLastShowingPosts, removeListLastShowingPosts } from '../../../models/Post';
+import { ListPost } from '../../Post/ListPost';
+import { Sidebar } from '../Sidebar';
 
 export const LastShowingPosts = () => {
 
@@ -16,8 +16,6 @@ export const LastShowingPosts = () => {
 
         async function get() {
             const data = await getLastShowingPosts(user?.objectId);
-
-            console.log(data);
 
             if (isSubscribed) {
                 setPosts(data);

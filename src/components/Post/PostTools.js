@@ -15,14 +15,14 @@ export const PostTools = ({ post, isDisableComments, setIsDisableComments }) => 
     }
 
     return (
-        <div className="btn box p-1" style={{ position: 'relative', flex: 'auto' }}>
+        <div className="btn box m-0">
             <button className="box p-1 border-0" onClick={() => setIsOpen(!isOpen)} type="button">
                 ...
             </button>
             {isOpen ?
                 <ul className="box" style={{ position: 'absolute', right: '0', minWidth: '200px' }}>
                     <li>
-                        <button disabled={isLoading} onClick={handleDisableComments} className="box btn m-0 px-0 py-1">
+                        <button disabled={isLoading} onClick={handleDisableComments} className="box border-0 m-0 px-0 p-2">
                             {
                                 isDisableComments ?
                                 'Включване на коментари'
