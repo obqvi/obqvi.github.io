@@ -9,6 +9,7 @@ import { ReceivedMessages } from '../components/Profile/Messages/ReceivedMessage
 import { SendedMessages } from '../components/Profile/Messages/SendedMessages';
 import { Authenticated } from '../Guards/Authenticated';
 import { Create } from '../components/Event/Create';
+import { Details } from '../components/Event/Details';
 
 export const AuthenticatedRoutes = ({ user }) => {
     return (
@@ -21,6 +22,7 @@ export const AuthenticatedRoutes = ({ user }) => {
             <Authenticated exact path="/profile/messages-received" auth={Boolean(user)} component={ReceivedMessages} />
             <Authenticated exact path="/create" auth={Boolean(user)} component={CreatePost} />
             <Authenticated exact path="/event/create" auth={Boolean(user)} component={Create} />
+            <Authenticated exact path="/event/details/:id" auth={Boolean(user)} component={Details} />
         </>
     )
 }

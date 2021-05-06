@@ -1,12 +1,19 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import EventContext from '../../Context/EventContext';
 
-export const UploadImages = () => {
+export const UploadImages = ({ handleInput }) => {
 
     const [filesToShow, setFilesToShow] = useState([]);
     const [fileToShow, setFileToShow] = useState([]);
 
     const { eventContext, setEventContext } = useContext(EventContext);
+    
+    useEffect(() => {
+        if(!eventContext) return;
+
+        setFilesToShow(eventContext.fileUrls?.map(x => URL.createObjectURL(x)));
+        setFileToShow(URL.createObjectURL(eventContext?.cover));
+    }, [eventContext]);
 
     function handleUploadMultipleImages(event) {
         const files = event.target.files;
@@ -22,7 +29,7 @@ export const UploadImages = () => {
 
     function handleUpload(event) {
         const file = event.target.files[0];
-        console.log(file);
+        handleInput(file?.name);
         setFileToShow(URL.createObjectURL(file));
         setEventContext({ ...eventContext, cover: file });
     }
@@ -42,7 +49,7 @@ export const UploadImages = () => {
                 <div className="flex p-2 gap-2">
                     {
                         filesToShow?.map((f) =>
-                            <div key={f.name} style={{ width: '49%' }}>
+                            <div key={f} style={{ flex: 'auto' }}>
                                 <img style={{ width: '100%', height: '100%' }} src={f} alt="" />
                             </div>
                         )

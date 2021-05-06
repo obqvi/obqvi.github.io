@@ -6,9 +6,15 @@ export const CreateForm = ({ loadPreview }) => {
 
     const { eventContext, setEventContext } = useContext(EventContext);
     const [form, setForm] = useState();
+    const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
         setForm({ ...eventContext });
+        if(!eventContext?.cover) {
+            return setIsValid(false);
+        }
+
+        setIsValid(true);
     }, [setForm, eventContext]);
 
     async function handleSubmit(event) {
@@ -26,6 +32,15 @@ export const CreateForm = ({ loadPreview }) => {
         loadPreview();
     }
 
+    function handleInput(input) {
+        console.log(input);
+        if(String(input).length === 0 || !eventContext?.cover) {
+            return setIsValid(false);
+        }
+
+        setIsValid(true);
+    }
+
     return (
         <div className="form box">
             <title>Ново събитие</title>
@@ -35,7 +50,7 @@ export const CreateForm = ({ loadPreview }) => {
                     <form onSubmit={handleSubmit} className="p-2">
                         <div>
                             <label>Име на събитието</label>
-                            <input disabled={eventContext?.onPublish} defaultValue={form.title} autoFocus className="form-control box p-2 border" type="text" name="title" />
+                            <input onChange={(event) => handleInput(event.target.value)} disabled={eventContext?.onPublish} defaultValue={form.title} autoFocus className="form-control box p-2 border" type="text" name="title" />
                         </div>
                         <div className="flex gap-2">
                             <div className="mt-2" style={{ flex: 'auto' }}>
@@ -66,11 +81,11 @@ export const CreateForm = ({ loadPreview }) => {
                         </div>
                         <div className="mt-2" style={{ flex: 'auto' }}>
                             <label>Описание</label>
-                            <textarea disabled={eventContext?.onPublish} defaultValue={form.description} className="form-control box p-2 border" type="text" name="description"></textarea>
+                            <textarea disabled={eventContext?.onPublish} defaultValue={form.description} rows="10" className="form-control box p-2 border" type="text" name="description"></textarea>
                         </div>
-                        <UploadImages />
+                        <UploadImages handleInput={(input) => handleInput(input)} />
                         <div className="text-center">
-                            <button className="box btn primary">Напред</button>
+                            <button disabled={!isValid} className="box btn primary">Напред</button>
                         </div>
                     </form> : ''
             }

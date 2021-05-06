@@ -33,12 +33,15 @@ export const CreateButtonFixed = () => {
                 boxShadow: '2px 2px 10px #0007',
             }}>
                 <h4>Създаване</h4>
-                <div>
-                    <NavLink onClick={() => setIsOpen(false)} to="/create">Продавам продукт</NavLink>
-                </div>
-                <div>
-                    <NavLink onClick={() => setIsOpen(false)} to="/event/create">Ново събитие</NavLink>
-                </div>
+                <hr />
+                <ul className="list-group box">
+                    <li className="list-group-item box">
+                        <NavLink onClick={() => setIsOpen(false)} to="/create">Продавам продукт</NavLink>
+                    </li>
+                    <li className="list-group-item box">
+                        <NavLink onClick={() => setIsOpen(false)} to="/event/create">Ново събитие</NavLink>
+                    </li>
+                </ul>
             </div> : ''}
         </>
     )

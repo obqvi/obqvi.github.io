@@ -1,9 +1,11 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router';
 import { API_KEY, UPLOAD_PRESEND } from '../../configuration.cloudinary';
 import EventContext from '../../Context/EventContext';
+import UserContext from '../../Context/UserContext';
 import { createEvent } from '../../models/Event';
+import { setRelationTo } from '../../models/Message';
 import { CreateForm } from './CreateForm';
 import { Preview } from './Preview';
 
@@ -12,6 +14,7 @@ export const Create = () => {
     const [eventContext, setEventContext] = useState();
     const [isLoadPreview, setIsLoadPreview] = useState(false);
     const history = useHistory();
+    const { user } = useContext(UserContext);
 
     function loadPreview() {
         setIsLoadPreview(true);
@@ -22,7 +25,7 @@ export const Create = () => {
 
         let paths = [];
 
-        const images = [...eventContext.fileUrls || [], eventContext.cover];
+        const images = [...eventContext.fileUrls || [], eventContext?.cover];
 
         const uploaders = images.map(file => {
             const formData = new FormData();
@@ -39,19 +42,26 @@ export const Create = () => {
             });
         });
 
-        
+
         axios.all(uploaders)
-        .then(() => {
-                console.log(paths);
+            .then(async () => {
                 const lastPath = paths[paths.length - 1];
                 paths.splice(paths.length - 1, 1);
-                createEvent({
-                    ...eventContext,
+                const data = await createEvent({
+                    title: eventContext.title,
+                    start: eventContext.start,
+                    startHour: eventContext.startHour,
+                    end: eventContext.end,
+                    endHour: eventContext.endHour,
+                    confidentiality: eventContext.confidentiality,
+                    description: eventContext.description,
                     cover: lastPath,
                     fileUrls: paths
-                }).then(() => {
-                    history.push('/');
                 });
+
+                await setRelationTo('Event', 'userId', data.objectId, user.objectId);
+
+                history.push('/event/details/' + data.objectId);
             })
             .catch(err => {
                 console.log(err);

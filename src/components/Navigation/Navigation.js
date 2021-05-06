@@ -37,6 +37,12 @@ export const Navigation = () => {
                             : ''
                     }
                     <li>
+                        <NavLink to="/events" className={location.pathname === '/events' ? 'selected' : ''}>
+                        <i className="fas fa-user"></i>
+                            <span>Събития</span>
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/profile" className={location.pathname === '/profile' ? 'selected' : ''}>
                             {
                                 !user.url ?
