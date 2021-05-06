@@ -17,15 +17,15 @@ export const ListPost = ({ post }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
-    const [likes, setLikes] = useState(post.likes || []);
+    const [likes, setLikes] = useState(post?.likes || []);
     const [isDisableComments, setIsDisableComments] = useState(false);
     const [currentPost, setCurrentPost] = useState(post);
 
     useEffect(() => {
         setIsLiked(likes.some(x => x === user?.objectId));
-        setIsDisableComments(post.disableComments);
+        setIsDisableComments(post?.disableComments);
         setCurrentPost(post);
-    }, [isLiked, likes, user?.objectId, post.isDisableComments, post]);
+    }, [isLiked, likes, user?.objectId, post?.isDisableComments, post]);
 
     async function handleLikePost() {
         let arr;
@@ -50,8 +50,11 @@ export const ListPost = ({ post }) => {
             {
                 currentPost ?
                     <div className="box single-post" style={{ position: 'relative' }}>
-                        <div className="p-1 flex justify-content-between align-items-center">
-                            <h6>{currentPost.userId?.username}</h6>
+                        <div className="justify-content-between align-items-center" style={{ display: 'flex' }}>
+                            <div className="box align-items-center" style={{ display: 'flex' }}>
+                                <img className="mx-2" style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={currentPost.userId?.url} alt="" />
+                                <h6>{currentPost.userId?.username}</h6>
+                            </div>
                             <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={currentPost} />
                         </div>
                         <NavLink to={`/details/${currentPost.objectId}`}>

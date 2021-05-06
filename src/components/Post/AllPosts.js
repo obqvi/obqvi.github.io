@@ -2,22 +2,24 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import UserContext from '../../Context/UserContext';
 import { getAllPosts } from '../../models/Post';
+import { SortOptions } from '../Common/SortOptions';
 import { ListPost } from './ListPost';
 
 export const AllPosts = () => {
 
     const [posts, setPosts] = useState([]);
+    const [displayPosts, setDisplayPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
-        console.log(user);
         setIsLoading(true);
         getAllPosts()
             .then(data => {
                 if (isSubscribed) {
                     setPosts(data);
+                    setDisplayPosts(data);
                     setIsLoading(false);
                 }
             })
@@ -32,6 +34,7 @@ export const AllPosts = () => {
                     <Spinner animation="border" className="spinner" /> : ''
             }
             <div>
+                {displayPosts.length > 0 ? <SortOptions arr={displayPosts} setArr={(arr) => setPosts(arr)} /> : ''}
                 {
                     !isLoading && posts.length === 0 ?
                         <div className="box py-2">
