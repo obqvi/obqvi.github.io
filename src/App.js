@@ -12,6 +12,7 @@ import ThemeContext from "./Context/ThemeContext";
 import { GuestRoutes } from "./Routes/GuestRoutes";
 import { AuthenticatedRoutes } from "./Routes/AuthenticatedRoutes";
 import { AdministratorRoutes } from "./Routes/AdministratorRoutes";
+import { CreateButtonFixed } from "./components/Common/CreateButtonFixed";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
             </Switch>
           </ThemeContext.Provider>
         </UserContext.Provider>
+        <CreateButtonFixed />
       </Router>
     </div>
   );

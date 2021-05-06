@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import UserContext from '../../../Context/UserContext';
 import { getReceivedMessagesByUserId } from '../../../models/Message';
 import { SortOptions } from '../../Common/SortOptions';
@@ -41,7 +42,9 @@ export const ReceivedMessages = () => {
                     {
                         messages.map((msg) =>
                             <li className="list-group-item box my-2" key={msg.objectId}>
-                                <span>{msg.senderId.username} - {msg.postId.title}</span>
+                                <span>
+                                    <NavLink className="box text-primary" to={`/chat?` + msg.senderId?.objectId}>{msg.senderId.username}</NavLink> - <span>{msg.postId.title}</span>
+                                </span>
                                 <p>{msg.content}</p>
                             </li>)
                     }

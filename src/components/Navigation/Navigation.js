@@ -37,12 +37,6 @@ export const Navigation = () => {
                             : ''
                     }
                     <li>
-                        <NavLink to="/create" className={location.pathname === '/create' ? 'selected' : ''}>
-                            <i className="fas fa-user-plus"></i>
-                            <span>Създаване</span>
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink to="/profile" className={location.pathname === '/profile' ? 'selected' : ''}>
                             {
                                 !user.url ?

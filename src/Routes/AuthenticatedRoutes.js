@@ -19,6 +19,7 @@ export const AuthenticatedRoutes = ({ user }) => {
             <Authenticated exact path="/profile/messages-sended" auth={Boolean(user)} component={SendedMessages} />
             <Authenticated exact path="/profile/messages-received" auth={Boolean(user)} component={ReceivedMessages} />
             <Authenticated exact path="/create" auth={Boolean(user)} component={CreatePost} />
+            <Authenticated exact path="/chat/:id" auth={Boolean(user)} component={CreatePost} />
         </>
     )
 }
