@@ -7,7 +7,7 @@ import './Login.css';
 
 import { isEmail } from 'validator';
 import { login } from '../../models/User';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
 

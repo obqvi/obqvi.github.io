@@ -9,3 +9,7 @@ export async function createEvent(data) {
 export async function getEventById(id) {
     return await eventCollection.findById(id);
 }
+
+export async function getEvents() {
+    return await eventCollection.find();
+}

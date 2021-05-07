@@ -52,6 +52,7 @@ export const CommentsList = ({ postId }) => {
                                 className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
                     </li>
                 )}
+                {commentsContext.length === 0 ? <h6>Няма коментари</h6> : ''}
             </ul>
         </div>
     )

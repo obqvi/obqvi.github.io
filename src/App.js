@@ -47,8 +47,10 @@ function App() {
               <AdministratorRoutes user={user} />
             </Switch>
           </ThemeContext.Provider>
+          {user ?
+            <CreateButtonFixed />
+            : ''}
         </UserContext.Provider>
-        <CreateButtonFixed />
       </Router>
     </div>
   );
