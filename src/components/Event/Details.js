@@ -1,40 +1,80 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import UserContext from '../../Context/UserContext';
-import { getEventById } from '../../models/Event';
+import { getEventById, interestedEvent, removeEventById } from '../../models/Event';
 
 export const Details = () => {
 
     const [event, setEvent] = useState();
     const { id } = useParams();
     const [isLoading, setIsLoading] = useState(false);
+    const [isInterested, setIsInterested] = useState(false);
+    const [isFullContent, setIsFullContent] = useState(false);
     const { user } = useContext(UserContext);
+    const history = useHistory();
+    const [interestedUsers, setInterestedUsers] = useState([]);
 
     useEffect(() => {
         let isSubscribed = true;
 
         async function get() {
+            setIsLoading(true);
+            const data = await getEventById(id);
             if (isSubscribed) {
-                setIsLoading(true);
-                const data = await getEventById(id);
-                setIsLoading(false);
+                setInterestedUsers(data.interestedUsers || []);
                 setEvent(data);
+                setIsLoading(false);
             }
         }
 
         get();
 
         return () => isSubscribed = false;
-    }, [id]);
+    }, [id, user]);
+
+    async function handleRemoveEvent() {
+        if (window.confirm('Сигурен ли си, че искаш да изтриеш събитието?')) {
+            setIsLoading(true);
+            await removeEventById(event.objectId);
+            setIsLoading(false);
+            history.push('/events');
+        }
+    }
+
+    async function handleInterested() {
+        let arr = [...interestedUsers];
+
+        if (!isInterested) {
+            arr = [...event.interestedUsers, user.objectId];
+            setIsInterested(arr);
+            setIsInterested(true);
+        } else {
+            const i = arr.indexOf(user.objectId);
+            arr.splice(i, 1);
+            setIsInterested(false);
+        }
+
+        await interestedEvent({ ...event, interestedUsers: arr });
+        setIsLoading(false);
+    }
 
     return (
         <div>
             <title>{event?.title}</title>
             {
-                event || isLoading ?
+                !isLoading && event && user && interestedUsers ?
                     <div className="box m-2 p-2 mx-auto" style={{ maxWidth: '600px' }}>
-                        {event.cover ? <img style={{ width: '100%', flex: 'auto' }} src={URL.createObjectURL(event.cover)} alt="" /> : ''}
+                        {event.cover ? <img style={{ width: '100%', flex: 'auto' }} src={event.cover} alt="" /> : ''}
+                        <div className="flex mt-2 gap-2">
+                            <button onClick={handleInterested} className={`btn border-0 box p-1 m-0 ${isInterested ? 'primary' : ''}`}>
+                                <i className="fas fa-star"></i>
+                                <span className="mx-2">
+                                    {!isInterested ? 'Имам интерес' : 'Нямам интерес'}
+                                </span>
+                            </button>
+                            {user.objectId === event.userId?.objectId ? <button onClick={handleRemoveEvent} className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
+                        </div>
                         <h4 className="mt-2">{event.title}</h4>
                         <h6 className="row">
                             <div className="col-md-6">
@@ -48,27 +88,55 @@ export const Details = () => {
                         </h6>
                         <div>
                             <h4>Описание</h4>
-                            <p>{event.description}</p>
-                        </div>
-                        <div>
-                            <h4>Подробности</h4>
-                            <h6>
-                                <i className="fas fa-lock"></i>
-                                <span className="mx-2">{event.confidentiality}</span>
-                            </h6>
-                            <h6>
-                                <img style={{ width: '50px', height: '50px', borderRadius: '25px' }} src={user.url} alt="" />
-                            </h6>
-                        </div>
-                        <div>
-                            <h4>Снимки</h4>
                             {
-                                event?.fileUrls?.map((f) =>
-                                    <img key={f.name} className="w-50" src={URL.createObjectURL(f)} alt="" />)
+                                isFullContent ?
+                                    <div>
+                                        <div dangerouslySetInnerHTML={{ __html: event.description }} id="description"></div>
+                                        <a onClick={() => setIsFullContent(false)} href="#description">Покажи по-малко</a>
+                                    </div>
+                                    : <div>
+                                        <div dangerouslySetInnerHTML={{ __html: String(event.description).substring(0, 1000) + '...' }} id="description"></div>
+                                        <a onClick={() => setIsFullContent(true)} href="#description">Покажи цялото</a>
+                                    </div>
                             }
                         </div>
+                        <ul>
+                            <h4>Подробности</h4>
+                            <li>
+                                <i className="fas fa-lock"></i>
+                                <span className="mx-2">{event.confidentiality}</span>
+                            </li>
+                            <li>
+                                <i className="fas fa-user"></i>
+                                <span className="mx-2">Създадено от:</span>
+                                <img style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={event.userId?.url} alt="" />
+                                <span className="mx-2">{event.userId?.username}</span>
+                            </li>
+                            <li>
+                                <i className="fas fa-users"></i>
+                                <span className="mx-2">Имат интерес: </span>
+                                <span className="mx-2">{interestedUsers.length}</span>
+                                <button className="btn border-0 box p-1 m-0">Покажи</button>
+                            </li>
+                            <li>
+                                <div>
+                                    <i className="fas fa-map"></i>
+                                    <span className="mx-2">{event.location}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <i className="fas fa-dollar-sign"></i>
+                                    <span className="mx-2">{event.priceOfTicket}</span>
+                                </div>
+                            </li>
+                        </ul>
                         <div>
-                            <button className="btn btn-danger">Изтрии</button>
+                            {event.fileUrls?.length > 0 ? <h4>Снимки</h4> : ''}
+                            {
+                                event.fileUrls?.map((f) =>
+                                    <img key={f} className="w-50" src={f} alt="" />)
+                            }
                         </div>
                     </div>
                     : <Spinner animation="border" className="spinner" />

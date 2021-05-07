@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import EventContext from '../../Context/EventContext';
 import { UploadImages } from './UploadImages';
+import { Editor } from '@tinymce/tinymce-react';
 
 export const CreateForm = ({ loadPreview }) => {
 
@@ -10,7 +11,7 @@ export const CreateForm = ({ loadPreview }) => {
 
     useEffect(() => {
         setForm({ ...eventContext });
-        if(!eventContext?.cover) {
+        if (!eventContext?.cover) {
             return setIsValid(false);
         }
 
@@ -25,21 +26,36 @@ export const CreateForm = ({ loadPreview }) => {
         const startHour = formData.get('startHour');
         const end = formData.get('end');
         const endHour = formData.get('endHour');
-        const description = formData.get('description');
         const confidentiality = formData.get('confidentiality');
+        const priceOfTicket = formData.get('priceOfTicket') || 'Безплатно';
+        const location = formData.get('location');
 
-        setEventContext({ ...eventContext, title, start, startHour, end, endHour, confidentiality, description });
+        setEventContext({
+            ...eventContext,
+            title,
+            start,
+            startHour,
+            end,
+            endHour,
+            confidentiality,
+            priceOfTicket,
+            location,
+            description: editorRef.current.getContent()
+        });
+
         loadPreview();
     }
 
     function handleInput(input) {
         console.log(input);
-        if(String(input).length === 0 || !eventContext?.cover) {
+        if (String(input).length === 0 || !eventContext?.cover) {
             return setIsValid(false);
         }
 
         setIsValid(true);
     }
+
+    const editorRef = useRef(null);
 
     return (
         <div className="form box">
@@ -79,9 +95,26 @@ export const CreateForm = ({ loadPreview }) => {
                                 <option value="Само поканени">Само поканени</option>
                             </select>
                         </div>
-                        <div className="mt-2" style={{ flex: 'auto' }}>
+                        <div className="mt-2">
+                            <label>Цена на билет</label>
+                            <input disabled={eventContext?.onPublish} defaultValue={form.priceOfTicket} placeholder="Безплатно" className="form-control box p-2 border" type="text" name="priceOfTicket" />
+                        </div>
+                        <div className="mt-2">
+                            <label>Място на събитието</label>
+                            <input disabled={eventContext?.onPublish} defaultValue={form.location} className="form-control box p-2 border" type="text" name="location" />
+                        </div>
+                        <div className="mt-2">
                             <label>Описание</label>
-                            <textarea disabled={eventContext?.onPublish} defaultValue={form.description} rows="10" className="form-control box p-2 border" type="text" name="description"></textarea>
+                            <Editor
+                                onInit={(evt, editor) => editorRef.current = editor}
+                                initialValue={eventContext?.description}
+                                className="form-control box p-2 border"
+                                init={{
+                                    plugins: [
+                                        'advlist autolink lists link preview anchor'
+                                    ]
+                                }}
+                            />
                         </div>
                         <UploadImages handleInput={(input) => handleInput(input)} />
                         <div className="text-center">

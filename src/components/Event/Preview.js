@@ -30,26 +30,49 @@ export const Preview = ({ publish, cancel }) => {
                 <h6 className="row">
                     <div className="col-md-6">
                         <span>Начало на: </span>
-                        <p className="text-primary">{new Date(eventContext.start).toLocaleDateString()}{eventContext.startHour}</p>
+                        <p>{eventContext.start}, {eventContext.startHour}</p>
                     </div>
                     <div className="col-md-6">
                         <span>Край на: </span>
-                        <p className="text-primary">{new Date(eventContext.end).toLocaleDateString()}{eventContext.endHour}</p>
+                        <p>{eventContext.end}, {eventContext.endHour}</p>
                     </div>
                 </h6>
                 <div>
                     <h4>Описание</h4>
-                    <p>{eventContext.description}</p>
+                    <div dangerouslySetInnerHTML={{ __html: eventContext.description }}></div>
                 </div>
                 <div>
                     <h4>Подробности</h4>
-                    <h6>
-                        <i className="fas fa-lock"></i>
-                        <span className="mx-2">{eventContext.confidentiality}</span>
-                    </h6>
-                    <h6>
-                        <img style={{ width: '50px', height: '50px', borderRadius: '25px' }} src={user.url} alt="" />
-                    </h6>
+                    <ul>
+                        <li>
+                            <i className="fas fa-lock"></i>
+                            <span className="mx-2">{eventContext.confidentiality}</span>
+                        </li>
+                        <li>
+                            <i className="fas fa-user"></i>
+                            <span className="mx-2">Създадено от:</span>
+                            <img style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={user.url} alt="" />
+                            <span className="mx-2">{user.username}</span>
+                        </li>
+                        <li>
+                            <i className="fas fa-users"></i>
+                            <span className="mx-2">Имат интерес: </span>
+                            <span className="mx-2">1</span>
+                            <button className="btn border-0 box p-1 m-0">Покажи</button>
+                        </li>
+                        <li>
+                            <div>
+                                <i className="fas fa-map"></i>
+                                <span className="mx-2">{eventContext.location}</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <i className="fas fa-dollar-sign"></i>
+                                <span className="mx-2">{eventContext.priceOfTicket}</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <div>
                     <h4>Снимки</h4>

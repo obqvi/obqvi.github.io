@@ -47,6 +47,7 @@ export const Create = () => {
             .then(async () => {
                 const lastPath = paths[paths.length - 1];
                 paths.splice(paths.length - 1, 1);
+                console.log(paths);
                 const data = await createEvent({
                     title: eventContext.title,
                     start: eventContext.start,
@@ -55,6 +56,8 @@ export const Create = () => {
                     endHour: eventContext.endHour,
                     confidentiality: eventContext.confidentiality,
                     description: eventContext.description,
+                    location: eventContext.location,
+                    priceOfTicket: eventContext.priceOfTicket,
                     cover: lastPath,
                     fileUrls: paths
                 });
