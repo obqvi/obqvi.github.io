@@ -111,3 +111,10 @@ export async function likePost(post) {
 export async function disableComments(post) {
     return await postCollection.save(post);
 }
+
+export async function searchPostsByQuery(data) {
+    const queryBuilder = Backendless.DataQueryBuilder.create();
+    queryBuilder.addProperties(['objectId', 'title']);
+    queryBuilder.setWhereClause(`title LIKE '%${data}%'`);
+    return await postCollection.find(queryBuilder);
+}

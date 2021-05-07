@@ -7,8 +7,6 @@ export const Home = () => {
         <div className="row">
             <title>Начало</title>
             <div>
-                <h4 className="text-center">Продукти, които хората продават</h4>
-                <hr />
                 <AllPosts />
             </div>
             <div>

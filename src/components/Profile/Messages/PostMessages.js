@@ -50,7 +50,7 @@ export const PostMessages = () => {
                                     <h6>{post.city}</h6>
                                 </div>
                             </div>
-                            <Send postId={postId} receiverId={post.userId.objectId} senderId={user.objectId} />
+                            <Send postId={postId} receiverId={post.userId?.objectId} senderId={user?.objectId} />
                         </> : ''
                 }
             </div>

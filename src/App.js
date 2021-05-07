@@ -45,7 +45,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh' }}>
+    <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1400px' }}>
       {
         onLineUserConnection ?
           <Router basename="/">

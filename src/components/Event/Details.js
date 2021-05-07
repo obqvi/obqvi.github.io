@@ -92,7 +92,7 @@ export const Details = () => {
                             {
                                 isFullContent ?
                                     <div>
-                                        <div dangerouslySetInnerHTML={{ __html: event.description }} id="description"></div>
+                                        <div className="box" dangerouslySetInnerHTML={{ __html: event.description }} id="description"></div>
                                         <a onClick={() => setIsFullContent(false)} href="#description">Покажи по-малко</a>
                                     </div>
                                     : <div>

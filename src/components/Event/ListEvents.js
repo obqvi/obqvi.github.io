@@ -11,17 +11,19 @@ export const ListEvents = () => {
 
         async function get() {
             const data = await getEvents();
-            setEvents(data);
+            if(isSubscribed) {
+                setEvents(data);
+            }
         }
 
         get();
 
-        return () => isSubscribed;
+        return () => isSubscribed = false;
     });
 
     return (
         <div className="container mx-auto" style={{ maxWidth: '920px' }}>
-            <h4 className="text-center">Събития</h4>
+            <h4 className="text-center box">Събития</h4>
             {
                 events.length > 0 ?
                     <div className="flex gap-2">

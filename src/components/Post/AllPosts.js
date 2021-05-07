@@ -30,6 +30,8 @@ export const AllPosts = () => {
 
     return (
         <div className="posts">
+            <h4 className="text-center box">Продукти, които хората продават</h4>
+            <hr />
             {
                 isLoading ?
                     <Spinner animation="border" className="spinner" /> : ''

@@ -49,7 +49,7 @@ export const ListPost = ({ post }) => {
         <>
             {
                 currentPost ?
-                    <div className="box single-post" style={{ position: 'relative' }}>
+                    <div className="box single-post">
                         <div className="justify-content-between align-items-center" style={{ display: 'flex' }}>
                             <div className="box align-items-center" style={{ display: 'flex' }}>
                                 <img className="mx-2" style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={currentPost.userId?.url} alt="" />
