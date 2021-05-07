@@ -12,6 +12,7 @@ import { Create } from '../components/Event/Create';
 import { Details } from '../components/Event/Details';
 import { PostDetails } from '../components/Post/PostDetails';
 import { ListEvents } from '../components/Event/ListEvents';
+import { ListUserPosts } from '../components/Profile/Post/ListUserPosts';
 
 export const AuthenticatedRoutes = ({ user }) => {
     return (
@@ -22,6 +23,7 @@ export const AuthenticatedRoutes = ({ user }) => {
             <Authenticated exact path="/profile/last-showing" auth={Boolean(user)} component={LastShowingPosts} />
             <Authenticated exact path="/profile/messages-sended" auth={Boolean(user)} component={SendedMessages} />
             <Authenticated exact path="/profile/messages-received" auth={Boolean(user)} component={ReceivedMessages} />
+            <Authenticated exact path="/profile/products" auth={Boolean(user)} component={ListUserPosts} />
             <Authenticated exact path="/create" auth={Boolean(user)} component={CreatePost} />
             <Authenticated exact path="/event/create" auth={Boolean(user)} component={Create} />
             <Authenticated exact path="/event/details/:id" auth={Boolean(user)} component={Details} />

@@ -23,6 +23,7 @@ export const Details = () => {
             const data = await getEventById(id);
             if (isSubscribed) {
                 setInterestedUsers(data.interestedUsers || []);
+                setIsInterested(data.interestedUsers?.some(x => x === user.objectId));
                 setEvent(data);
                 setIsLoading(false);
             }
@@ -46,8 +47,7 @@ export const Details = () => {
         let arr = [...interestedUsers];
 
         if (!isInterested) {
-            arr = [...event.interestedUsers, user.objectId];
-            setIsInterested(arr);
+            arr = [...interestedUsers, user.objectId];
             setIsInterested(true);
         } else {
             const i = arr.indexOf(user.objectId);
@@ -56,6 +56,7 @@ export const Details = () => {
         }
 
         await interestedEvent({ ...event, interestedUsers: arr });
+        setInterestedUsers(arr);
         setIsLoading(false);
     }
 

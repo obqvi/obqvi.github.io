@@ -33,9 +33,15 @@ export async function getAllPosts() {
     return await postCollection.find(builder);
 }
 
+export async function getAllPostsByUserId(id) {
+    const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['userId']);
+    builder.setWhereClause(`userId = '${id}'`);
+    return await postCollection.find(builder);
+}
+
 export async function getPostById(id) {
     return await postCollection.findById(id, {
-        relations: ['userId', 'categoryId']
+        relations: ['categoryId']
     });
 }
 
