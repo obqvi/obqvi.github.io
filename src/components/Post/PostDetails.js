@@ -102,7 +102,7 @@ export const PostDetails = () => {
     return (
         <>
         <title>{post?.title}</title>
-            <div className="row m-5 mb-0 p-2 shadow box rounded">
+            <div className="row m-5 mx-auto mb-0 p-2 shadow box rounded" style={{ maxWidth: '1400px' }}>
                 {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
                 <div className="col-md-3 p-0">
                     <img className="w-100" style={{ minWidth: '200px', height: '345px' }} src={selectedImagePath} alt="" />

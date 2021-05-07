@@ -13,6 +13,7 @@ import { Details } from '../components/Event/Details';
 import { PostDetails } from '../components/Post/PostDetails';
 import { ListEvents } from '../components/Event/ListEvents';
 import { ListUserPosts } from '../components/Profile/Post/ListUserPosts';
+import { AllPosts } from '../components/Post/AllPosts';
 
 export const AuthenticatedRoutes = ({ user }) => {
     return (
@@ -29,6 +30,7 @@ export const AuthenticatedRoutes = ({ user }) => {
             <Authenticated exact path="/event/details/:id" auth={Boolean(user)} component={Details} />
             <Authenticated exact path="/details/:id" auth={Boolean(user)} component={PostDetails} />
             <Authenticated exact path="/events" auth={Boolean(user)} component={ListEvents} />
+            <Authenticated exact path="/products" auth={Boolean(user)} component={AllPosts} />
         </>
     )
 }

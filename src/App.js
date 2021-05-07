@@ -18,6 +18,7 @@ function App() {
 
   const [user, setUser] = useState(null);
   const [themeContext, setThemeContext] = useState(false);
+  const [onLineUserConnection, setOnLineUserConnection] = useState(true);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -28,30 +29,58 @@ function App() {
         }
       });
 
-    return () => isSubscribed = false;
+    function isConnected() {
+      setOnLineUserConnection(true);
+      window.location.reload();
+    }
+
+    window.addEventListener('online', isConnected);
+    window.addEventListener('offline', () => setOnLineUserConnection(false));
+
+    return () => {
+      isSubscribed = false;
+      window.removeEventListener('online', () => setOnLineUserConnection(true));
+      window.removeEventListener('offline', () => isConnected);
+    }
   }, []);
 
   return (
     <div className={`app ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh' }}>
-      <Router basename="/">
-        <UserContext.Provider value={{ user, setUser }}>
-          <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
-            <Navigation />
-            <Switch>
-              <GuestRoutes user={user} />
-            </Switch>
-            <Switch>
-              <AuthenticatedRoutes user={user} />
-            </Switch>
-            <Switch>
-              <AdministratorRoutes user={user} />
-            </Switch>
-          </ThemeContext.Provider>
-          {user ?
-            <CreateButtonFixed />
-            : ''}
-        </UserContext.Provider>
-      </Router>
+      {
+        onLineUserConnection ?
+          <Router basename="/">
+            <UserContext.Provider value={{ user, setUser }}>
+              <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
+                <Navigation />
+                <Switch>
+                  <GuestRoutes user={user} />
+                </Switch>
+                <Switch>
+                  <AuthenticatedRoutes user={user} />
+                </Switch>
+                <Switch>
+                  <AdministratorRoutes user={user} />
+                </Switch>
+              </ThemeContext.Provider>
+              {user ?
+                <CreateButtonFixed />
+                : ''}
+            </UserContext.Provider>
+          </Router>
+          :
+          <div>
+            <title>Няма интернет</title>
+            <h2 className="p-5 bg-danger text-center text-light">
+              <i className="fas fa-wifi mx-2"></i>
+            Няма интернет
+            </h2>
+            <div className="alert alert-danger text-center">
+              Моля, проверете интернет връзката си и опитайте отново!
+                <p>Когато интернет връзката ви дойде, сайта ще се презареди автоматично.</p>
+            </div>
+          </div>
+      }
+
     </div>
   );
 }

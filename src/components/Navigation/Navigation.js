@@ -15,7 +15,7 @@ export const Navigation = () => {
     }
 
     return (
-        <div className="navbar box">
+        <div className="navbar box mx-auto" style={{ maxWidth: '1400px' }}>
             <ul>
                 <li>
                     <NavLink to="/" className={location.pathname === '/' ? 'selected' : ''}>
@@ -38,8 +38,14 @@ export const Navigation = () => {
                     }
                     <li>
                         <NavLink to="/events" className={location.pathname === '/events' ? 'selected' : ''}>
-                        <i className="fas fa-user"></i>
+                            <i className="fas fa-user"></i>
                             <span>Събития</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/products" className={location.pathname === '/products' ? 'selected' : ''}>
+                            <i className="fas fa-user"></i>
+                            <span>Продукти</span>
                         </NavLink>
                     </li>
                     <li>

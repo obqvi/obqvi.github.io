@@ -30,6 +30,8 @@ export async function imageUpload(image, path) {
 
 export async function getAllPosts() {
     const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['userId']);
+    builder.setPageSize(2);
+    // builder.setOffset(2);
     return await postCollection.find(builder);
 }
 
