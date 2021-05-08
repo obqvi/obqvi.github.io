@@ -13,20 +13,11 @@ export async function getAllCommentsByPostId(postId) {
     return await commentCollection.find(builder);
 }
 
-export async function setCommentRelationToUser(commentId, userId) {
-    const parentObject = { objectId: commentId };
-    const childObject = { objectId: userId };
-    const children = [childObject];
-
-    return await commentCollection.setRelation(parentObject, 'userId', children);
-}
-
-export async function setCommentRelationToPost(commentId, postId) {
-    const parentObject = { objectId: commentId };
-    const childObject = { objectId: postId };
-    const children = [childObject];
-
-    return await commentCollection.setRelation(parentObject, 'postId', children);
+export async function getAllCommentsByEventId(eventId) {
+    const builder = Backendless.DataQueryBuilder.create().setWhereClause(`eventId = '${eventId}'`);
+    builder.setRelated(['userId']);
+    builder.setSortBy(['created DESC']);
+    return await commentCollection.find(builder);
 }
 
 export async function removeComment(id) {

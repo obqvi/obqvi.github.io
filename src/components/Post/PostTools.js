@@ -20,7 +20,7 @@ export const PostTools = ({ post, isDisableComments, setIsDisableComments }) => 
                 ...
             </button>
             {isOpen ?
-                <ul className="box" style={{ position: 'absolute', right: '0', minWidth: '200px' }}>
+                <ul className="box shadow" style={{ position: 'absolute', minWidth: '200px' }}>
                     <li>
                         <button disabled={isLoading} onClick={handleDisableComments} className="box border-0 m-0 px-0 p-2">
                             {

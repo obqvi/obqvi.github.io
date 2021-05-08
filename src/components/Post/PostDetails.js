@@ -3,7 +3,7 @@ import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 import UserContext from '../../Context/UserContext';
-import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
+import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 
 import {
     checkIsFavoritePostById,
@@ -44,6 +44,7 @@ export const PostDetails = () => {
 
         async function get() {
             const data = await getPostById(id);
+            console.log(data);
             const favoritePost = await checkIsFavoritePostById(id);
             const lastShowingPost = await setAsLastShowingPost(data.objectId, user?.objectId);
             await setRelationToLastShowingPost(lastShowingPost.objectId, data.objectId);
@@ -179,12 +180,12 @@ export const PostDetails = () => {
                     {
                         !isDisableComments ?
                             <div className="px-5" style={{ overflowY: 'scroll', maxHeight: '345px' }}>
-                                <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
+                                <EventPostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
                                     <CreateComment postId={post.objectId} />
                                     <div className="px-2">
                                         <CommentsList postId={post.objectId} />
                                     </div>
-                                </PostDetailsCommentsContext.Provider>
+                                </EventPostDetailsCommentsContext.Provider>
                             </div> : ''
                     }
                 </div>

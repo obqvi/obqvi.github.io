@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router';
+import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
 import { getEventById, interestedEvent, removeEventById } from '../../models/Event';
+import { CommentsList } from '../Comment/CommentsList';
+import { CreateComment } from '../Comment/CreateComment';
 
 export const Details = () => {
 
@@ -14,6 +17,7 @@ export const Details = () => {
     const { user } = useContext(UserContext);
     const history = useHistory();
     const [interestedUsers, setInterestedUsers] = useState([]);
+    const [commentsContext, setCommentContext] = useState([]);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -61,11 +65,11 @@ export const Details = () => {
     }
 
     return (
-        <div>
+        <div className="flex justify-content-center">
             <title>{event?.title}</title>
             {
                 !isLoading && event && user && interestedUsers ?
-                    <div className="box m-2 p-2 mx-auto" style={{ maxWidth: '600px' }}>
+                    <div className="box m-2 p-2" style={{ maxWidth: '600px' }}>
                         {event.cover ? <img style={{ width: '100%', flex: 'auto' }} src={event.cover} alt="" /> : ''}
                         <div className="flex mt-2 gap-2">
                             <button onClick={handleInterested} className={`btn border-0 box p-1 m-0 ${isInterested ? 'primary' : ''}`}>
@@ -142,6 +146,14 @@ export const Details = () => {
                     </div>
                     : <Spinner animation="border" className="spinner" />
             }
+            <div className="box text-center m-2" style={{ flex: 'auto', maxWidth: '600px' }}>
+                <EventPostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
+                    <div>
+                        <CreateComment eventId={event?.objectId} />
+                        <CommentsList eventId={event?.objectId} />
+                    </div>
+                </EventPostDetailsCommentsContext.Provider>
+            </div>
         </div>
     )
 }

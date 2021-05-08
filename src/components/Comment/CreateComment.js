@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
+import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
-import { createComment, setCommentRelationToUser, setCommentRelationToPost } from '../../models/Comment';
+import { createComment } from '../../models/Comment';
+import { setRelationTo } from '../../models/Common';
 
-export const CreateComment = ({ postId }) => {
+export const CreateComment = ({ postId, eventId }) => {
 
     const { user } = useContext(UserContext);
-    const { commentsContext, setCommentContext } = useContext(PostDetailsCommentsContext);
+    const { commentsContext, setCommentContext } = useContext(EventPostDetailsCommentsContext);
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,12 +25,15 @@ export const CreateComment = ({ postId }) => {
         setIsLoading(true);
         const data = await createComment({ content });
         
-        await setCommentRelationToUser(data.objectId, user.objectId);
-        await setCommentRelationToPost(data.objectId, postId);
-
+        if(postId) {
+            await setRelationTo(data.objectId, postId, 'postId', 'Comment');
+        }
+        if(eventId) {
+            await setRelationTo(data.objectId, eventId, 'eventId', 'Comment');
+        }
+        
+        await setRelationTo(data.objectId, user.objectId, 'userId', 'Comment');
         setIsLoading(false);
-
-        window.scrollTo(0, document.body.scrollHeight);
         
         setCommentContext([
             {

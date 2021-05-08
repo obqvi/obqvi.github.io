@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import PostDetailsCommentsContext from '../../Context/PostDetailsCommentsContext';
+import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
 import { likePost } from '../../models/Post';
 import { CommentsList } from '../Comment/CommentsList';
@@ -95,7 +95,7 @@ export const ListPost = ({ post }) => {
                                         </button>
                                     </div>
                                     <div className="modal-body">
-                                        <PostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
+                                        <EventPostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
                                             <CreateComment postId={currentPost.objectId} />
                                             {commentsContext.length > 0 ?
                                                 <div
@@ -109,7 +109,7 @@ export const ListPost = ({ post }) => {
                                                     <CommentsList postId={post.objectId} />
                                                 </div>
                                             }
-                                        </PostDetailsCommentsContext.Provider>
+                                        </EventPostDetailsCommentsContext.Provider>
                                     </div>
                                 </div>
                             </div>

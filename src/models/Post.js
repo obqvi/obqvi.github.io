@@ -43,7 +43,7 @@ export async function getAllPostsByUserId(id) {
 
 export async function getPostById(id) {
     return await postCollection.findById(id, {
-        relations: ['categoryId']
+        relations: ['categoryId', 'userId']
     });
 }
 
