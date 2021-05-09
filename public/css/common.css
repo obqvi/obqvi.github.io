@@ -107,3 +107,21 @@ button {
 button:hover {
     background-color: #ccc;
 }
+
+.window-alert {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 600ms forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        top: 60%;
+        opacity: 0;
+    }
+
+    to {
+        top: 50%;
+        opacity: 1;
+    }
+}

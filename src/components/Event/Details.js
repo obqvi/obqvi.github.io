@@ -3,11 +3,12 @@ import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router';
 import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
-import { addRelationTo, setRelationTo } from '../../models/Common';
-import { getEventById, interestedEvent, removeEventById, updateHistoryEvent } from '../../models/Event';
+import { addRelationTo, setRelationTo, delRelationTo } from '../../models/Common';
+import { getEventById, removeEventById, updateHistoryEvent } from '../../models/Event';
 import { setAsLastShowingEvent } from '../../models/Event';
 import { CommentsList } from '../Comment/CommentsList';
 import { CreateComment } from '../Comment/CreateComment';
+import { InterestedUsers } from './InterestedUsers';
 
 export const Details = () => {
 
@@ -17,6 +18,7 @@ export const Details = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isInterested, setIsInterested] = useState(false);
     const [isFullContent, setIsFullContent] = useState(false);
+    const [isShowInterestedUsers, setIsShowInterestedUsers] = useState(false);
     const { id } = useParams();
     const { user } = useContext(UserContext);
     const history = useHistory();
@@ -29,7 +31,7 @@ export const Details = () => {
                 setIsLoading(true);
                 const data = await getEventById(id);
                 setInterestedUsers(data.interestedUsers || []);
-                setIsInterested(data.interestedUsers?.some(x => x === user.objectId));
+                setIsInterested(data.interestedUsers?.some(x => x.objectId === user.objectId));
                 setEvent(data);
                 setIsLoading(false);
                 if (!data.previousEvents.some(x => x.eventId.objectId === data.objectId)) {
@@ -64,19 +66,25 @@ export const Details = () => {
         if (!isInterested) {
             arr = [...interestedUsers, user.objectId];
             setIsInterested(true);
+            await addRelationTo(event.objectId, user.objectId, 'interestedUsers', 'Events');
         } else {
             const i = arr.indexOf(user.objectId);
             arr.splice(i, 1);
             setIsInterested(false);
+            await delRelationTo(event.objectId, user.objectId, 'interestedUsers', 'Events');
         }
 
-        await interestedEvent({ ...event, interestedUsers: arr });
         setInterestedUsers(arr);
         setIsLoading(false);
     }
 
+    function handleShowInterestedUsers() {
+        setIsShowInterestedUsers(true);
+    }
+
     return (
         <div className="flex justify-content-center">
+            {isShowInterestedUsers ? <InterestedUsers users={interestedUsers} closeWindow={() => setIsShowInterestedUsers(false)} /> : ''}
             <title>{event?.title}</title>
             {
                 !isLoading && event && user && interestedUsers ?
@@ -132,7 +140,7 @@ export const Details = () => {
                                 <i className="fas fa-users"></i>
                                 <span className="mx-2">Имат интерес: </span>
                                 <span className="mx-2">{interestedUsers.length}</span>
-                                <button className="btn border-0 box p-1 m-0">Покажи</button>
+                                <button onClick={handleShowInterestedUsers} className="btn border-0 box p-1 m-0">Покажи</button>
                             </li>
                             <li>
                                 <div>

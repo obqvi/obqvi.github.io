@@ -23,7 +23,7 @@ export const CreateButtonFixed = () => {
             }}>
                 <i className="fas fa-plus"></i>
             </div>
-            {isOpen ? <div className="box text-center" style={{
+            {isOpen ? <div className="box text-center window-alert" style={{
                 position: 'fixed',
                 left: '50%',
                 top: '50%',
@@ -34,14 +34,15 @@ export const CreateButtonFixed = () => {
             }}>
                 <h4>Създаване</h4>
                 <hr />
-                <ul className="list-group box">
-                    <li className="list-group-item box">
+                <ul className="box">
+                    <li className="shadow p-4">
                         <NavLink onClick={() => setIsOpen(false)} to="/create">Продавам продукт</NavLink>
                     </li>
-                    <li className="list-group-item box">
+                    <li className="shadow p-4">
                         <NavLink onClick={() => setIsOpen(false)} to="/event/create">Ново събитие</NavLink>
                     </li>
                 </ul>
+                <button onClick={() => setIsOpen(false)} className="btn box border">Затвори</button>
             </div> : ''}
         </>
     )
