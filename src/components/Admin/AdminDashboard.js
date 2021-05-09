@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { ListCategories } from '../Category/ListCategories';
+import { AdminListCategories } from '../Category/AdminListCategories';
 import { AdminNavigation } from './AdminNavigation';
 
 export const AdminDashboard = () => {
@@ -14,7 +14,7 @@ export const AdminDashboard = () => {
             <title>Администрация</title>
             <AdminNavigation />
             <div className="col-md-10">
-                <ListCategories id={id} />
+                <AdminListCategories id={id} />
             </div>
         </div>
     )

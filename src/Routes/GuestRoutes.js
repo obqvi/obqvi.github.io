@@ -12,6 +12,7 @@ export const GuestRoutes = ({ user }) => {
             <Guest exact path="/register" auth={Boolean(user)} component={Register} />
             <Guest exact path="/login" auth={Boolean(user)} component={Login} />
             <Route exact path="/" component={Home} />
+            <Route exact path="/:id" component={Home} />
         </>
     )
 }

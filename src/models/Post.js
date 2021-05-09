@@ -69,6 +69,12 @@ export async function getFavoritePostsByUserId(userId) {
     return await favoritePostCollection.find(builder);
 }
 
+export async function getPostsByCategoryId(id) {
+    const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['categoryId', 'userId']);
+    builder.setWhereClause(`categoryId = '${id}'`);
+    return await postCollection.find(builder);
+}
+
 export async function checkIsFavoritePostById(postId) {
     const builder = Backendless.DataQueryBuilder.create().setWhereClause(`postId = '${postId}'`);
     return await favoritePostCollection.findFirst(builder);

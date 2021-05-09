@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import UserContext from '../../Context/UserContext';
-import { getAllPosts } from '../../models/Post';
+import { getAllPosts, getPostsByCategoryId } from '../../models/Post';
 import { SortOptions } from '../Common/SortOptions';
 import { ListPost } from './ListPost';
 
-export const AllPosts = () => {
+export const AllPosts = ({ categoryId }) => {
 
     const [posts, setPosts] = useState([]);
     const [displayPosts, setDisplayPosts] = useState([]);
@@ -15,18 +15,27 @@ export const AllPosts = () => {
 
     useEffect(() => {
         let isSubscribed = true;
-        setIsLoading(true);
-        getAllPosts()
-            .then(data => {
-                if (isSubscribed) {
-                    setPosts(data);
-                    setDisplayPosts(data);
-                    setIsLoading(false);
-                }
-            })
+        async function get() {
+            setIsLoading(true);
+            let data;
+
+            if(!categoryId) {
+                data = await getAllPosts();
+            } else {
+                data = await getPostsByCategoryId(categoryId);
+                console.log(data, categoryId);
+            }
+            if (isSubscribed) {
+                setPosts(data);
+                setDisplayPosts(data);
+                setIsLoading(false);
+            }
+        }
+
+        get();
 
         return () => isSubscribed = false;
-    }, [user]);
+    }, [user, categoryId]);
 
     return (
         <div className="posts">
