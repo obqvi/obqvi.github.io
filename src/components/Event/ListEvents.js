@@ -28,7 +28,7 @@ export const ListEvents = () => {
                 events.length > 0 ?
                     <div className="flex gap-2">
                         {events.map((event) =>
-                            <div key={event.objectId} className="box" style={{ flexBasis: '300px', maxWidth: '300px', borderRadius: '7px', overflow: 'hidden' }}>
+                            <div key={event.objectId} className="box" style={{ flexBasis: '320px', maxWidth: '320px', borderRadius: '7px', overflow: 'hidden' }}>
                                 <SingleEventList event={event} />
                             </div>
                         )}

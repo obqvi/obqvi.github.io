@@ -34,9 +34,9 @@ export const ListCategories = ({ id }) => {
         setIsLoading(true);
 
         const filteredCategories = categories.filter(x => x.objectId !== id);
-        
+
         setCategories(filteredCategories);
-        
+
         deleteCategoryById(id)
             .then(() => {
                 setIsLoading(false);
@@ -54,14 +54,17 @@ export const ListCategories = ({ id }) => {
                     {
                         categories.length > 0 ?
                             categories.map((category) =>
-                                <li style={{
+                                <li className="my-2" style={{
                                     textAlign: 'left',
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center'
                                 }} key={category.objectId}>
-                                    <NavLink to={`/admin/${category.objectId}`}>
-                                        {category.title}
+                                    <NavLink className="flex align-items-center" to={`/admin/${category.objectId}`}>
+                                        <div style={{ width: '40px', height: '40px' }}>
+                                            {category.url ? <img className="rounded-circle w-100 h-100" src={category?.url} alt="" /> : ''}
+                                        </div>
+                                        <span className="mx-2">{category.title}</span>
                                     </NavLink>
                                     <div>
                                         <NavLink to={`/admin/category/new/${category.objectId}`}>
