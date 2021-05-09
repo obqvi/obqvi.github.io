@@ -11,16 +11,17 @@ import {
     removeFromFavoritePost,
     removePostById,
     setAsFavoritePost,
-    setAsLastShowingPost,
     setRelationToPost,
-    setRelationToLastShowingPost,
-    removeRelationPostFromLastShowing
+    removeRelationPostFromLastShowing,
+    setAsLastShowingPost,
+    updateHistoryPosts
 } from '../../models/Post';
 
 import { CreateComment } from '../Comment/CreateComment';
 import { CommentsList } from '../Comment/CommentsList';
 import { NavLink } from 'react-router-dom';
 import { PostTools } from './PostTools';
+import { addRelationTo, setRelationTo } from '../../models/Common';
 
 export const PostDetails = () => {
 
@@ -39,32 +40,38 @@ export const PostDetails = () => {
 
     useEffect(() => {
         let isSubscribed = true;
-
-        setIsDisableComments(post.disableComments);
-
         async function get() {
-            const data = await getPostById(id);
-            console.log(data);
-            const favoritePost = await checkIsFavoritePostById(id);
-            const lastShowingPost = await setAsLastShowingPost(data.objectId, user?.objectId);
-            await setRelationToLastShowingPost(lastShowingPost.objectId, data.objectId);
-
-            if (favoritePost) {
-                setIsFavoritePost(favoritePost);
-            }
-
             if (isSubscribed) {
+                const data = await getPostById(id);
+                setIsDisableComments(data.disableComments);
                 setPost(data);
                 setIsLoading(false);
                 setIsOwner(data.userId?.objectId === user?.objectId);
                 setSelectedImagePath(data.imagePaths.split(', ')[0]);
+
+                const favoritePost = await checkIsFavoritePostById(id);
+
+                
+                if (!data.previousPosts.some(x => x.postId.objectId === data.objectId)) {
+                    const lastShowingPost = await setAsLastShowingPost(data.objectId, user.objectId);
+                    await setRelationTo(lastShowingPost.objectId, data.objectId, 'postId', 'historyPosts');
+                    await setRelationTo(lastShowingPost.objectId, user.objectId, 'userId', 'historyPosts');
+                    await addRelationTo(data.objectId, lastShowingPost.objectId, 'previousPosts', 'Post');
+                } else {
+                    console.log(data);
+                    const object = data.previousPosts.find(x => x.postId.objectId === data.objectId);
+                    await updateHistoryPosts(object.objectId, user.objectId);
+                }
+
+                if (favoritePost) {
+                    setIsFavoritePost(favoritePost);
+                }
             }
         }
 
         get();
-
         return () => isSubscribed = false;
-    }, [id, user, post.disableComments]);
+    }, [id, user.objectId]);
 
     function handleChangeImagePath(path) {
         setSelectedImagePath(path);
@@ -102,7 +109,7 @@ export const PostDetails = () => {
 
     return (
         <>
-        <title>{post?.title}</title>
+            <title>{post?.title}</title>
             <div className="row m-5 mx-auto mb-0 p-2 shadow box rounded" style={{ maxWidth: '1400px' }}>
                 {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
                 <div className="col-md-3 p-0">

@@ -3,7 +3,6 @@ import { Spinner } from 'react-bootstrap';
 import UserContext from '../../../Context/UserContext';
 import { getLastShowingPosts, removeListLastShowingPosts } from '../../../models/Post';
 import { ListPost } from '../../Post/ListPost';
-import { Sidebar } from '../Sidebar';
 
 export const LastShowingPosts = () => {
 
@@ -16,8 +15,6 @@ export const LastShowingPosts = () => {
 
         async function get() {
             const data = await getLastShowingPosts(user?.objectId);
-
-            console.log(data);
 
             if (isSubscribed) {
                 setPosts(data);
@@ -40,19 +37,15 @@ export const LastShowingPosts = () => {
     }
 
     return (
-        <div className="flex">
+        <>
             <title>Последно прегледани - {user.username}</title>
-            <Sidebar />
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-            <div className="posts col-md-10">
+            <div className="posts" style={{ flex: 'auto' }}>
                 {
                     posts.length > 0 ?
                         <div className="text-center">
                             <button onClick={handleRemoveListLastShowingPosts} className="btn btn-danger mb-0">Изчисти списъка</button>
-                        </div> : !isLoading ?
-                            <div className="box py-2">
-                                <h6 className="text-center">Няма продукти</h6>
-                            </div> : ''
+                        </div> : ''
                 }
                 {
                     posts.map(post =>
@@ -60,6 +53,6 @@ export const LastShowingPosts = () => {
                     )
                 }
             </div>
-        </div>
+        </>
     )
 }

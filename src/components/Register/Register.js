@@ -38,7 +38,7 @@ export const Register = () => {
         setSubmit(true);
 
         register(email, password, firstName + ' ' + lastName)
-            .then((registeredUser) => {
+            .then(async (registeredUser) => {
                 setUser(registeredUser);
                 history.push('/');
             })

@@ -24,7 +24,6 @@ export const CommentsList = ({ postId, eventId }) => {
                 const data = await getAllCommentsByEventId(eventId);
                 if (isSubscribed) {
                     setCommentContext(data);
-                    console.log(data);
                 }
             }
         }

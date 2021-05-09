@@ -33,12 +33,12 @@ export const Sidebar = () => {
                 </NavLink>
                 <NavLink to="/profile/last-showing">
                     <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/last-showing' ? 'active' : ''}`}>
-                        <span>Последно прегледани</span>
+                        <span>История</span>
                     </li>
                 </NavLink>
                 <NavLink to="/profile/products">
                     <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/products' ? 'active' : ''}`}>
-                        <span>Мой продукти</span>
+                        <span>Мои продукти</span>
                     </li>
                 </NavLink>
             </ul>

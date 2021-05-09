@@ -34,8 +34,7 @@ export const Login = () => {
 
         login(email, password)
             .then((loggedInUser) => {
-                console.log(loggedInUser);
-                setUser(loggedInUser);
+                setUser({ ...loggedInUser });
                 history.push('/');
             })
             .catch((err) => {

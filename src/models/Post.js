@@ -2,7 +2,7 @@ import Backendless from 'backendless';
 
 const postCollection = Backendless.Data.of('Post');
 const favoritePostCollection = Backendless.Data.of('FavoritePost');
-const lastShowingPostsCollection = Backendless.Data.of('LastShowingPosts');
+const historyPosts = Backendless.Data.of('historyPosts');
 
 export async function createPost(data) {
     return postCollection.save(data);
@@ -43,7 +43,7 @@ export async function getAllPostsByUserId(id) {
 
 export async function getPostById(id) {
     return await postCollection.findById(id, {
-        relations: ['categoryId', 'userId']
+        relations: ['categoryId', 'userId', 'previousPosts.postId']
     });
 }
 
@@ -80,12 +80,17 @@ export async function removeFromFavoritePost(favoritePostId) {
 
 export async function getLastShowingPosts(userId) {
     const builder = Backendless.DataQueryBuilder.create().setWhereClause(`userId = '${userId}'`);
+    builder.setSortBy(['updated DESC']);
     builder.setRelated(['postId']);
-    return await lastShowingPostsCollection.find(builder);
+    return await historyPosts.find(builder);
 }
 
 export async function setAsLastShowingPost(postId, userId) {
-    return await lastShowingPostsCollection.save({ postId, userId });
+    return await historyPosts.save({ postId, userId });
+}
+
+export async function updateHistoryPosts(objectId, userId) {
+    return await historyPosts.save({ objectId, userId });
 }
 
 export async function setRelationToLastShowingPost(lastShowingPostId, postId) {
@@ -93,15 +98,15 @@ export async function setRelationToLastShowingPost(lastShowingPostId, postId) {
     const childObject = { objectId: postId };
     const children = [childObject];
 
-    return await lastShowingPostsCollection.setRelation(parentObject, 'postId', children);
+    return await historyPosts.setRelation(parentObject, 'postId', children);
 }
 
 export async function removeRelationPostFromLastShowing(postId) {
-    return await lastShowingPostsCollection.bulkDelete(`postId = '${postId}'`);
+    return await historyPosts.bulkDelete(`postId = '${postId}'`);
 }
 
 export async function removeListLastShowingPosts(userId) {
-    return await lastShowingPostsCollection.bulkDelete(`userId = '${userId}'`);
+    return await historyPosts.bulkDelete(`userId = '${userId}'`);
 }
 
 export async function likePost(post) {

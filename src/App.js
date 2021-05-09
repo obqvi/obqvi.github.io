@@ -31,7 +31,6 @@ function App() {
 
     function isConnected() {
       setOnLineUserConnection(true);
-      window.location.reload();
     }
 
     window.addEventListener('online', isConnected);
@@ -45,30 +44,10 @@ function App() {
   }, []);
 
   return (
-    <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1400px' }}>
+    <>
       {
-        onLineUserConnection ?
-          <Router basename="/">
-            <UserContext.Provider value={{ user, setUser }}>
-              <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
-                <Navigation />
-                <Switch>
-                  <GuestRoutes user={user} />
-                </Switch>
-                <Switch>
-                  <AuthenticatedRoutes user={user} />
-                </Switch>
-                <Switch>
-                  <AdministratorRoutes user={user} />
-                </Switch>
-              </ThemeContext.Provider>
-              {user ?
-                <CreateButtonFixed />
-                : ''}
-            </UserContext.Provider>
-          </Router>
-          :
-          <div>
+        !onLineUserConnection ?
+          <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1400px', height: '100vh', zIndex: '1000' }}>
             <title>Няма интернет</title>
             <h2 className="p-5 bg-danger text-center text-light">
               <i className="fas fa-wifi mx-2"></i>
@@ -78,10 +57,31 @@ function App() {
               Моля, проверете интернет връзката си и опитайте отново!
                 <p>Когато интернет връзката ви дойде, сайта ще се презареди автоматично.</p>
             </div>
-          </div>
+          </div> : ''
       }
+      <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1400px' }}>
+        <Router basename="/">
+          <UserContext.Provider value={{ user, setUser }}>
+            <ThemeContext.Provider value={{ themeContext, setThemeContext }}>
+              <Navigation />
+              <Switch>
+                <GuestRoutes user={user} />
+              </Switch>
+              <Switch>
+                <AuthenticatedRoutes user={user} />
+              </Switch>
+              <Switch>
+                <AdministratorRoutes user={user} />
+              </Switch>
+            </ThemeContext.Provider>
+            {user ?
+              <CreateButtonFixed />
+              : ''}
+          </UserContext.Provider>
+        </Router>
 
-    </div>
+      </div>
+    </>
   );
 }
 

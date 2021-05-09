@@ -3,33 +3,44 @@ import { Spinner } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router';
 import EventPostDetailsCommentsContext from '../../Context/EventPostDetailsCommentsContext';
 import UserContext from '../../Context/UserContext';
-import { getEventById, interestedEvent, removeEventById } from '../../models/Event';
+import { addRelationTo, setRelationTo } from '../../models/Common';
+import { getEventById, interestedEvent, removeEventById, updateHistoryEvent } from '../../models/Event';
+import { setAsLastShowingEvent } from '../../models/Event';
 import { CommentsList } from '../Comment/CommentsList';
 import { CreateComment } from '../Comment/CreateComment';
 
 export const Details = () => {
 
     const [event, setEvent] = useState();
-    const { id } = useParams();
+    const [interestedUsers, setInterestedUsers] = useState([]);
+    const [commentsContext, setCommentContext] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isInterested, setIsInterested] = useState(false);
     const [isFullContent, setIsFullContent] = useState(false);
+    const { id } = useParams();
     const { user } = useContext(UserContext);
     const history = useHistory();
-    const [interestedUsers, setInterestedUsers] = useState([]);
-    const [commentsContext, setCommentContext] = useState([]);
 
     useEffect(() => {
         let isSubscribed = true;
 
         async function get() {
-            setIsLoading(true);
-            const data = await getEventById(id);
             if (isSubscribed) {
+                setIsLoading(true);
+                const data = await getEventById(id);
                 setInterestedUsers(data.interestedUsers || []);
                 setIsInterested(data.interestedUsers?.some(x => x === user.objectId));
                 setEvent(data);
                 setIsLoading(false);
+                if (!data.previousEvents.some(x => x.eventId.objectId === data.objectId)) {
+                    const lastShowingPost = await setAsLastShowingEvent(data.objectId, user.objectId);
+                    await setRelationTo(lastShowingPost.objectId, data.objectId, 'eventId', 'historyEvents');
+                    await setRelationTo(lastShowingPost.objectId, user.objectId, 'userId', 'historyEvents');
+                    await addRelationTo(data.objectId, lastShowingPost.objectId, 'previousEvents', 'Events');
+                } else {
+                    const object = data.previousEvents.find(x => x.eventId.objectId === data.objectId);
+                    await updateHistoryEvent(object.objectId, user.objectId);
+                }
             }
         }
 
