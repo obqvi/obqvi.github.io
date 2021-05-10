@@ -33,23 +33,23 @@ export const CreateCategory = () => {
         formDataUpload.append("file", file);
         formDataUpload.append("upload_preset", UPLOAD_PRESEND);
         formDataUpload.append("api_key", API_KEY);
-
-        return axios.post(`https://api.cloudinary.com/v1_1/damosyaq8/image/upload`, formDataUpload, {
-            headers: { "X-Requested-With": "XMLHttpRequest" },
-        }).then(async (res) => {
-            const category = await createCategory({ title, url: res.data.secure_url });
-
-            if (id) {
-                await setRelationTo(id, category.objectId);
-            }
-
-            setIsLoading(false);
-            event.target.title.focus();
-            event.target.title.value = '';
-            event.target.url.value = '';
-            setFileToShow('');
-            setFile('');
-        });
+        let path = '';
+        if (file) {
+            const res = await axios.post(`https://api.cloudinary.com/v1_1/damosyaq8/image/upload`, formDataUpload, {
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+            });
+            path = res.data.secure_url;
+        }
+        const category = await createCategory({ title, url: path });
+        if (id) {
+            await setRelationTo(category.objectId, id, 'categoryId', 'Category');
+        }
+        setIsLoading(false);
+        event.target.title.focus();
+        event.target.title.value = '';
+        event.target.url.value = '';
+        setFileToShow('');
+        setFile('');
     }
 
     return (
