@@ -19,6 +19,7 @@ export const Details = () => {
     const [isInterested, setIsInterested] = useState(false);
     const [isFullContent, setIsFullContent] = useState(false);
     const [isShowInterestedUsers, setIsShowInterestedUsers] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
     const { id } = useParams();
     const { user } = useContext(UserContext);
     const history = useHistory();
@@ -32,6 +33,7 @@ export const Details = () => {
                 const data = await getEventById(id);
                 setInterestedUsers(data.interestedUsers || []);
                 setIsInterested(data.interestedUsers?.some(x => x.objectId === user.objectId));
+                setIsLiked(data.likes?.some(x => x.objectId === user.objectId));
                 setEvent(data);
                 setIsLoading(false);
                 if (!data.previousEvents.some(x => x.eventId.objectId === data.objectId)) {
@@ -64,7 +66,7 @@ export const Details = () => {
         let arr = [...interestedUsers];
 
         if (!isInterested) {
-            arr = [...interestedUsers, user.objectId];
+            arr = [...interestedUsers, { objectId: user.objectId, url: user.url, username: user.username }];
             setIsInterested(true);
             await addRelationTo(event.objectId, user.objectId, 'interestedUsers', 'Events');
         } else {
@@ -82,6 +84,21 @@ export const Details = () => {
         setIsShowInterestedUsers(true);
     }
 
+    async function likeEvent() {
+        if (!event.likes?.some(x => x.objectId === user.objectId)) {
+            setEvent({ ...event, likes: [...event.likes, user] });
+            setIsLiked(true);
+            await addRelationTo(event.objectId, user.objectId, 'likes', 'Events');
+        } else {
+            let arr = [...event.likes];
+            const i = arr.findIndex(x => x.objectId === user.objectId);
+            arr.splice(i, 1);
+            setEvent({ ...event, likes: arr });
+            setIsLiked(false);
+            await delRelationTo(event.objectId, user.objectId, 'likes', 'Events');
+        }
+    }
+
     return (
         <div className="flex justify-content-center">
             {isShowInterestedUsers ? <InterestedUsers users={interestedUsers} closeWindow={() => setIsShowInterestedUsers(false)} /> : ''}
@@ -95,6 +112,12 @@ export const Details = () => {
                                 <i className="fas fa-star"></i>
                                 <span className="mx-2">
                                     {!isInterested ? 'Имам интерес' : 'Нямам интерес'}
+                                </span>
+                            </button>
+                            <button onClick={likeEvent} className={`btn border-0 box p-1 m-0 ${isLiked ? 'primary' : ''}`}>
+                                <i className="fas fa-thumbs-up"></i>
+                                <span className="mx-2">
+                                    {isLiked ? 'Не ми харесва' : 'Харесва ми'} {event.likes.length > 0 ? event.likes.length : ''}
                                 </span>
                             </button>
                             {user.objectId === event.userId?.objectId ? <button onClick={handleRemoveEvent} className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
