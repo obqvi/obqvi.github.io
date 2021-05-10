@@ -19,7 +19,9 @@ export const Details = () => {
     const [isInterested, setIsInterested] = useState(false);
     const [isFullContent, setIsFullContent] = useState(false);
     const [isShowInterestedUsers, setIsShowInterestedUsers] = useState(false);
+    const [isShowLikes, setIsShowLikes] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
+    const [isWillGo, setIsWillGo] = useState(false);
     const { id } = useParams();
     const { user } = useContext(UserContext);
     const history = useHistory();
@@ -34,6 +36,7 @@ export const Details = () => {
                 setInterestedUsers(data.interestedUsers || []);
                 setIsInterested(data.interestedUsers?.some(x => x.objectId === user.objectId));
                 setIsLiked(data.likes?.some(x => x.objectId === user.objectId));
+                setIsWillGo(data.willGoUsers?.some(x => x.objectId === user.objectId));
                 setEvent(data);
                 setIsLoading(false);
                 if (!data.previousEvents.some(x => x.eventId.objectId === data.objectId)) {
@@ -86,7 +89,7 @@ export const Details = () => {
 
     async function likeEvent() {
         if (!event.likes?.some(x => x.objectId === user.objectId)) {
-            setEvent({ ...event, likes: [...event.likes, user] });
+            setEvent({ ...event, likes: [user, ...event.likes] });
             setIsLiked(true);
             await addRelationTo(event.objectId, user.objectId, 'likes', 'Events');
         } else {
@@ -99,9 +102,18 @@ export const Details = () => {
         }
     }
 
+    async function handleWillGo() {
+        if (!event.willGoUsers?.some(x => x.objectId === user.objectId)) {
+            setEvent({ ...event, willGoUsers: [user, ...event.willGoUsers] });
+            setIsWillGo(true);
+            await addRelationTo(event.objectId, user.objectId, 'willGoUsers', 'Events');
+        }
+    }
+
     return (
         <div className="flex justify-content-center">
-            {isShowInterestedUsers ? <InterestedUsers users={interestedUsers} closeWindow={() => setIsShowInterestedUsers(false)} /> : ''}
+            {isShowInterestedUsers ? <InterestedUsers msg="Хора, които се интересуват от събитието" users={interestedUsers} closeWindow={() => setIsShowInterestedUsers(false)} /> : ''}
+            {isShowLikes ? <InterestedUsers msg="Харесвания" users={event.likes} closeWindow={() => setIsShowLikes(false)} /> : ''}
             <title>{event?.title}</title>
             {
                 !isLoading && event && user && interestedUsers ?
@@ -117,10 +129,21 @@ export const Details = () => {
                             <button onClick={likeEvent} className={`btn border-0 box p-1 m-0 ${isLiked ? 'primary' : ''}`}>
                                 <i className="fas fa-thumbs-up"></i>
                                 <span className="mx-2">
-                                    {isLiked ? 'Не ми харесва' : 'Харесва ми'} {event.likes.length > 0 ? event.likes.length : ''}
+                                    {isLiked ? 'Харесано' : 'Харесва ми'} {event.likes.length > 0 ? event.likes.length : ''}
+                                </span>
+                            </button>
+                            <button disabled={isWillGo} onClick={handleWillGo} className={`btn border-0 box p-1 m-0 ${isWillGo ? 'primary' : ''}`}>
+                                <i className="fas fa-check"></i>
+                                <span className="mx-2">
+                                    {isWillGo ? 'Записан' : 'Ще отида'} {event.willGoUsers.length > 0 ? event.willGoUsers.length : ''}
                                 </span>
                             </button>
                             {user.objectId === event.userId?.objectId ? <button onClick={handleRemoveEvent} className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
+                            <div>
+                                {event.likes.map(likedUser =>
+                                    <span className="mx-2">{likedUser.objectId === user.objectId ? 'Вие' : likedUser.username}</span>)}
+                                    <button onClick={() => setIsShowLikes(true)} className="btn m-0 px-2 box">Покажи</button>
+                            </div>
                         </div>
                         <h4 className="mt-2">{event.title}</h4>
                         <h6 className="row">

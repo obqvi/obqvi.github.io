@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 
-export const InterestedUsers = ({ users, closeWindow }) => {
+export const InterestedUsers = ({ msg, users, closeWindow }) => {
 
     useEffect(() => {
         console.log(users);
     });
 
     return (
-        <div className="window-alert box shadow" style={{ flex: 'auto', position: 'fixed' }}>
-            <h4 className="px-5 pt-4">Хора, които се интересуват от събитието</h4>
+        <div className="window-alert box shadow" style={{ minWidth: '400px', flex: 'auto', position: 'fixed' }}>
+            <h4 className="px-5 pt-4">{msg}</h4>
             <ul>
                 {
                     users.map(user =>

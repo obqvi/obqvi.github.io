@@ -29,7 +29,7 @@ export async function removeHistory(userId) {
 
 export async function getEventById(id) {
     return await eventCollection.findById(id, {
-        relations: ['userId', 'previousEvents.eventId', 'interestedUsers', 'likes']
+        relations: ['userId', 'previousEvents.eventId', 'interestedUsers', 'likes', 'willGoUsers']
     });
 }
 
