@@ -29,14 +29,6 @@ export function getAllSubCategoriesById(id) {
     return categoryCollection.find(queryBuilder);
 }
 
-export function setRelationCategoryToSelf(parentCategoryId, childCategiryId) {
-    const parentObject = { objectId: parentCategoryId };
-    const childObject = { objectId: childCategiryId };
-    const children = [childObject];
-
-    return Backendless.Data.of('Category').setRelation(parentObject, 'categoryId', children);
-}
-
 export function deleteCategoryById(id) {
     return categoryCollection.remove(id);
 }
