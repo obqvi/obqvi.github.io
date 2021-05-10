@@ -101,9 +101,9 @@ export const AdminListCategories = ({ id }) => {
                                         <NavLink to={`/admin/category/new/${category.objectId}`}>
                                             <i className="fas fa-plus mx-2"></i>
                                         </NavLink>
-                                        <span onClick={() => setEditingWindow(category)}>
+                                        <NavLink to="#" onClick={() => setEditingWindow(category)}>
                                             <i className="fas fa-pen mx-2"></i>
-                                        </span>
+                                        </NavLink>
                                         <i onClick={() => handleDeleteCategory(category.objectId)} className="mx-2 fas fa-plus text-danger"></i>
                                     </div>
                                 </li>

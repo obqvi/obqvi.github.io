@@ -12,6 +12,7 @@ export const AllPosts = ({ categoryId }) => {
     const [displayPosts, setDisplayPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useContext(UserContext);
+    const [pageNumber, setPageNumber] = useState(0);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -19,8 +20,10 @@ export const AllPosts = ({ categoryId }) => {
             setIsLoading(true);
             let data;
 
-            if(!categoryId) {
-                data = await getAllPosts();
+            
+            if (!categoryId) {
+                data = await getAllPosts(pageNumber);
+                console.log(data);
             } else {
                 data = await getPostsByCategoryId(categoryId);
                 console.log(data, categoryId);
@@ -35,7 +38,17 @@ export const AllPosts = ({ categoryId }) => {
         get();
 
         return () => isSubscribed = false;
-    }, [user, categoryId]);
+    }, [categoryId, pageNumber]);
+
+    function handleNext() {
+        setPageNumber(() => pageNumber + 1);
+        window.scroll(0, 100);
+    }
+
+    function handlePrev() {
+        setPageNumber(() => pageNumber - 1);
+        window.scroll(0, 100);
+    }
 
     return (
         <div className="posts">
@@ -65,6 +78,15 @@ export const AllPosts = ({ categoryId }) => {
                         <NavLink className="btn primary" to="/register">Регистранция</NavLink>
                     </div>
             }
+            <div className="text-center">
+                <button onClick={handlePrev} disabled={pageNumber === 0} className="btn m-2 py-2 px-4 border">
+                    <i className="fas fa-arrow-left"></i>
+                </button>
+                <label>{pageNumber + 1}</label>
+                <button onClick={handleNext} disabled={posts.length < 1} className="btn m-2 py-2 px-4 border">
+                    <i className="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     )
 }

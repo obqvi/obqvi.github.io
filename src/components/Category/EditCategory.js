@@ -7,9 +7,10 @@ import { updateCategory } from '../../models/Category';
 export const EditCategory = ({ category, setCategory, closeWindow }) => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState(category ? true : false);
     const [file, setFile] = useState('');
     const [fileToShow, setFileToShow] = useState('');
+    const [fileIsEditted, setFileIsEditted] = useState(false);
 
     useEffect(() => {
         setFileToShow(category?.url);
@@ -28,13 +29,14 @@ export const EditCategory = ({ category, setCategory, closeWindow }) => {
         formDataUpload.append("upload_preset", UPLOAD_PRESEND);
         formDataUpload.append("api_key", API_KEY);
         let path = '';
-        if (file) {
+        if (file && fileIsEditted) {
             const res = await axios.post(`https://api.cloudinary.com/v1_1/damosyaq8/image/upload`, formDataUpload, {
                 headers: { "X-Requested-With": "XMLHttpRequest" },
             });
             path = res.data.secure_url;
         }
-        await updateCategory({ objectId: category.objectId, title, url: path });
+
+        await updateCategory({ objectId: category.objectId, title, url: fileIsEditted ? path : fileToShow });
         setCategory({ objectId: category.objectId, title, url: path });
         setIsLoading(false);
         event.target.title.focus();
@@ -46,6 +48,7 @@ export const EditCategory = ({ category, setCategory, closeWindow }) => {
     }
 
     function handleUpload(event) {
+        setFileIsEditted(true);
         const file = event.target.files[0];
         setFile(file);
         setFileToShow(URL.createObjectURL(file));
@@ -55,8 +58,8 @@ export const EditCategory = ({ category, setCategory, closeWindow }) => {
         <div className="window-alert box shadow p-4" style={{ position: 'fixed' }}>
             <h4 className="text-center">Редактиране на категория</h4>
             <form onSubmit={handleSubmit} className="box mx-auto p-5">
-                <input className="form-control box p-2 border" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />
-                <input className="form-control box p-2 border my-2" type="file" onChange={handleUpload} name="url" />
+                <input defaultValue={category.title} className="form-control box p-2 border" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />
+                <input defaultValue={fileToShow} className="form-control box p-2 border my-2" type="file" onChange={handleUpload} name="url" />
                 <div>
                     {
                         fileToShow ?

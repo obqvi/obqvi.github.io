@@ -2,26 +2,24 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import PostContext from '../../../Context/PostContext';
-import { getAllCategories, getAllSubCategoriesById } from '../../../models/Category';
+import { getAllHatCategories, getAllSubCategoriesById } from '../../../models/Category';
 
 export const CreatePostCategoriesWindow = ({ nextStep }) => {
 
     const [categories, setCategories] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { post, setPost } = useContext(PostContext);
 
     useEffect(() => {
         let isSubscribed = true;
 
-        function get() {
+        async function get() {
             setIsLoading(true);
-            getAllCategories()
-                .then(data => {
-                    setIsLoading(false);
-                    if (isSubscribed) {
-                        setCategories(data);
-                    }
-                });
+            const data = await getAllHatCategories();
+            setIsLoading(false);
+            if (isSubscribed) {
+                setCategories(data);
+            }
         }
 
         get();
@@ -34,10 +32,10 @@ export const CreatePostCategoriesWindow = ({ nextStep }) => {
         getAllSubCategoriesById(id)
             .then((data) => {
                 setIsLoading(false);
-                if(data.length === 0) {
+                if (data.length === 0) {
                     return handleSelectCategory(id);
                 }
-                
+
                 setCategories(data);
             }).catch(err => console.log(err));
     }
@@ -54,13 +52,18 @@ export const CreatePostCategoriesWindow = ({ nextStep }) => {
                 {
                     !isLoading ?
                         categories.map((category) =>
-                        <li key={category.objectId}>
-                            <NavLink to="#" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} className="py-2" key={category.objectId}>
-                                <span onClick={() => handleSelectCategory(category.objectId)}>{category.title}</span>
-                                <i onClick={() => handleSubCategories(category.objectId)} className="fas fa-plus"></i>
-                            </NavLink>
-                        </li>
-                    ) : <Spinner animation="border" className="spinner" />
+                            <li key={category.objectId} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <NavLink to="#" className="py-2" key={category.objectId} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div className="mx-2" style={{ width: '40px', height: '40px' }}>
+                                        {category.url ? <img className="rounded-circle w-100 h-100" src={category?.url} alt="" /> : ''}
+                                    </div>
+                                    <span onClick={() => handleSelectCategory(category.objectId)}>{category.title}</span>
+                                </NavLink>
+                                <NavLink className="" to="#">
+                                    <i onClick={() => handleSubCategories(category.objectId)} className="fas fa-plus"></i>
+                                </NavLink>
+                            </li>
+                        ) : <Spinner animation="border" className="spinner" />
                 }
             </ul>
         </div>
