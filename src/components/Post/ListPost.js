@@ -55,7 +55,7 @@ export const ListPost = ({ post }) => {
                                 <img className="mx-2" style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={currentPost.userId?.url} alt="" />
                                 <h6>{currentPost.userId?.username}</h6>
                             </div>
-                            <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={currentPost} />
+                            {user.objectId === post.userId.objectId ? <PostTools isDisableComments={isDisableComments} setIsDisableComments={(c) => setIsDisableComments(c)} post={currentPost} /> : ''}
                         </div>
                         <NavLink to={`/details/${currentPost.objectId}`}>
                             <div onClick={() => history.push(`/details/${currentPost.objectId}`)}>

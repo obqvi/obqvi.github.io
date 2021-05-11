@@ -52,7 +52,7 @@ export const LastShowingEvents = () => {
             <div className="flex gap-2 justify-content-center">
                 {
                     events.map(event =>
-                        <div className="box" style={{ flex: 'auto',  maxWidth: '300px' }}>
+                        <div key={event.objectId} className="box" style={{ flex: 'auto',  maxWidth: '300px' }}>
                             <SingleEventList event={event.eventId} />
                         </div>
                     )

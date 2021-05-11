@@ -23,7 +23,8 @@ export const ListEvents = () => {
 
     return (
         <div className="container mx-auto">
-            <h4 className="text-center box">Събития</h4>
+            <title>Събития</title>
+            <h6 className="text-center box py-2">Събития</h6>
             {
                 events.length > 0 ?
                     <div className="flex gap-2">

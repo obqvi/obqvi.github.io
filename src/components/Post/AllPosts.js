@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { NavLink, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import UserContext from '../../Context/UserContext';
 import { getAllPosts, getPostsByCategoryId } from '../../models/Post';
 import { SortOptions } from '../Common/SortOptions';
@@ -13,6 +13,7 @@ export const AllPosts = ({ categoryId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useContext(UserContext);
     const [pageNumber, setPageNumber] = useState(0);
+    const { id } = useParams();
 
     useEffect(() => {
         let isSubscribed = true;
@@ -20,13 +21,14 @@ export const AllPosts = ({ categoryId }) => {
             setIsLoading(true);
             let data;
 
-            
-            if (!categoryId) {
-                data = await getAllPosts(pageNumber);
-                console.log(data);
+            if (!id) {
+                if (!categoryId) {
+                    data = await getAllPosts(pageNumber);
+                } else {
+                    data = await getPostsByCategoryId(categoryId);
+                }
             } else {
-                data = await getPostsByCategoryId(categoryId);
-                console.log(data, categoryId);
+                data = await getAllPosts(pageNumber, id);
             }
             if (isSubscribed) {
                 setPosts(data);
@@ -38,7 +40,7 @@ export const AllPosts = ({ categoryId }) => {
         get();
 
         return () => isSubscribed = false;
-    }, [categoryId, pageNumber]);
+    }, [categoryId, pageNumber, id]);
 
     function handleNext() {
         setPageNumber(() => pageNumber + 1);
@@ -52,7 +54,8 @@ export const AllPosts = ({ categoryId }) => {
 
     return (
         <div className="posts">
-            <h4 className="text-center box">Продукти, които хората продават</h4>
+            <title>Продукти {id ? ` - ${user.username}` : ''}</title>
+            <h6 className="text-center box py-2">Продукти, които хората продават</h6>
             <hr />
             {
                 isLoading ?

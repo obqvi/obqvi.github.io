@@ -21,11 +21,6 @@ function App() {
   const [onLineUserConnection, setOnLineUserConnection] = useState(true);
 
   useEffect(() => {
-    var bodyParts = new Backendless.Bodyparts();
-    bodyParts.textmessage = "Check out this awesome code generation result";
-    bodyParts.htmlmessage = "Check out this <b>awesome</b> code generation result";
-    var attachments = ["backendless-codegen.zip" ];
-    Backendless.Messaging.sendEmail('test sybject', bodyParts, ['krisikostadinov98@gmail.com'], attachments);
     let isSubscribed = true;
     Backendless.UserService.getCurrentUser()
       .then((user) => {

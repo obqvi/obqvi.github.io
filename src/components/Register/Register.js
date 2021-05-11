@@ -8,6 +8,7 @@ import './Register.css';
 
 import { register } from '../../models/User';
 import { useHistory } from 'react-router';
+import { createPerson } from '../../models/Person';
 
 export const Register = () => {
 
@@ -39,6 +40,7 @@ export const Register = () => {
 
         register(email, password, firstName + ' ' + lastName)
             .then(async (registeredUser) => {
+                await createPerson({ username: registeredUser.username });
                 setUser(registeredUser);
                 history.push('/');
             })

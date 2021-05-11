@@ -28,9 +28,14 @@ export async function imageUpload(image, path) {
     return await Backendless.Files.upload(image, path, true);
 }
 
-export async function getAllPosts(pageNumber) {
+export async function getAllPosts(pageNumber, userId) {
     const builder = Backendless.LoadRelationsQueryBuilder.create().setRelated(['userId']);
     builder.setPageSize(2).setOffset(pageNumber * 2).setSortBy('created desc');
+
+    if(userId) {
+        builder.setWhereClause(`userId = '${userId}'`);
+    }
+
     return await postCollection.find(builder);
 }
 

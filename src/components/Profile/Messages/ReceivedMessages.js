@@ -43,7 +43,7 @@ export const ReceivedMessages = () => {
                         messages.map((msg) =>
                             <li className="list-group-item box my-2" key={msg.objectId}>
                                 <span>
-                                    <NavLink className="box text-primary" to={`/chat?` + msg.senderId?.objectId}>{msg.senderId.username}</NavLink> - <span>{msg.postId.title}</span>
+                                    <NavLink className="box text-primary" to={`/chat/` + msg.senderId?.objectId}>{msg.senderId.username}</NavLink> - <span>{msg.postId.title}</span>
                                 </span>
                                 <p>{msg.content}</p>
                             </li>)
