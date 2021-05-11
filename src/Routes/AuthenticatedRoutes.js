@@ -14,6 +14,7 @@ import { ListEvents } from '../components/Event/ListEvents';
 import { ListUserPosts } from '../components/Profile/Post/ListUserPosts';
 import { AllPosts } from '../components/Post/AllPosts';
 import { History } from '../components/Profile/History';
+import { DoubleChatRoom } from '../components/Chat/DoubleChatRoom';
 import { AllUsers } from '../components/Profile/ChatRooms/AllUsers';
 import { Profile } from '../components/Profile/Profile';
 
@@ -36,6 +37,7 @@ export const AuthenticatedRoutes = ({ user }) => {
             <Authenticated exact path="/products/:id" auth={Boolean(user)} component={AllPosts} />
             <Authenticated exact path="/profile/users" auth={Boolean(user)} component={AllUsers} />
             <Authenticated exact path="/profile/:id" auth={Boolean(user)} component={Profile} />
+            <Authenticated exact path="/chat/:id" auth={Boolean(user)} component={DoubleChatRoom} />
         </>
     )
 }

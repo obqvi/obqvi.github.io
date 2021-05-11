@@ -7,7 +7,9 @@ export async function createPerson(data) {
 }
 
 export async function getAllPersons() {
+    const currentUserId = Backendless.UserService.currentUser.objectId;
     const builder = Backendless.DataQueryBuilder.create().setRelated(['user']);
+    builder.setWhereClause(`ownerId != '${currentUserId}'`);
     return await personCollection.find(builder);
 }
 

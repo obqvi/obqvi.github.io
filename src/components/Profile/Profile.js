@@ -33,7 +33,7 @@ export const Profile = () => {
                             <img className="border shadow rounded-circle" style={{ width: '200px', height: '200px' }} src={user?.user?.url} alt="" />
                             <h4>{user.user?.username}</h4>
                         </div>
-                        <div className="p-4">
+                        <div className="flex p-4">
                             <ul>
                                 <li>
                                     <span>Регистриран на: </span>
@@ -43,6 +43,11 @@ export const Profile = () => {
                                     <NavLink to={`/products/${user.user?.objectId}`}>Артикули за продажба</NavLink>
                                 </li>
                             </ul>
+                            <div className="mx-auto">
+                                <NavLink className="btn primary m-0" to={`/chat/${user.user?.objectId}`}>
+                                    <span>Съобщение</span>
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                     : ''

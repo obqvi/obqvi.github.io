@@ -141,7 +141,7 @@ export const Details = () => {
                             {user.objectId === event.userId?.objectId ? <button onClick={handleRemoveEvent} className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
                             <div>
                                 {event.likes.map(likedUser =>
-                                    <span className="mx-2">{likedUser.objectId === user.objectId ? 'Вие' : likedUser.username}</span>)}
+                                    <span key={likedUser.objectId} className="mx-2">{likedUser.objectId === user.objectId ? 'Вие' : likedUser.username}</span>)}
                                     <button onClick={() => setIsShowLikes(true)} className="btn m-0 px-2 box">Покажи</button>
                             </div>
                         </div>

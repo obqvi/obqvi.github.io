@@ -34,7 +34,3 @@ export async function getReceivedMessagesByUserId(receiverId) {
         dataQuery.setWhereClause(`receiverId = '${receiverId}'`);
     return await messageCollection.find(dataQuery);
 }
-
-// export async function subscribeForChannel() {
-//     return await Backendless.Messaging.subscribe('chat');
-// }
