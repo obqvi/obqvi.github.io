@@ -5,7 +5,7 @@ import { API_KEY, UPLOAD_PRESEND } from '../../configuration.cloudinary';
 import EventContext from '../../Context/EventContext';
 import UserContext from '../../Context/UserContext';
 import { createEvent } from '../../models/Event';
-import { setRelationTo } from '../../models/Message';
+import { setRelationTo } from '../../models/Common';
 import { CreateForm } from './CreateForm';
 import { Preview } from './Preview';
 

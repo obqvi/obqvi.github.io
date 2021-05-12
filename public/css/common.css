@@ -112,6 +112,7 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     animation: fadeIn 600ms forwards;
+    z-index: 200;
 }
 
 @keyframes fadeIn {
@@ -124,4 +125,8 @@ button:hover {
         top: 50%;
         opacity: 1;
     }
+}
+
+i {
+    width: 20px;
 }

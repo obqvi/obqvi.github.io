@@ -43,7 +43,7 @@ export const CommentsList = ({ postId, eventId }) => {
 
     return (
         <div className="pb-5">
-            <ul>
+            <ul style={{ textAlign: 'left' }}>
                 {commentsContext ? commentsContext.map((comment, i) =>
                     <li key={i} className="mt-2 p-2 box border">
                         <h6>

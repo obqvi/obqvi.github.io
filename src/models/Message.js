@@ -6,14 +6,6 @@ export async function send(data) {
     return await messageCollection.save(data);
 }
 
-export async function setRelationTo(to, column, parentObject, childObject) {
-    const parent = { objectId: parentObject };
-    const child = { objectId: childObject };
-    const children = [child];
-
-    return await Backendless.Data.of(to).setRelation(parent, column, children);
-}
-
 export async function getReceiverdMessagesByUserId(id) {
     const dataQuery = Backendless.DataQueryBuilder.create()
         .setRelated(['receiverId', 'senderId', 'postId']);

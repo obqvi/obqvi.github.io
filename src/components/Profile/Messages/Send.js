@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { setRelationTo, send } from '../../../models/Message';
+import { setRelationTo } from '../../../models/Common';
+import { send } from '../../../models/Message';
 
 export const Send = ({ postId, receiverId, senderId }) => {
-    
+
     const [isLoading, setIsLoading] = useState(false);
     const [isValid, setIsValid] = useState(false);
     const history = useHistory();
@@ -18,9 +19,11 @@ export const Send = ({ postId, receiverId, senderId }) => {
         setIsLoading(true);
         const data = await send({ content });
 
-        await setRelationTo('Message', 'postId', data.objectId, postId);
-        await setRelationTo('Message', 'senderId', data.objectId, senderId);
-        await setRelationTo('Message', 'receiverId', data.objectId, receiverId);
+        console.log(postId, senderId, receiverId);
+
+        await setRelationTo(data.objectId, postId, 'postId', 'Message');
+        await setRelationTo(data.objectId, senderId, 'senderId', 'Message');
+        await setRelationTo(data.objectId, receiverId, 'receiverId', 'Message');
 
         history.push('/profile/messages-sended');
 

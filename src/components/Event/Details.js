@@ -120,29 +120,37 @@ export const Details = () => {
                     <div className="box m-2 p-2" style={{ maxWidth: '600px' }}>
                         {event.cover ? <img style={{ width: '100%', flex: 'auto' }} src={event.cover} alt="" /> : ''}
                         <div className="flex mt-2 gap-2">
-                            <button onClick={handleInterested} className={`btn border-0 box p-1 m-0 ${isInterested ? 'primary' : ''}`}>
+                            <button style={{ flex: 'auto' }} onClick={handleInterested} className={`btn border-0 box p-1 m-0 ${isInterested ? 'primary' : ''}`}>
                                 <i className="fas fa-star"></i>
                                 <span className="mx-2">
                                     {!isInterested ? 'Имам интерес' : 'Нямам интерес'}
                                 </span>
                             </button>
-                            <button onClick={likeEvent} className={`btn border-0 box p-1 m-0 ${isLiked ? 'primary' : ''}`}>
+                            <button style={{ flex: 'auto' }} onClick={likeEvent} className={`btn border-0 box p-1 m-0 ${isLiked ? 'primary' : ''}`}>
                                 <i className="fas fa-thumbs-up"></i>
                                 <span className="mx-2">
                                     {isLiked ? 'Харесано' : 'Харесва ми'} {event.likes.length > 0 ? event.likes.length : ''}
                                 </span>
                             </button>
-                            <button disabled={isWillGo} onClick={handleWillGo} className={`btn border-0 box p-1 m-0 ${isWillGo ? 'primary' : ''}`}>
+                            <button style={{ flex: 'auto' }} disabled={isWillGo} onClick={handleWillGo} className={`btn border-0 box p-1 m-0 ${isWillGo ? 'primary' : ''}`}>
                                 <i className="fas fa-check"></i>
                                 <span className="mx-2">
                                     {isWillGo ? 'Записан' : 'Ще отида'} {event.willGoUsers.length > 0 ? event.willGoUsers.length : ''}
                                 </span>
                             </button>
                             {user.objectId === event.userId?.objectId ? <button onClick={handleRemoveEvent} className="btn box p-1 m-0 text-danger">Изтрии</button> : ''}
+                        </div>
+                        <div>
                             <div>
                                 {event.likes.map(likedUser =>
                                     <span key={likedUser.objectId} className="mx-2">{likedUser.objectId === user.objectId ? 'Вие' : likedUser.username}</span>)}
-                                    <button onClick={() => setIsShowLikes(true)} className="btn m-0 px-2 box">Покажи</button>
+                                <button onClick={() => setIsShowLikes(true)} className="btn border-0 box p-1 m-0">Покажи</button>
+                            </div>
+                            <div>
+                                <i className="fas fa-users"></i>
+                                <span className="mx-2">Имат интерес: </span>
+                                <span className="mx-2">{interestedUsers.length}</span>
+                                <button onClick={handleShowInterestedUsers} className="btn border-0 box p-1 m-0">Покажи</button>
                             </div>
                         </div>
                         <h4 className="mt-2">{event.title}</h4>
@@ -181,12 +189,6 @@ export const Details = () => {
                                 <span className="mx-2">Създадено от:</span>
                                 <img style={{ width: '40px', height: '40px', borderRadius: '25px' }} src={event.userId?.url} alt="" />
                                 <span className="mx-2">{event.userId?.username}</span>
-                            </li>
-                            <li>
-                                <i className="fas fa-users"></i>
-                                <span className="mx-2">Имат интерес: </span>
-                                <span className="mx-2">{interestedUsers.length}</span>
-                                <button onClick={handleShowInterestedUsers} className="btn border-0 box p-1 m-0">Покажи</button>
                             </li>
                             <li>
                                 <div>
