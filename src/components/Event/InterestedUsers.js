@@ -7,7 +7,7 @@ export const InterestedUsers = ({ msg, users, closeWindow }) => {
     });
 
     return (
-        <div className="window-alert box shadow" style={{ minWidth: '400px', flex: 'auto', position: 'fixed' }}>
+        <div className="window-alert box shadow" style={{ minWidth: '400px', maxHeight: '400px', overflowY: 'scroll', flex: 'auto', position: 'fixed' }}>
             <h4 className="px-5 pt-4">{msg}</h4>
             <ul>
                 {

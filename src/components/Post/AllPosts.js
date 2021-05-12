@@ -28,7 +28,11 @@ export const AllPosts = ({ categoryId }) => {
                     data = await getPostsByCategoryId(categoryId);
                 }
             } else {
-                data = await getAllPosts(pageNumber, id);
+                if(id === categoryId) {
+                    data = await getPostsByCategoryId(categoryId);
+                } else {
+                    data = await getAllPosts(pageNumber, id);
+                }
             }
             if (isSubscribed) {
                 setPosts(data);

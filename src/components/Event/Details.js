@@ -20,6 +20,7 @@ export const Details = () => {
     const [isFullContent, setIsFullContent] = useState(false);
     const [isShowInterestedUsers, setIsShowInterestedUsers] = useState(false);
     const [isShowLikes, setIsShowLikes] = useState(false);
+    const [isShowUsersGo, setIsShowUsersGo] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isWillGo, setIsWillGo] = useState(false);
     const { id } = useParams();
@@ -83,10 +84,6 @@ export const Details = () => {
         setIsLoading(false);
     }
 
-    function handleShowInterestedUsers() {
-        setIsShowInterestedUsers(true);
-    }
-
     async function likeEvent() {
         if (!event.likes?.some(x => x.objectId === user.objectId)) {
             setEvent({ ...event, likes: [user, ...event.likes] });
@@ -114,6 +111,7 @@ export const Details = () => {
         <div className="flex justify-content-center">
             {isShowInterestedUsers ? <InterestedUsers msg="Хора, които се интересуват от събитието" users={interestedUsers} closeWindow={() => setIsShowInterestedUsers(false)} /> : ''}
             {isShowLikes ? <InterestedUsers msg="Харесвания" users={event.likes} closeWindow={() => setIsShowLikes(false)} /> : ''}
+            {isShowUsersGo ? <InterestedUsers msg="Хора, които ще отидат" users={event.willGoUsers} closeWindow={() => setIsShowUsersGo(false)} /> : ''}
             <title>{event?.title}</title>
             {
                 !isLoading && event && user && interestedUsers ?
@@ -144,13 +142,21 @@ export const Details = () => {
                             <div>
                                 {event.likes.map(likedUser =>
                                     <span key={likedUser.objectId} className="mx-2">{likedUser.objectId === user.objectId ? 'Вие' : likedUser.username}</span>)}
-                                <button onClick={() => setIsShowLikes(true)} className="btn border-0 box p-1 m-0">Покажи</button>
+                                {event.likes.length > 0 ? <button onClick={() => setIsShowLikes(true)} className="btn border-0 box p-1 m-0">Покажи</button> : ''}
                             </div>
-                            <div>
-                                <i className="fas fa-users"></i>
-                                <span className="mx-2">Имат интерес: </span>
-                                <span className="mx-2">{interestedUsers.length}</span>
-                                <button onClick={handleShowInterestedUsers} className="btn border-0 box p-1 m-0">Покажи</button>
+                            <div className="flex justify-content-between">
+                                <div>
+                                    <i className="fas fa-users"></i>
+                                    <span className="px-2">Имат интерес: </span>
+                                    <span>{interestedUsers.length}</span>
+                                    {interestedUsers.length > 0 ? <button onClick={() => setIsShowInterestedUsers(true)} className="btn border-0 box p-1 m-0">Покажи</button> : ''}
+                                </div>
+                                <div>
+                                    <i className="fas fa-users"></i>
+                                    <span className="px-2">Записани: </span>
+                                    <span>{event.willGoUsers.length}</span>
+                                    {event.willGoUsers.length > 0 ? <button onClick={() => setIsShowUsersGo(true)} className="btn border-0 box p-1 m-0">Покажи</button> : ''}
+                                </div>
                             </div>
                         </div>
                         <h4 className="mt-2">{event.title}</h4>
