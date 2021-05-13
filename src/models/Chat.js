@@ -20,7 +20,7 @@ export async function getAllMessagesByChatRoom(room) {
     const builder = Backendless.DataQueryBuilder.create()
         .setRelated(['senderId', 'receiverId'])
         .setWhereClause(`room = '${room}'`)
-        .setSortBy('created desc');
+        .setSortBy('created');
 
     return await Backendless.Data.of('Chat').find(builder);
 }

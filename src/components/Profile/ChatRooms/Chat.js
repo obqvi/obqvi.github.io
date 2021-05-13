@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import UserContext from '../../../Context/UserContext';
 import { getAllMessagesByChatRoom, getChatRoom } from '../../../models/Chat';
@@ -12,6 +13,7 @@ export const Chat = () => {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const [chatRoom, setChatRoom] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
         let isSubscribed = true;
@@ -24,6 +26,7 @@ export const Chat = () => {
                 setChatRoom(room);
                 setOtherUser(userDb);
                 setMessages(data);
+                setIsLoading(false);
             }
         }
 
@@ -33,12 +36,13 @@ export const Chat = () => {
     }, [id, user]);
 
     return (
-        <div>
+        <>
+            {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             {
-                messages ?
+                messages && !isLoading ?
                     <Messages oldMessages={messages} otherUserId={otherUser?.user?.objectId} room={chatRoom?.objectId} />
                     : ''
             }
-        </div>
+        </>
     )
 }

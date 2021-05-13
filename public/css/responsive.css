@@ -26,4 +26,12 @@
         width: 100%;
         padding: 0;
     }
+    
+    .chat-window {
+        max-width: 100%;
+    }
+
+    .chat-window button > span {
+        display: none;
+    }
 }
