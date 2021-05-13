@@ -46,6 +46,11 @@ export const Sidebar = () => {
                         <span>Хора</span>
                     </li>
                 </NavLink>
+                <NavLink to="/profile/chat-requests">
+                    <li className={`px-4 py-2 list-group-item box border-0 ${location.pathname === '/profile/chat-requests' ? 'active' : ''}`}>
+                        <span>Покани за чат</span>
+                    </li>
+                </NavLink>
             </ul>
         </div>
     )

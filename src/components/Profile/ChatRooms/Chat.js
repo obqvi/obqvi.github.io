@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import UserContext from '../../../Context/UserContext';
-import { getAllMessagesByUsersId, getChatRoom } from '../../../models/Chat';
+import { getAllMessagesByChatRoom, getChatRoom } from '../../../models/Chat';
 import { getPersonByUserId } from '../../../models/Person';
 import { Messages } from './Messages';
 
@@ -19,8 +19,8 @@ export const Chat = () => {
         async function get() {
             if(isSubscribed) {
                 const userDb = await getPersonByUserId(id);
-                const data = await getAllMessagesByUsersId(userDb.user.objectId, user);
                 const room = await getChatRoom(id, userDb.user.objectId);
+                const data = await getAllMessagesByChatRoom(room.objectId);
                 setChatRoom(room);
                 setOtherUser(userDb);
                 setMessages(data);
@@ -36,7 +36,7 @@ export const Chat = () => {
         <div>
             {
                 messages ?
-                    <Messages oldMessages={messages} otherUserId={otherUser?.user?.objectId} room={chatRoom} />
+                    <Messages oldMessages={messages} otherUserId={otherUser?.user?.objectId} room={chatRoom?.objectId} />
                     : ''
             }
         </div>

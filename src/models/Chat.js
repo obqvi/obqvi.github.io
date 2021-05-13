@@ -16,9 +16,10 @@ export async function saveMessage(data) {
     return await Backendless.Data.of('Chat').save(data);
 }
 
-export async function getAllMessagesByUsersId(id, otherUserId) {
+export async function getAllMessagesByChatRoom(room) {
     const builder = Backendless.DataQueryBuilder.create()
         .setRelated(['senderId', 'receiverId'])
+        .setWhereClause(`room = '${room}'`)
         .setSortBy('created desc');
 
     return await Backendless.Data.of('Chat').find(builder);
@@ -26,13 +27,13 @@ export async function getAllMessagesByUsersId(id, otherUserId) {
 
 export async function getChatRoom(id, otherUserId) {
     const builder = Backendless.DataQueryBuilder.create()
-    builder.setWhereClause(`firstUserId = '${id}'`);
-    builder.setWhereClause(`secondUserId = '${otherUserId}'`);
+    builder.setWhereClause(`firstUserId = '${id}' or secondUserId = '${otherUserId}'`);
+    builder.setWhereClause(`secondUserId = '${otherUserId}' or firstUserId = '${id}'`);
     builder.addProperty('objectId');
 
     return await Backendless.Data.of('ChatRooms').findFirst(builder);
 }
 
 export async function createChatRoom(id, otherUserId) {
-    return await Backendless.Data.of('ChatRooms').save(id, otherUserId);
+    return await Backendless.Data.of('ChatRooms').save({ firstUserId: id, secondUserId: otherUserId });
 }
