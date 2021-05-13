@@ -41,6 +41,11 @@ export const Navigation = () => {
                             <span>Начало</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/test" className={location.pathname === '/' ? 'selected' : ''}>
+                            <span>test</span>
+                        </NavLink>
+                    </li>
                     <li className="flex align-items-center">
                         <input onChange={handleSearch} className="box form-control m-0 border" placeholder="Търсене... продукти, събития..." type="text" name="data" />
                     </li>

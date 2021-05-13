@@ -13,16 +13,26 @@ export function messagingConnectListener() {
 }
 
 export async function saveMessage(data) {
-    return await Backendless.Data.of('Messages').save(data);
+    return await Backendless.Data.of('Chat').save(data);
 }
 
 export async function getAllMessagesByUsersId(id, otherUserId) {
     const builder = Backendless.DataQueryBuilder.create()
         .setRelated(['senderId', 'receiverId'])
-        // .setWhereClause(`receiverId = '${id}'`)
-        // .setWhereClause(`senderId = '${id}'`);
+        .setSortBy('created desc');
 
-        console.log(id, otherUserId);
+    return await Backendless.Data.of('Chat').find(builder);
+}
 
-    return await Backendless.Data.of('Messages').find(builder);
+export async function getChatRoom(id, otherUserId) {
+    const builder = Backendless.DataQueryBuilder.create()
+    builder.setWhereClause(`firstUserId = '${id}'`);
+    builder.setWhereClause(`secondUserId = '${otherUserId}'`);
+    builder.addProperty('objectId');
+
+    return await Backendless.Data.of('ChatRooms').findFirst(builder);
+}
+
+export async function createChatRoom(id, otherUserId) {
+    return await Backendless.Data.of('ChatRooms').save(id, otherUserId);
 }

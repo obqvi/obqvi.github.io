@@ -42,6 +42,10 @@ export const Profile = () => {
                                 <li>
                                     <NavLink to={`/products/${user.user?.objectId}`}>Артикули за продажба</NavLink>
                                 </li>
+                                <li>
+                                    <span>Последно влизане преди </span>
+                                    <span>{((new Date(new Date().getTime() - new Date(user.user?.lastLogin).getTime())).getTime() / 1000 / 60).toFixed(0)} минути</span>
+                                </li>
                             </ul>
                             <div className="mx-auto">
                                 <NavLink className="btn primary m-0" to={`/chat/${user.user?.objectId}`}>
