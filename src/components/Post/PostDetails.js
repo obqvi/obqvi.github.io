@@ -22,6 +22,7 @@ import { CommentsList } from '../Comment/CommentsList';
 import { NavLink } from 'react-router-dom';
 import { PostTools } from './PostTools';
 import { addRelationTo, setRelationTo } from '../../models/Common';
+import { calcTimes } from '../../utils/utils';
 
 export const PostDetails = () => {
 
@@ -33,6 +34,7 @@ export const PostDetails = () => {
     const [selectedImagePath, setSelectedImagePath] = useState('');
     const [isFavoritePost, setIsFavoritePost] = useState(null);
     const [isDisableComments, setIsDisableComments] = useState(false);
+    const [isShowPhoneNumber, setIsShowPhoneNumber] = useState(false);
 
     const { user } = useContext(UserContext);
 
@@ -51,7 +53,7 @@ export const PostDetails = () => {
 
                 const favoritePost = await checkIsFavoritePostById(id);
 
-                
+
                 if (!data.previousPosts.some(x => x.postId.objectId === data.objectId)) {
                     const lastShowingPost = await setAsLastShowingPost(data.objectId, user.objectId);
                     await setRelationTo(lastShowingPost.objectId, data.objectId, 'postId', 'historyPosts');
@@ -136,10 +138,6 @@ export const PostDetails = () => {
                             <span>{post.warning}</span>
                         </div> : ''}
                     <div className="d-flex justify-content-between">
-                        <span>Телефонен номер: </span>
-                        <span>{post.phoneNumber}</span>
-                    </div>
-                    <div className="d-flex justify-content-between">
                         <span>Цена: </span>
                         <span>{post.price} {post.currency}</span>
                     </div>
@@ -198,10 +196,33 @@ export const PostDetails = () => {
                 </div>
                 {post.description ?
                     <div>
-                        <h2>Описание</h2>
+                        <h4>Описание</h4>
                         <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
                     </div> : ''}
                 <hr />
+                <ul>
+                    <h4>Потребител</h4>
+                    <li className="my-4 flex align-items-center">
+                        <span>Телефонен номер: </span>
+                        {!isShowPhoneNumber ? <button onClick={() => setIsShowPhoneNumber(true)} className="btn primary m-0 mx-4 px-4 py-2">Покажи</button> :
+                            <h4 className="mx-4">{post.phoneNumber}</h4>}
+                            <button onClick={() => window.open(`tel:${post.phoneNumber}`)} className="btn primary m-0 mx-4 px-4 py-2">Обаждане по телефона</button>
+                    </li>
+                    <li>
+                        <img style={{ width: '40px' }} src={post.userId?.url} alt="" />
+                        <span className="px-2">{post.userId?.username}</span>
+                    </li>
+                    <li>
+                        <span>Регистриран на: </span>
+                        <span className="px-2">
+                            {new Date(user.created).toLocaleString()}
+                            <div>Преди: {calcTimes(user.created)}</div>
+                        </span>
+                    </li>
+                    <li>
+                        Други продукти на <NavLink className="mx-2 text-primary" to={`/products/${post.userId?.objectId}`}>{post.userId?.username}</NavLink>
+                    </li>
+                </ul>
             </div>
         </>
     )

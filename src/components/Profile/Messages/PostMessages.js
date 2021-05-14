@@ -34,7 +34,7 @@ export const PostMessages = () => {
             <title>Ново съобщение - {post?.title}</title>
             <Sidebar />
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
-            <div className="mx-auto" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="mx-auto" style={{ minWidth: '600px', display: 'flex', flexDirection: 'column' }}>
 
                 {
                     post ?
@@ -50,7 +50,7 @@ export const PostMessages = () => {
                                     <h6>{post.city}</h6>
                                 </div>
                             </div>
-                            <Send postId={postId} receiverId={post.userId?.objectId} senderId={user?.objectId} />
+                            <Send post={post} receiverId={post.userId?.objectId} senderId={user?.objectId} />
                         </> : ''
                 }
             </div>

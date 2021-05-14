@@ -69,8 +69,8 @@ export const CreatePost = () => {
                     {isPreview ? <PreviewPost isLoading={isLoading} publish={handleSubmit} /> : ''}
                 </PostContext.Provider>
                 <div className="form box">
-                    <div className="row">
-                        <div className="col-md-3">
+                    <div className="flex justify-content-between">
+                        <div>
                             {
                                 step > 1 && step < 6 ?
                                     <button onClick={() => setStep(step - 1)} className="btn-primary px-1">
@@ -78,8 +78,8 @@ export const CreatePost = () => {
                                     </button> : ''
                             }
                         </div>
-                        <h2 className="col-md-6" onClick={() => console.log(post)}>Добави продукт</h2>
-                        <h2 className="col-md-3">{step}/5</h2>
+                        <h4>Добави продукт</h4>
+                        <h4>{step}/5</h4>
                     </div>
                     <PostContext.Provider value={{ post, setPost }}>
                         {

@@ -61,8 +61,8 @@ export const Create = () => {
                     cover: lastPath,
                     fileUrls: paths
                 });
-
-                await setRelationTo('Events', 'userId', data.objectId, user.objectId);
+console.log(data, user);
+                await setRelationTo(data.objectId, user.objectId, 'userId', 'Events');
 
                 history.push('/event/details/' + data.objectId);
             })

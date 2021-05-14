@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import UserContext from '../../../Context/UserContext';
 import { getAllMessagesByChatRoom, getChatRoom } from '../../../models/Chat';
 import { getPersonByUserId } from '../../../models/Person';
+import { calcTimes } from '../../../utils/utils';
 import { Messages } from './Messages';
 
 export const Chat = () => {
@@ -17,22 +18,32 @@ export const Chat = () => {
     
     useEffect(() => {
         let isSubscribed = true;
+        let interval;
 
         async function get() {
             if(isSubscribed) {
                 const userDb = await getPersonByUserId(id);
-                const room = await getChatRoom(id, userDb.user.objectId);
+                const room = await getChatRoom(id, user.objectId);
                 const data = await getAllMessagesByChatRoom(room.objectId);
                 setChatRoom(room);
                 setOtherUser(userDb);
-                setMessages(data);
+                interval = setInterval(() => {
+                    let arr = [...data];
+                    arr.forEach(m => {
+                        m.stamp = calcTimes(m.created);
+                    });
+                    setMessages(arr);
+                }, 1000);
                 setIsLoading(false);
             }
         }
 
         get();
 
-        return () => isSubscribed = false;
+        return () => {
+            isSubscribed = false;
+            clearInterval(interval);
+        }
     }, [id, user]);
 
     return (
@@ -40,7 +51,7 @@ export const Chat = () => {
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             {
                 messages && !isLoading ?
-                    <Messages oldMessages={messages} otherUserId={otherUser?.user?.objectId} room={chatRoom?.objectId} />
+                    <Messages oldMessages={messages} otherUser={otherUser?.user} room={chatRoom?.objectId} />
                     : ''
             }
         </>

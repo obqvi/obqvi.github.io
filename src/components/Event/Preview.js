@@ -74,13 +74,17 @@ export const Preview = ({ publish, cancel }) => {
                         </li>
                     </ul>
                 </div>
-                <div>
-                    <h4>Снимки</h4>
-                    {
-                        eventContext?.fileUrls?.map((f) =>
-                            <img key={f.name} className="w-50" src={URL.createObjectURL(f)} alt="" />)
-                    }
-                </div>
+                {
+                    eventContext?.fileUrls?.lenght > 0 ?
+                        <div>
+                            <h4>Снимки</h4>
+                            {
+                                eventContext?.fileUrls?.map((f) =>
+                                    <img key={f.name} className="w-50" src={URL.createObjectURL(f)} alt="" />)
+                            }
+                        </div>
+                        : ''
+                }
             </div>
         </>
     )

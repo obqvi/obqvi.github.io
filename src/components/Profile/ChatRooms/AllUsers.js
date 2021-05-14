@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
-import { getAllPersons } from '../../../models/Person';
+import UserContext from '../../../Context/UserContext';
+import { getAllOtherPersons } from '../../../models/Person';
 import { Sidebar } from '../Sidebar'
 
 export const AllUsers = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [users, setUsers] = useState([]);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
 
         async function get() {
             setIsLoading(true);
-            const data = await getAllPersons();
+            console.log(user);
+            const data = await getAllOtherPersons(user.objectId);
             setIsLoading(false);
-            console.log(data);
             if (isSubscribed) {
                 setUsers(data);
             }
@@ -25,7 +27,7 @@ export const AllUsers = () => {
         get();
 
         return () => isSubscribed = false;
-    }, []);
+    }, [user]);
 
     return (
         <div className="flex p-0">
@@ -36,10 +38,10 @@ export const AllUsers = () => {
                 <ul>
                     {
                         users.map(person =>
-                            <NavLink to={`/profile/${person.user.objectId}`} key={person.objectId}>
+                            <NavLink to={`/profile/${person?.user?.objectId}`} key={person?.objectId}>
                                 <li className="border mb-2 box shadow-sm">
-                                    <img className="rounded-circle p-2" style={{ width: '70px', height: '70px' }} src={person.user.url} alt="" />
-                                    <span>{person.user.username}</span>
+                                    <img className="rounded-circle p-2" style={{ width: '70px', height: '70px' }} src={person?.user?.url} alt="" />
+                                    <span>{person?.user?.username}</span>
                                 </li>
                             </NavLink>
                         )

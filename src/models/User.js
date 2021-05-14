@@ -6,6 +6,7 @@ export async function register(email, password, username) {
     user.email = email;
     user.password = password;
     user.username = username;
+    user.url = '/images/default-user.png';
 
     return await Backendless.UserService.register(user);
 }

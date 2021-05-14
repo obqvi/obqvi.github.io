@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap';
 import { getEvents } from '../../models/Event';
 import { SingleEventList } from './SingleEventList';
 
 export const ListEvents = () => {
 
     const [events, setEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -13,6 +15,7 @@ export const ListEvents = () => {
             const data = await getEvents();
             if(isSubscribed) {
                 setEvents(data);
+                setIsLoading(false);
             }
         }
 
@@ -23,6 +26,7 @@ export const ListEvents = () => {
 
     return (
         <div className="container mx-auto">
+            {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             <title>Събития</title>
             <h6 className="text-center box py-2">Събития</h6>
             {

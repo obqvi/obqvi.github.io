@@ -20,37 +20,37 @@ export const PreviewPost = ({ publish }) => {
         <div className="box">
             <h4 className="text-center">Вашата пабликация ще изглежда по следния начин:</h4>
             <div className="row m-5 p-2 pt-0 shadow">
-                <div className="text-center">
-                    {post.files.map((f, i) =>
-                        <img className="my-2 mx-1" key={i} style={{ width: '100px', height: '70px' }} src={f.filePath} alt="" />
-                    )}
-                </div>
-                <div className="col-md-4 p-0">
+                <div className="col-md-3 p-0">
                     <img className="w-100" src={post?.files[0].filePath} alt="" />
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-5">
                     <h2>{post.title}</h2>
                     <hr />
-                    <div className="col-md-6 d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                         <span>Град: </span>
                         <span>{post.city}</span>
                     </div>
-                    <div className="col-md-6 d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                         <span>Състояние: </span>
                         <span>{post.condition}</span>
                     </div>
-                    {post.warning ? <div className="col-md-6 d-flex justify-content-between">
+                    {post.warning ? <div className="d-flex justify-content-between">
                         <span>Забележка: </span>
                         <span>{post.warning}</span>
                     </div> : ''}
-                    <div className="col-md-6 d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                         <span>Телефонен номер: </span>
                         <span>{post.phoneNumber}</span>
                     </div>
-                    <div className="col-md-6 d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                         <span>Цена: </span>
                         <span>{post.price} {post.currency}</span>
                     </div>
+                </div>
+                <div className="text-center col-md-4">
+                    {post.files.map((f, i) =>
+                        <img className="my-2 mx-1" key={i} style={{ width: '100px', height: '70px' }} src={f.filePath} alt="" />
+                    )}
                 </div>
                 {
                     post.description ?

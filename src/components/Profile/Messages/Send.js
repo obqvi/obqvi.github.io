@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { setRelationTo } from '../../../models/Common';
 import { send } from '../../../models/Message';
 
-export const Send = ({ postId, receiverId, senderId }) => {
+export const Send = ({ post, receiverId, senderId }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isValid, setIsValid] = useState(false);
@@ -19,9 +19,7 @@ export const Send = ({ postId, receiverId, senderId }) => {
         setIsLoading(true);
         const data = await send({ content });
 
-        console.log(postId, senderId, receiverId);
-
-        await setRelationTo(data.objectId, postId, 'postId', 'Message');
+        await setRelationTo(data.objectId, post.objectId, 'postId', 'Message');
         await setRelationTo(data.objectId, senderId, 'senderId', 'Message');
         await setRelationTo(data.objectId, receiverId, 'receiverId', 'Message');
 
@@ -44,9 +42,11 @@ export const Send = ({ postId, receiverId, senderId }) => {
                 className="form-control box p-2 mt-4"
                 type="text"
                 onChange={(event) => handleChangeInput(event.target.value)}
-                name="content"></textarea>
+                name="content"
+                placeholder={`Напишете съобщение на ${post?.userId.username}`}
+                rows="7"></textarea>
             <button disabled={!isValid || isLoading} className="box mt-2 p-2 border-0">
-                <i className="fas fa-send"></i>
+                <i className="fa fa-paper-plane"></i>
                 {isLoading ? <Spinner animation="border" /> : 'Изпрати'}
             </button>
         </form>

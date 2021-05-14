@@ -6,9 +6,10 @@ import UserContext from '../../Context/UserContext';
 
 import './Register.css';
 
-import { register } from '../../models/User';
+import { login, register } from '../../models/User';
 import { useHistory } from 'react-router';
 import { createPerson } from '../../models/Person';
+import { setRelationTo } from '../../models/Common';
 
 export const Register = () => {
 
@@ -40,8 +41,10 @@ export const Register = () => {
 
         register(email, password, firstName + ' ' + lastName)
             .then(async (registeredUser) => {
-                await createPerson({ username: registeredUser.username });
-                setUser(registeredUser);
+                const data = await createPerson({ username: registeredUser.username, ownerId: registeredUser.objectId });
+                await setRelationTo(data.objectId, registeredUser.objectId, 'user', 'Person');
+                const user = await login(email, password);
+                setUser(user);
                 history.push('/');
             })
             .catch((err) => {

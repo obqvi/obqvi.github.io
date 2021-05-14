@@ -27,8 +27,7 @@ export async function getAllMessagesByChatRoom(room) {
 
 export async function getChatRoom(id, otherUserId) {
     const builder = Backendless.DataQueryBuilder.create()
-    builder.setWhereClause(`firstUserId = '${id}' or secondUserId = '${otherUserId}'`);
-    builder.setWhereClause(`secondUserId = '${otherUserId}' or firstUserId = '${id}'`);
+    builder.setWhereClause(`firstUserId = '${otherUserId}' and secondUserId = '${id}' or firstUserId = '${id}' and secondUserId = '${otherUserId}'`);
     builder.addProperty('objectId');
 
     return await Backendless.Data.of('ChatRooms').findFirst(builder);
