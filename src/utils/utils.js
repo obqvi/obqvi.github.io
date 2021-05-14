@@ -15,5 +15,5 @@ export const calcTimes = (timestamp) => {
         return 'току що';
     }
 
-    return minutes.toFixed(0) + ' минути';
+    return 'преди ' + minutes.toFixed(0) + ' минути';
 }

@@ -112,7 +112,7 @@ export const PostDetails = () => {
     return (
         <>
             <title>{post?.title}</title>
-            <div className="row m-5 mx-auto mb-0 p-2 shadow box rounded" style={{ maxWidth: '1400px' }}>
+            <div className="fade-in row m-5 mx-auto mb-0 p-2 shadow box rounded" style={{ maxWidth: '1400px' }}>
                 {isLoading ? <Spinner className="spinner" animation="border" /> : ''}
                 <div className="col-md-3 p-0">
                     <img className="w-100" style={{ minWidth: '200px', height: '345px' }} src={selectedImagePath} alt="" />
@@ -140,6 +140,14 @@ export const PostDetails = () => {
                     <div className="d-flex justify-content-between">
                         <span>Цена: </span>
                         <span>{post.price} {post.currency}</span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <span>Публикувано на: </span>
+                        <span>{new Date(post.created).toLocaleString()}</span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <span>Преди: </span>
+                        <span>{calcTimes(post.created)}</span>
                     </div>
                     <div className="btn-group">
                         {
@@ -184,7 +192,7 @@ export const PostDetails = () => {
                     </div>
                     {
                         !isDisableComments ?
-                            <div className="px-5" style={{ overflowY: 'scroll', maxHeight: '345px' }}>
+                            <div className="px-5 fade-in" style={{ overflowY: 'scroll', maxHeight: '345px' }}>
                                 <EventPostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
                                     <CreateComment postId={post.objectId} />
                                     <div className="px-2">

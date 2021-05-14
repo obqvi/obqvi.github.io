@@ -61,7 +61,7 @@ export const Create = () => {
                     cover: lastPath,
                     fileUrls: paths
                 });
-console.log(data, user);
+                
                 await setRelationTo(data.objectId, user.objectId, 'userId', 'Events');
 
                 history.push('/event/details/' + data.objectId);
@@ -77,11 +77,12 @@ console.log(data, user);
     }
 
     return (
-        <>
+        <div className="fade-in">
+            <title>Създаване на събитие</title>
             <EventContext.Provider value={{ eventContext, setEventContext }}>
                 {isLoadPreview ? <Preview publish={publish} cancel={cancel} /> :
                     <CreateForm loadPreview={loadPreview} />}
             </EventContext.Provider>
-        </>
+        </div>
     )
 }

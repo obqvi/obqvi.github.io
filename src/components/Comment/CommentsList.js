@@ -45,7 +45,7 @@ export const CommentsList = ({ postId, eventId }) => {
         <div className="pb-5">
             <ul style={{ textAlign: 'left' }}>
                 {commentsContext ? commentsContext.map((comment, i) =>
-                    <li key={i} className="mt-2 p-2 box border">
+                    <li key={i} className="fade-in mt-2 p-2 box border">
                         <h6>
                             <i className="fas fa-user"></i>
                             <span className="mx-2">{comment.userId?.username}</span>

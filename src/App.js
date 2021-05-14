@@ -47,7 +47,7 @@ function App() {
     <>
       {
         !onLineUserConnection ?
-          <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1400px', height: '100vh', zIndex: '1000' }}>
+          <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1600px', height: '100vh', zIndex: '1000' }}>
             <title>Няма интернет</title>
             <h2 className="p-5 bg-danger text-center text-light">
               <i className="fas fa-wifi mx-2"></i>
@@ -59,7 +59,7 @@ function App() {
             </div>
           </div> : ''
       }
-      <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1400px' }}>
+      <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1600px' }}>
         <Router basename="/">
           <UserContext.Provider value={{ user, setUser }}>
             <ThemeContext.Provider value={{ themeContext, setThemeContext }}>

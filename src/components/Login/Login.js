@@ -8,10 +8,12 @@ import './Login.css';
 import { isEmail } from 'validator';
 import { login } from '../../models/User';
 import { useHistory } from 'react-router-dom';
+import ThemeContext from '../../Context/ThemeContext';
 
 export const Login = () => {
 
     const { setUser } = useContext(UserContext);
+    const { setThemeContext } = useContext(ThemeContext);
 
     const [error, setError] = useState('');
     const [submit, setSubmit] = useState(false);
@@ -34,6 +36,7 @@ export const Login = () => {
 
         login(email, password)
             .then((loggedInUser) => {
+                setThemeContext(loggedInUser.theme);
                 setUser({ ...loggedInUser });
                 history.push('/');
             })

@@ -23,7 +23,7 @@ export const CreateButtonFixed = () => {
             }}>
                 <i className="fas fa-plus"></i>
             </div>
-            {isOpen ? <div className="box text-center window-alert" style={{
+            {isOpen ? <div className="box text-center fade-in" style={{
                 position: 'fixed',
                 left: '50%',
                 top: '50%',

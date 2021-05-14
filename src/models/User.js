@@ -52,3 +52,10 @@ export async function updatePersonalInfo(data) {
 export async function uploadImageUser(file, url) {
     return await Backendless.Files.upload(file, url, true);
 }
+
+export async function saveThemeColor(color) {
+    const user = new Backendless.User();
+    user.theme = color;
+    user.objectId = Backendless.UserService.currentUser.objectId;
+    return await Backendless.UserService.update(user);
+}

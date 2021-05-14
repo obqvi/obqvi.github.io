@@ -115,7 +115,7 @@ export const Details = () => {
             <title>{event?.title}</title>
             {
                 !isLoading && event && user && interestedUsers ?
-                    <div className="box m-2 p-2" style={{ maxWidth: '600px' }}>
+                    <div className="fade-in box m-2 p-2" style={{ maxWidth: '600px' }}>
                         {event.cover ? <img style={{ width: '100%', flex: 'auto' }} src={event.cover} alt="" /> : ''}
                         <div className="flex mt-2 gap-2">
                             <button style={{ flex: 'auto' }} onClick={handleInterested} className={`btn border-0 box p-1 m-0 ${isInterested ? 'primary' : ''}`}>
@@ -219,7 +219,7 @@ export const Details = () => {
                     </div>
                     : <Spinner animation="border" className="spinner" />
             }
-            <div className="box text-center m-2" style={{ flex: 'auto', maxWidth: '600px' }}>
+            <div className="fade-in box text-center m-2" style={{ flex: 'auto', maxWidth: '600px' }}>
                 <EventPostDetailsCommentsContext.Provider value={{ commentsContext, setCommentContext }}>
                     <div>
                         <CreateComment eventId={event?.objectId} />

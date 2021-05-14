@@ -85,7 +85,7 @@ export const Messages = ({ oldMessages, otherUser, room }) => {
                                                 <img className="rounded-circle" style={{ width: '40px', height: '40px' }} src={msg.senderId?.url} alt="" />
                                                 <div>
                                                     <NavLink to={`/profile/${msg.senderId?.objectId}`} className="p-2">{msg.senderId?.username}</NavLink>
-                                                    <div className="mx-2 text-muted">{new Date(msg.created).toLocaleDateString()} преди {msg.stamp}</div>
+                                                    <div className="mx-2 text-muted">{new Date(msg.created).toLocaleDateString()} {msg.stamp}</div>
                                                 </div>
                                             </div>
                                             <span className="mx-5" style={{ maxWidth: '400px' }}>{msg.content}</span>
@@ -94,7 +94,7 @@ export const Messages = ({ oldMessages, otherUser, room }) => {
                                             <div className="flex" style={{ justifyContent: 'flex-end' }}>
                                                 <div>
                                                     <NavLink to={`/profile/${msg.senderId?.objectId}`} className="p-2">{msg.senderId?.username}</NavLink>
-                                                    <div className="mx-2 text-muted">{new Date(msg.created).toLocaleDateString()} преди {msg.stamp}</div>
+                                                    <div className="mx-2 text-muted">{new Date(msg.created).toLocaleDateString()} {msg.stamp}</div>
                                                 </div>
                                                 <img className="rounded-circle" style={{ width: '40px', height: '40px' }} src={msg.senderId?.url} alt="" />
                                             </div>

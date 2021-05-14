@@ -10,8 +10,7 @@
     margin: 20px;
 }
 
-.btn,
-.btn label {
+.btn, .btn label {
     cursor: pointer;
 }
 
@@ -49,9 +48,7 @@
     color: inherit;
 }
 
-.dark input.box:focus,
-.dark input.box:active,
-.dark input.box {
+.dark input.box:focus, .dark input.box:active, .dark input.box {
     color: #fff;
     background-color: #222;
     outline: none;
@@ -108,25 +105,6 @@ button:hover {
     background-color: #ccc;
 }
 
-.window-alert {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: fadeIn 600ms forwards;
-    z-index: 200;
-}
-
-@keyframes fadeIn {
-    from {
-        top: 60%;
-        opacity: 0;
-    }
-
-    to {
-        top: 50%;
-        opacity: 1;
-    }
-}
-
 i {
     min-width: 20px;
 }
@@ -136,17 +114,29 @@ i {
 }
 
 .fade-in {
-    animation: fadeId 600ms forwards;
+    animation: fadeIn 600ms forwards;
 }
 
-@keyframes fadeId {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translate(0, 20%);
     }
-
     to {
         opacity: 1;
-        transform: translate(0, 0);
     }
+}
+
+*::-webkit-scrollbar, .chat-window::-webkit-scrollbar {
+    width: 1em;
+    border-radius: 1em;
+}
+
+*:-webkit-scrollbar-track, .chat-window::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px #222;
+    border-radius: 1em;
+}
+
+*::-webkit-scrollbar-thumb, .chat-window::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 1em;
 }

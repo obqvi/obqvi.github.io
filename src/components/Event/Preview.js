@@ -16,7 +16,7 @@ export const Preview = ({ publish, cancel }) => {
 
     return (
         <>
-            <div className="text-center box" style={{ backgroundColor: 'transparent' }}>
+            <div className="fade-in text-center box" style={{ backgroundColor: 'transparent' }}>
                 <button disabled={isLoading} className="box btn primary" onClick={handlePublish}>
                     {isLoading ? <Spinner animation="border" /> : 'Публикувай'}
                 </button>
@@ -80,7 +80,7 @@ export const Preview = ({ publish, cancel }) => {
                             <h4>Снимки</h4>
                             {
                                 eventContext?.fileUrls?.map((f) =>
-                                    <img key={f.name} className="w-50" src={URL.createObjectURL(f)} alt="" />)
+                                    <img key={f.name} className="fade-in w-50" src={URL.createObjectURL(f)} alt="" />)
                             }
                         </div>
                         : ''

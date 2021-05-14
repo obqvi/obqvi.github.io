@@ -10,11 +10,18 @@ import { PasswordEdit } from './PasswordEdit'
 import { Personal } from './Personal'
 import { Sidebar } from './Sidebar'
 import { UsernameEdit } from './UsernameEdit'
+import { saveThemeColor } from '../../models/User'
 
 export const Account = () => {
 
     const { themeContext, setThemeContext } = useContext(ThemeContext);
     const { user } = useContext(UserContext);
+
+    async function switchThemeColor(event) {
+        setThemeContext(event.target.checked);
+        const color = !event.target.checked ? '' : 'dark';
+        await saveThemeColor(color);
+    }
 
     return (
         <div className="flex">
@@ -30,7 +37,7 @@ export const Account = () => {
                                     <div>Промяна</div>
                                 </NavLink>
                             </li>
-                            <li className="box">Име, фамилия, снимка, град, телефонен номер, пол.
+                            <li className="box">снимка, град, телефонен номер
                             <NavLink className="px-5" to="/profile/personal/edit">
                                     <div>Промяна</div>
                                 </NavLink>
@@ -47,7 +54,7 @@ export const Account = () => {
                             </li>
                             <li className="d-flex align-items-center">
                                 <label>Тъмна тема</label>
-                                <input onClick={(event) => setThemeContext(event.target.checked)} defaultChecked={themeContext} type="checkbox" style={{
+                                <input onClick={(event) => switchThemeColor(event)} defaultChecked={themeContext} type="checkbox" style={{
                                     width: '20px',
                                     height: '20px',
                                     marginLeft: '10px'
