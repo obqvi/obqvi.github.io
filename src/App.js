@@ -13,6 +13,8 @@ import { GuestRoutes } from "./Routes/GuestRoutes";
 import { AuthenticatedRoutes } from "./Routes/AuthenticatedRoutes";
 import { AdministratorRoutes } from "./Routes/AdministratorRoutes";
 import { CreateButtonFixed } from "./components/Common/CreateButtonFixed";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -22,15 +24,29 @@ function App() {
 
   useEffect(() => {
     let isSubscribed = true;
+    let channel;
+
     Backendless.UserService.getCurrentUser()
       .then((user) => {
         if (isSubscribed) {
+          channel = Backendless.Messaging.subscribe('default');
+          channel.addMessageListener((data) => {
+            if (data.headers.userId === user.objectId) {
+              toast.success(data.message, { pauseOnHover: true, closeButton: true });
+            }
+          });
           setUser(user);
+        }
+
+        return () => {
+          isSubscribed = false;
+          channel.removeMessageListener();
         }
       });
 
     function isConnected() {
       setOnLineUserConnection(true);
+      toast.success('Връзката ви е възстановена');
     }
 
     window.addEventListener('online', isConnected);
@@ -45,9 +61,22 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {/* Same as */}
+      <ToastContainer />
       {
         !onLineUserConnection ?
-          <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1600px', height: '100vh', zIndex: '1000' }}>
+          <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1400px', height: '100vh', zIndex: '1000' }}>
             <title>Няма интернет</title>
             <h2 className="p-5 bg-danger text-center text-light">
               <i className="fas fa-wifi mx-2"></i>
@@ -59,7 +88,7 @@ function App() {
             </div>
           </div> : ''
       }
-      <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1600px' }}>
+      <div className={`app mx-auto ${themeContext ? 'dark' : ''}`} style={{ minHeight: '100vh', maxWidth: '1400px' }}>
         <Router basename="/">
           <UserContext.Provider value={{ user, setUser }}>
             <ThemeContext.Provider value={{ themeContext, setThemeContext }}>

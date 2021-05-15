@@ -3,10 +3,12 @@ import Backendless from 'backendless';
 const categoryCollection = Backendless.Data.of('Category');
 
 export function createCategory(data) {
+    data.url = !data.url ? '/images/default.png' : data.url;
     return categoryCollection.save(data);
 }
 
 export async function updateCategory(data) {
+    data.url = !data.url ? '/images/default.png' : data.url;
     return await categoryCollection.save(data);
 }
 

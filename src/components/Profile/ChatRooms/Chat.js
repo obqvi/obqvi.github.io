@@ -48,6 +48,7 @@ export const Chat = () => {
 
     return (
         <>
+        <title>Чат с/ъс {otherUser.username}</title>
             {isLoading ? <Spinner animation="border" className="spinner" /> : ''}
             {
                 messages && !isLoading ?

@@ -69,11 +69,12 @@ export const Messages = ({ oldMessages, otherUser, room }) => {
 
     return (
         <>
+            <title>Чат с/ъс {otherUser.username}</title>
+            <div className="p-2 mx-auto bg-primary rounded text-light shadow" style={{ width: '70vw' }}>
+                <img style={{ width: '40px' }} src={otherUser.url} alt="" />
+                <span className="px-2">{otherUser.username}</span>
+            </div>
             <div className="mx-auto chat-window shadow" style={{ minHeight: '70vh', maxHeight: '70vh', overflowY: 'scroll', flexDirection: 'column' }}>
-                <div className="box p-2">
-                    <img style={{ width: '40px' }} src={otherUser.url} alt="" />
-                    <span className="px-2">{otherUser.username}</span>
-                </div>
                 <div className="p-4">
                     {
                         [...oldMessages, ...msgs].map((msg) =>

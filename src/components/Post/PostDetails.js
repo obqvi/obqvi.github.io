@@ -14,7 +14,8 @@ import {
     setRelationToPost,
     removeRelationPostFromLastShowing,
     setAsLastShowingPost,
-    updateHistoryPosts
+    updateHistoryPosts,
+    updateReadCountPost
 } from '../../models/Post';
 
 import { CreateComment } from '../Comment/CreateComment';
@@ -45,6 +46,7 @@ export const PostDetails = () => {
         async function get() {
             if (isSubscribed) {
                 const data = await getPostById(id);
+                await updateReadCountPost(id, data.readCount + 1);
                 setIsDisableComments(data.disableComments);
                 setPost(data);
                 setIsLoading(false);
@@ -53,14 +55,12 @@ export const PostDetails = () => {
 
                 const favoritePost = await checkIsFavoritePostById(id);
 
-
                 if (!data.previousPosts.some(x => x.postId.objectId === data.objectId)) {
                     const lastShowingPost = await setAsLastShowingPost(data.objectId, user.objectId);
                     await setRelationTo(lastShowingPost.objectId, data.objectId, 'postId', 'historyPosts');
                     await setRelationTo(lastShowingPost.objectId, user.objectId, 'userId', 'historyPosts');
                     await addRelationTo(data.objectId, lastShowingPost.objectId, 'previousPosts', 'Post');
                 } else {
-                    console.log(data);
                     const object = data.previousPosts.find(x => x.postId.objectId === data.objectId);
                     await updateHistoryPosts(object.objectId, user.objectId);
                 }
@@ -126,7 +126,7 @@ export const PostDetails = () => {
                     </div>
                     <div className="d-flex justify-content-between">
                         <span>Категория: </span>
-                        <span>{post.categoryId?.title}</span>
+                        <NavLink className="text-primary" to={`/category/${post.categoryId?.objectId}`}>{post.categoryId?.title}</NavLink>
                     </div>
                     <div className="d-flex justify-content-between">
                         <span>Състояние: </span>
@@ -179,6 +179,7 @@ export const PostDetails = () => {
                     </div>
                 </div>
                 <div className="text-center col-md-4">
+                <h6>Показвания {post.readCount}</h6>
                     <div>
                         {post.imagePaths?.split(', ').map((path) =>
                             <img

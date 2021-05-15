@@ -59,6 +59,9 @@ export const AdminListCategories = ({ id }) => {
     }
 
     async function handleMoveCategory(toId) {
+        if(isMoveCategory === toId) {
+            return;
+        }
         if (isMoveCategory) {
             await setRelationTo(isMoveCategory, toId, 'categoryId', 'Category');
             let arr = [...categories];

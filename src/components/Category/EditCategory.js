@@ -55,7 +55,7 @@ export const EditCategory = ({ category, setCategory, closeWindow }) => {
     }
 
     return (
-        <div className="window-alert box shadow p-4" style={{ position: 'fixed' }}>
+        <div className="window-alert fade-in box shadow p-4" style={{ position: 'fixed' }}>
             <h4 className="text-center">Редактиране на категория</h4>
             <form onSubmit={handleSubmit} className="box mx-auto p-5">
                 <input defaultValue={category.title} className="form-control box p-2 border" onChange={(event) => setIsValid(event.target.value !== '')} placeholder="Згалавие на категорята" autoFocus type="text" name="title" />

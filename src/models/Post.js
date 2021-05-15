@@ -51,6 +51,10 @@ export async function getPostById(id) {
     });
 }
 
+export async function updateReadCountPost(id, readCount) {
+    return await postCollection.save({ objectId: id, readCount });
+}
+
 export async function removePostById(id) {
     return postCollection.remove(id);
 }

@@ -127,7 +127,7 @@ i {
 }
 
 *::-webkit-scrollbar, .chat-window::-webkit-scrollbar {
-    width: 1em;
+    width: 7px;
     border-radius: 1em;
 }
 
@@ -139,4 +139,11 @@ i {
 *::-webkit-scrollbar-thumb, .chat-window::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 1em;
+}
+
+.window-alert {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
