@@ -9,6 +9,7 @@ import { isEmail } from 'validator';
 import { login } from '../../models/User';
 import { useHistory } from 'react-router-dom';
 import ThemeContext from '../../Context/ThemeContext';
+import toast from 'react-hot-toast';
 
 export const Login = () => {
 
@@ -37,6 +38,7 @@ export const Login = () => {
         login(email, password)
             .then((loggedInUser) => {
                 setThemeContext(loggedInUser.theme);
+                toast(`Здравейте, ${loggedInUser?.username}`);
                 setUser({ ...loggedInUser });
                 history.push('/');
             })

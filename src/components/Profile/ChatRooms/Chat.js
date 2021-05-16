@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import UserContext from '../../../Context/UserContext';
 import { getAllMessagesByChatRoom, getChatRoom } from '../../../models/Chat';
 import { getPersonByUserId } from '../../../models/Person';
@@ -15,6 +15,7 @@ export const Chat = () => {
     const { id } = useParams();
     const [chatRoom, setChatRoom] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const history = useHistory();
     
     useEffect(() => {
         let isSubscribed = true;
@@ -24,7 +25,11 @@ export const Chat = () => {
             if(isSubscribed) {
                 const userDb = await getPersonByUserId(id);
                 const room = await getChatRoom(id, user.objectId);
+
+                if(!room) return history.push(`/profile/${userDb.user.objectId}`);
+
                 const data = await getAllMessagesByChatRoom(room.objectId);
+
                 setChatRoom(room);
                 setOtherUser(userDb);
                 interval = setInterval(() => {
@@ -44,7 +49,7 @@ export const Chat = () => {
             isSubscribed = false;
             clearInterval(interval);
         }
-    }, [id, user]);
+    }, [id, user, otherUser.objectId, history]);
 
     return (
         <>

@@ -48,7 +48,7 @@ export const ListPost = ({ post }) => {
     return (
         <>
             {
-                currentPost ?
+                currentPost && currentPost.userId && user ?
                     <div className="box single-post">
                         <div className="justify-content-between align-items-center" style={{ display: 'flex' }}>
                             <div className="box align-items-center py-2" style={{ display: 'flex' }}>

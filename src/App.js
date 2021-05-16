@@ -13,8 +13,7 @@ import { GuestRoutes } from "./Routes/GuestRoutes";
 import { AuthenticatedRoutes } from "./Routes/AuthenticatedRoutes";
 import { AdministratorRoutes } from "./Routes/AdministratorRoutes";
 import { CreateButtonFixed } from "./components/Common/CreateButtonFixed";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -26,54 +25,54 @@ function App() {
     let isSubscribed = true;
     let channel;
 
-    Backendless.UserService.getCurrentUser()
-      .then((user) => {
-        if (isSubscribed) {
-          channel = Backendless.Messaging.subscribe('default');
-          channel.addMessageListener((data) => {
-            if (data.headers.userId === user.objectId) {
-              toast.success(data.message, { pauseOnHover: true, closeButton: true });
+    try {
+      Backendless.UserService.getCurrentUser()
+        .then((user) => {
+          if (isSubscribed) {
+            if (user) {
+              toast(`Здравейте, ${user?.username}`);
             }
-          });
-          setUser(user);
-        }
+            channel = Backendless.Messaging.subscribe('default');
+            channel.addMessageListener((data) => {
+              if (data.headers.userId === user.objectId) {
+                toast.success(data.message, { duration: '2000', icon: <img style={{ width: '40px' }} src={data.headers.url} alt="" /> });
+              }
+            });
+            setUser(user);
+          }
 
-        return () => {
-          isSubscribed = false;
-          channel.removeMessageListener();
-        }
-      });
+          return () => {
+            isSubscribed = false;
+            channel.removeMessageListener();
+          }
+        });
+    } catch (err) {
+      toast.error(err.message);
+    }
 
-    function isConnected() {
+    function connected() {
       setOnLineUserConnection(true);
       toast.success('Връзката ви е възстановена');
     }
 
-    window.addEventListener('online', isConnected);
-    window.addEventListener('offline', () => setOnLineUserConnection(false));
+    function disconnected() {
+      setOnLineUserConnection(false);
+      toast.error('Няма връзка');
+    }
+
+    window.addEventListener('online', connected);
+    window.addEventListener('offline', disconnected);
 
     return () => {
       isSubscribed = false;
-      window.removeEventListener('online', () => setOnLineUserConnection(true));
-      window.removeEventListener('offline', () => isConnected);
+      window.removeEventListener('online', connected);
+      window.removeEventListener('offline', disconnected);
     }
   }, []);
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* Same as */}
-      <ToastContainer />
+      <Toaster position="right-top" />
       {
         !onLineUserConnection ?
           <div className="app box" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: '1400px', height: '100vh', zIndex: '1000' }}>

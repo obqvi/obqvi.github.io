@@ -45,6 +45,7 @@ export const Messages = ({ oldMessages, otherUser, room }) => {
 
         const savedMsg = await saveMessage({ content: event.target.content.value, room });
         sendMessage(savedMsg.content, { msgObjectId: savedMsg.objectId, url: user.url, objectId: user.objectId, username: user.username });
+        Backendless.Messaging.publish('default', `${user.username}\n "${savedMsg.content}"`, { headers: { userId: otherUser.objectId, url: user.url } });
 
         await setRelationTo(savedMsg.objectId, user.objectId, 'senderId', 'Chat');
         await setRelationTo(savedMsg.objectId, otherUser.objectId, 'receiverId', 'Chat');
